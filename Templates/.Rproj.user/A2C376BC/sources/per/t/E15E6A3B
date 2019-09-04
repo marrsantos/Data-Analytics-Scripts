@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1540735207586.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "295862948",
+    "id" : "E15E6A3B",
+    "lastKnownWriteTime" : 1540761055,
+    "last_content_update" : 1540761055133,
+    "path" : "~/Dados Oficiais/R scripts _ templates/Templates/Template for R functions.R",
+    "project_path" : "Template for R functions.R",
+    "properties" : {
+        "cursorPosition" : "9,1",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

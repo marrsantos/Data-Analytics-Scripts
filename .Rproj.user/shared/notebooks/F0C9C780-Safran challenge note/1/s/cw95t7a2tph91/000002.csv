@@ -1,0 +1,4 @@
+"0","resultsT<-c(resultsSmaller1.5,resultsLarger1.5)"
+"0","testSmallerT<-c(testSmaller1.5$number_passengers,testLarger1.5$number_passengers)"
+"0","rmseT<-mean((resultsT-c(testSmallerT))^2)^(1/2)"
+"0","rSquaredT<- sum((resultsT-mean(resultsT))^2)/sum((testSmallerT-mean(testSmallerT))^2)"

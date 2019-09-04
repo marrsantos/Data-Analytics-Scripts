@@ -1,0 +1,6 @@
+"0","variancia = variancian  = NULL  "
+"0","for(i in 1:70000) {     "
+"0","amostra <- sample(pop,10,TRUE)"
+"0","variancia[i] <- var(amostra) ##n-1     "
+"0","variancian[i] <- mean((amostra-mean(amostra))^2) ##n "
+"0","}"

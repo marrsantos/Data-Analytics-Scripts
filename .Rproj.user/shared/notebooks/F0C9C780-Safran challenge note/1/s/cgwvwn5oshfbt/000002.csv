@@ -1,0 +1,8 @@
+"0","# preparing dates"
+"0","dfflights$date<-as.POSIXct(dfflights$date, format=""%Y-%m-%d"")"
+"0","# removing instances without date"
+"0","dfflights<-subset(dfflights,!is.na(date))"
+"0","# duration > 0 and < 6h"
+"0","dfflights<-subset(dfflights, duration>0 & duration<=6)"
+"0","# number of passengers <= 150 but keeping NAs"
+"0","dfflights<-subset(dfflights, number_passengers<=150|is.na(number_passengers))"

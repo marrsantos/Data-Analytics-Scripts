@@ -1,0 +1,147 @@
+---
+title: "Intervalo de confiança"
+output: html_notebook
+---
+
+```{r}
+library(data.table)
+```
+
+#### Introdução  
+
+Intervalo de Confiança = precisão VS certeza de estar acertando ou errando. Com que confiança eu quero acertar?
+
+Margem de erro significa o tanto que nos permitimos errar dado uma margem de confiança.
+
+O erro padrão é desvio padrão das médias.  
+
+---------
+
+#### Se o desvio padrão da população é conhecido, deve-se utilizar a distribuição Z.
+
+População:10000 elementos com média 10 e desvio padrão 2.
+
+```{r}
+set.seed(1)
+populacao <- rnorm(10000,10,2)
+media <- mean(populacao) 
+dp <- sd(populacao)
+media
+dp
+```
+
+Gerando 10000 amostras aleatórias com 10 elementos cada (com reposição).
+
+Como o desvio padrão da população é conhecido, este será o erro padrão.
+$$\ IC=\frac{\bar{X}-z_{score}*Desvio Padrão_{pop}}{n}$$
+```{r}
+set.seed(1)
+ICI=ICS=mediaAmostra = NULL 
+n=10
+for(i in 1:10000){     
+  Amostra <- sample(populacao, n, replace = TRUE)     
+  mediaAmostra[i] <- mean(Amostra)     
+  ICI[i] <- mediaAmostra[i]-1.96*sd(populacao)/sqrt(n)
+  ICS[i] <- mediaAmostra[i]+1.96*sd(populacao)/sqrt(n)
+  }  
+```
+
+Histograma da distribuição de médias
+```{r}
+hist(mediaAmostra)  
+```
+Média e Desvio padrão das amostras
+```{r}
+mean(mediaAmostra)
+sd(mediaAmostra)
+```
+
+Em alinhamento com o teorema do limite central, a distribuição das médias amostrais se aproxima de uma normal. O desvio padrão é menor pois os dados estão mais concentrados ao redor da média.
+
+Sendo normal, em 95% dos casos a media estará dentro do intervalo mencionado.    
+```{r}
+mean(between(mean(populacao),ICI,ICS))
+```
+  
+```{r}
+quantile(mediaAmostra, 0.025)
+quantile(mediaAmostra, 0.975)
+```  
+
+  
+-------
+
+#### Se o desvio padrão da população é desconhecido, deve-se utilizar a distribuição T.
+
+Gerando 10000 amostras aleatórias com 10 elementos cada (com reposição).
+
+Observe que neste caso, o erro padrão será o desvio padrão da própria amostra.
+
+$$\ IC=\frac{\bar{X}-t_{score}*Desvio Padrão_{amostra}}{n}$$
+
+```{r}
+set.seed(1)
+ICI=ICS=mediaAmostra = NULL 
+n=10
+for(i in 1:10000){     
+  Amostra <- sample(populacao, n, replace = TRUE)     
+  mediaAmostra[i] <- mean(Amostra)     
+  ICI[i] <- mediaAmostra[i]-2.262*sd(Amostra)/sqrt(n)
+  ICS[i] <- mediaAmostra[i]+2.262*sd(Amostra)/sqrt(n)
+}  
+```
+
+Histograma da distribuição de médias
+```{r}
+hist(mediaAmostra)  
+```
+
+Média e Desvio padrão das amostras
+```{r}
+mean(mediaAmostra)
+sd(mediaAmostra)
+```
+
+Em 95% dos casos a média estará dentro do intervalo mencionado.
+```{r}
+mean(between(mean(populacao),ICI,ICS))
+```
+
+  
+  
+```{r}
+quantile(mediaAmostra, 0.025)
+quantile(mediaAmostra, 0.975)
+```  
+
+-----
+
+#### Bootstrap (reamostrar a amostra)
+
+Amostra original
+```{r}
+Amostra
+```
+
+Gerando 10000 novas amostras a partir da amostra original, com reposição.
+```{r}
+media = NULL
+for(i in 1:20000)
+{
+  media[i]<-mean(sample(Amostra,10,TRUE))
+}
+```
+
+Média, ICI e ICS
+```{r}
+mean(media)
+quantile(media, 0.025)
+quantile(media,0.975)
+```
+
+Comparando ICI e ICS da população (sempre que se referir ao desvio da população, utilizar n)
+```{r}
+qnorm(0.025,mean(populacao),sd(populacao/sqrt(n)))
+qnorm(0.975,mean(populacao),sd(populacao/sqrt(n)))
+```
+

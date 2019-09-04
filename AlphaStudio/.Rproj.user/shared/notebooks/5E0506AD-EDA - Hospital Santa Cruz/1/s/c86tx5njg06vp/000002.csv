@@ -1,0 +1,8 @@
+"0","```r
+#
+# Indicadores por Grupo
+#
+a<-distinct(dfkpi,nome_grupo,nome_indicador)%>%group_by(nome_grupo)%>%summarize(n=n())
+names(a)<-c('Grupo','Qtde KPIs')
+kable(a)
+```"

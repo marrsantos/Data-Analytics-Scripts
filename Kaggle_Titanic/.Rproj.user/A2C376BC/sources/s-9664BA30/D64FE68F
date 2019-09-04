@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1532007921071.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1646158461",
+    "id" : "D64FE68F",
+    "lastKnownWriteTime" : 1552141198,
+    "last_content_update" : 1552141198378,
+    "path" : "~/Dados Oficiais/2IM/Scripts/Serviços Profissionais - Exploration.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "10,61",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

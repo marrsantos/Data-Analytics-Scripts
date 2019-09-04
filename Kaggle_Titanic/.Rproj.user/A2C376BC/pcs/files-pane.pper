@@ -1,0 +1,9 @@
+{
+    "path" : "~/Dados Oficiais/Kaggle/Titanic",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

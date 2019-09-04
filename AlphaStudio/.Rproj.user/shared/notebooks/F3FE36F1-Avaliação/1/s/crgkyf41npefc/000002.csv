@@ -1,0 +1,5 @@
+"0","```r
+# Pacientes que foram atendidos em anos distintos
+d<-data.frame(group_by(dfproc,cod_paciente,nome_beneficiario,Year=as.POSIXlt(periodo)$year+1900)%>%summarize(count=n(),valtot=sum(valor),qtdepag=sum(qtde_pagamento))%>%group_by(cod_paciente,nome_beneficiario)%>%summarize(Qtde_Anos=n(),Qtde_Eventos=sum(count),Qtde_Pagto=sum(qtdepag),Valor_Total=sum(valtot),PM=Valor_Total/Qtde_Anos)%>%group_by(Qtde_Anos)%>%summarize(Qtde_Pacientes=n(),Qtde_Eventos=sum(Qtde_Eventos),Qtde_Pagto=sum(Qtde_Pagto),Valor_Total=sum(Valor_Total),PM=Valor_Total/Qtde_Eventos)%>%arrange(desc(Qtde_Anos)))
+d
+```"

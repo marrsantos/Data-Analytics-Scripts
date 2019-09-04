@@ -1,0 +1,2 @@
+"0","amostras<-permutations(n=4,r=3,v=pop,repeats.allowed=T)"
+"0","amostras <- rowMeans(amostras)"

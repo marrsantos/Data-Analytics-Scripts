@@ -1,0 +1,8 @@
+"0","c<-data.frame()"
+"0","qtde<-nrow(dfretnew)"
+"0","for (i in nrow(dfretnew):101) {"
+"0","  c[i,'acf']<-acf(dfretnew$media[(i-100):i],type='correlation',lag.max=1, plot=FALSE)$acf[2]"
+"0","  c[i,'dt']<-as.POSIXct(dfretnew[i,'Date'])"
+"0","  c[i,'signal']<-ifelse(c[i,'acf']>=0,1,0)"
+"0","  c[i,'media']<-dfretnew[i,'media']"
+"0","}"

@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1564522163679.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "98069A8B",
+    "lastKnownWriteTime" : 1564522089,
+    "last_content_update" : 1564522089,
+    "path" : "~/Dados Oficiais/R scripts _ templates/Teste de hipóteses/Script Juliane - AulaMarcelo.R",
+    "project_path" : "Script Juliane - AulaMarcelo.R",
+    "properties" : {
+        "cursorPosition" : "4,25",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

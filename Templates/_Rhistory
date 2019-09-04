@@ -1,0 +1,512 @@
+rmseSmaller1.5
+rmseLarger1.5
+msekfAll
+msekfSmaller1.5
+msekfLarger1.5
+rSquaredAll
+rSquaredT
+dfflights_onlyNA_Smaller1.5<-subset(dfflights_onlyNA,duration< (1.5))
+dfflights_onlyNA_Larger1.5 <-subset(dfflights_onlyNA,duration>=(1.5))
+dfflights_onlyNA_Smaller1.5[,6]<-predict(modelSmaller1.5, newdata=dfflights_onlyNA_Smaller1.5, type='response')
+dfflights_onlyNA_Larger1.5 [,6]<-predict(modelLarger1.5, newdata=dfflights_onlyNA_Larger1.5, type='response')
+dfflights_final<-rbind(dfflights_onlyNA_Smaller1.5, dfflights_onlyNA_Larger1.5, dfflights_reduNA)
+dfflights_final[,6]<-round(dfflights_final$number_passengers)
+rmseAll
+rmseT
+rmseSmaller1.5
+rmseLarger1.5
+msekfAll
+msekfSmaller1.5
+msekfLarger1.5
+rSquaredAll
+rSquaredT
+ifelse(resultsSmaller1.5>100, 100, resultsSmaller1.5)
+ifelse(resultsSmaller1.5>100, 100, 99999)
+ifelse(resultsSmaller1.5>100, resultsSmaller1.5, 99999)
+ifelse(resultsSmaller1.5>100, resultsSmaller1.5, 99999)%>%filter(resultsSmaller1.5!=99999)
+ifelse(resultsSmaller1.5>100, resultsSmaller1.5, "")
+?ifelse
+dfflights_onlyNA_Smaller1.5<-subset(dfflights_onlyNA,duration< (1.5))
+dfflights_onlyNA_Larger1.5 <-subset(dfflights_onlyNA,duration>=(1.5))
+dfflights_onlyNA_Smaller1.5[,6]<-predict(modelSmaller1.5, newdata=dfflights_onlyNA_Smaller1.5, type='response')
+dfflights_onlyNA_Smaller1.5[,6]<-ifelse(dfflights_onlyNA_Smaller1.5$number_passengers>100, 100, dfflights_onlyNA_Smaller1.5$number_passengers) # limiting to 100 passengers
+dfflights_onlyNA_Larger1.5 [,6]<-predict(modelLarger1.5, newdata=dfflights_onlyNA_Larger1.5, type='response')
+dfflights_onlyNA_Larger1.5[,6] <-ifelse(dfflights_onlyNA_Larger1.5$number_passengers>50, 50, dfflights_onlyNA_Larger1.5$number_passengers) # limiting to 50 passengers
+dfflights_final<-rbind(dfflights_onlyNA_Smaller1.5, dfflights_onlyNA_Larger1.5, dfflights_reduNA)
+dfflights_final[,6]<-round(dfflights_final$number_passengers)
+View(dfflights_final)
+plot(number_passengers~duration, data=dfflights_final)
+plot(number_passengers~temperature, data=dfflights_final)
+summary(rbind(dfflights_onlyNA_Smaller1.5, dfflights_onlyNA_Larger1.5))
+plot(number_passengers~duration, data=dfflights_final)
+plot(number_passengers~duration, data=dfflights_onlyNA_Smaller1.5)
+summary(rbind(dfflights_onlyNA_Smaller1.5))
+summary(rbind(dfflights_onlyNA_Larger1.5))
+a<-group_by(dfflights_onlyNA_Smaller1.5, date)%>%
+summarize(count=n())
+View(a)
+plot(number_passengers~duration, data=dfflights_final)
+plot(subset(dfflights_final, duration<1.5)
+summary(subset(dfflights_final, duration<1.5))
+# For flights of Class 2, mean of duration is 2h, max 2.42h, and mean of passengers number around 40.
+summary(subset(dfflights_final, duration>=1.5))
+a<-group_by(dfflights_onlyNA_Smaller1.5, date)%>%
+summarize(count=n())
+plot(subset(dfflights_final, duration<1.5))
+summary(subset(dfflights_final, duration<1.5))
+summary(subset(dfflights_final, duration>=1.5))
+dfflights_final_Smaller1.5<-subset(dfflights_final, duration<1.5)
+summary(dfflights_final_Smaller1.5)
+dfflights_final_Larger1.5<-subset(dfflights_final, duration>=1.5)
+summary(dfflights_final_Larger1.5)
+a<-group_by(dfflights_final_Smaller1.5, date)%>%
+summarize(count=n())
+b<-group_by(dfflights_final_Larger1.5, date)%>%
+summarize(count=n())
+View(b)
+dfflight_final_aggregated<-rbind(a,b)
+View(dflight_final_aggregated)
+View(dfflight_final_aggregated)
+dfflight_final_aggregated<-group_by(rbind(a,b), date)%>%
+summarize(count=n())
+dfflight_final_aggregated<-group_by(rbind(a,b), date)%>%
+summarize(sum(count))
+plot(dfflights_final_Smaller1.5_aggr)
+dfflights_final_Smaller1.5_aggr<-group_by(dfflights_final_Smaller1.5, date)%>%
+summarize(count=n())
+dfflights_final_Larger1.5<-group_by(dfflights_final_Larger1.5, date)%>%
+summarize(count=n())
+plot(dfflights_final_Smaller1.5_aggr)
+abline(lm(count~.,data=dfflights_final_Smaller1.5_aggr))
+abline(lm(count~.,data=dfflights_final_Smaller1.5_aggr), col='red')
+plot(dfflights_final_Larger1.5_aggr)
+dfflights_final_Larger1.5<-group_by(dfflights_final_Larger1.5, date)%>%
+summarize(count=n())
+dfflights_final_Larger1.5_aggr<-group_by(dfflights_final_Larger1.5, date)%>%
+summarize(count=n())
+plot(dfflights_final_Smaller1.5_aggr)
+abline(lm(count~.,data=dfflights_final_Smaller1.5_aggr), col='red')
+plot(dfflights_final_Larger1.5_aggr)
+abline(lm(count~.,data=dfflights_final_Larger1.5_aggr), col='red')
+dfflights_final_Larger1.5_aggr<-group_by(dfflights_final_Larger1.5, date)%>%
+summarize(count=n())
+View(dfflights_final_Larger1.5_aggr)
+dfflights_final_Larger1.5<-subset(dfflights_final, duration>=1.5)
+summary(dfflights_final_Larger1.5)
+nrow(dfflights_final_Larger1.5_aggr)
+nrow(dfflights_final_Larger1.5)
+View(dfflights_final_Larger1.5)
+dfflights_final_Larger1.5_aggr<-group_by(dfflights_final_Larger1.5, date)%>%
+summarize(count=n())
+View(dfflights_final_Larger1.5_aggr)
+plot(dfflights_final_Larger1.5_aggr)
+abline(lm(count~.,data=dfflights_final_Larger1.5_aggr), col='red')
+plot(dfflights_final_Smaller1.5_aggr)
+abline(lm(count~.,data=dfflights_final_Smaller1.5_aggr), col='red')
+plot(dfflights_final_Larger1.5_aggr)
+abline(lm(count~.,data=dfflights_final_Larger1.5_aggr), col='red')
+a<-lm(count~.,data=dfflights_final_Smaller1.5_aggr)
+b<-lm(count~.,data=dfflights_final_Larger1.5_aggr)
+summary(a)
+summary(b)
+plot(dfflights_final_Smaller1.5_aggr)
+a<-lm(count~.,data=dfflights_final_Smaller1.5_aggr)
+abline(a, col='red')
+plot(dfflights_final_Larger1.5_aggr)
+b<-lm(count~.,data=dfflights_final_Larger1.5_aggr)
+abline(b, col='red')
+plot(dfflights_final_Smaller1.5_aggr)
+a<-lm(count~.,data=dfflights_final_Smaller1.5_aggr)
+abline(a, col='red')
+summary(a)
+plot(dfflights_final_Larger1.5_aggr)
+b<-lm(count~.,data=dfflights_final_Larger1.5_aggr)
+abline(b, col='red')
+summary(a)
+plot(dfflights_final_Smaller1.5_aggr)
+a<-lm(count~.,data=dfflights_final_Smaller1.5_aggr)
+abline(a, col='red')
+summary(a)
+plot(dfflights_final_Larger1.5_aggr)
+b<-lm(count~.,data=dfflights_final_Larger1.5_aggr)
+abline(b, col='red')
+nrow(dfflights_final_Larger1.5_aggr)
+nrow(dfflights_final_Smaller1.5_aggr)
+plot(dfflights_final_Smaller1.5_aggr)
+a<-lm(count~.,data=dfflights_final_Smaller1.5_aggr)
+abline(a, col='red')
+summary(a)
+plot(dfflights_final_Larger1.5_aggr)
+b<-lm(count~.,data=dfflights_final_Larger1.5_aggr)
+abline(b, col='red')
+summary(b)
+plot(dfflights_final_Smaller1.5_aggr)
+a<-lm(count~.,data=dfflights_final_Smaller1.5_aggr)
+abline(a, col='red')
+summary(a)
+hist(dfflights_final_Smaller1.5_aggr$count)
+a<-subset(dfflights_final_Smaller1.5_aggr, date>'2015-01-01')
+hist(a)
+a<-subset(dfflights_final_Smaller1.5_aggr, date>'2015-01-01')
+hist(a)
+hist(a$count)
+hist(a$count, main='Frequency of flights Histogram (2015)')
+hist(a$count, main='Frequency of flights histogram (2015)')
+a<-subset(dfflights_final_Smaller1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration <1.5h (2015)')
+a<-subset(dfflights_final_Larger1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with durattion >=1.5h (2015)')
+a<-subset(dfflights_final_Smaller1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration <1.5h (2015)')
+a<-subset(dfflights_final_Larger1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with durattion >=1.5h (2015)')
+a<-subset(dfflights_final_Smaller1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration <1.5h (2015)')
+a<-subset(dfflights_final_Larger1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with durattion >=1.5h (2015)')
+10*1.5
+a<-subset(dfflights_final_Larger1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with durattion >=1.5h (2015)')
+a<-subset(dfflights_final_Smaller1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration <1.5h (2015)')
+a<-subset(dfflights_final_Larger1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with durattion >=1.5h (2015)')
+a<-subset(dfflights_final_Smaller1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration <1.5h (2015)')
+a<-subset(dfflights_final_Smaller1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration <1.5h (2015)')
+nrow(a)
+sum(a$count)
+a<-subset(dfflights_final_Larger1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration >=1.5h (2015)')
+nrow(a)
+sum(a$count)
+plot(dfflights_final_Smaller1.5_aggr)
+a<-lm(count~.,data=dfflights_final_Smaller1.5_aggr)
+abline(a, col='red')
+summary(a)
+newdates<-seq.POSIXt(from=ISOdate(2016,01,01), to=ISOdate(2020,12,31), by="day")
+predict(a, data=newdates)
+b<-predict(a, data=newdates)
+View(b)
+newdates<-data.frame(date=seq.POSIXt(from=ISOdate(2016,01,01), to=ISOdate(2020,12,31), by="day"), count=0)
+b<-predict(a, data=newdates)
+b<-predict(a, data=newdates)
+head(b)
+a<-lm(count~date,data=dfflights_final_Smaller1.5_aggr)
+abline(a, col='red')
+summary(a)
+newdates<-data.frame(date=seq.POSIXt(from=ISOdate(2016,01,01), to=ISOdate(2020,12,31), by="day"), count=0)
+b<-predict(a, data=newdates)
+b<-predict(a, newdata=newdates)
+head(b)
+newdates<-data.frame(date=seq.POSIXt(from=ISOdate(2016,01,01), to=ISOdate(2020,12,31), by="day"))
+b<-predict(a, newdata=newdates)
+tail(b)
+plot(dfflights_final_Smaller1.5_aggr)
+a<-lm(count~date,data=dfflights_final_Smaller1.5_aggr)
+abline(a, col='red')
+summary(a)
+newdates<-data.frame(date=seq.POSIXt(from=ISOdate(2016,01,01), to=ISOdate(2020,12,31), by="day"))
+aa<-predict(a, newdata=newdates)
+tail(aa)
+plot(dfflights_final_Larger1.5_aggr)
+b<-lm(count~.,data=dfflights_final_Larger1.5_aggr)
+abline(b, col='red')
+summary(b)
+bb<-predict(a, newdata=newdates)
+tail(bb)
+plot(dfflights_final_Larger1.5_aggr)
+b<-lm(count~.,data=dfflights_final_Larger1.5_aggr)
+abline(b, col='red')
+summary(b)
+bb<-predict(b, newdata=newdates)
+tail(bb)
+#Analysing Flights dataset looking for NAs
+(summary(dfflights))
+# Analysing data types
+(str(dfflights))
+# preparing dates
+dfflights$date<-as.POSIXct(dfflights$date, format="%Y-%m-%d")
+# removing instances without date
+dfflights<-subset(dfflights,!is.na(date))
+# duration > 0 and < 6h
+dfflights<-subset(dfflights, duration>0 & duration<=6)
+# number of passengers <= 150 but keeping NAs
+dfflights<-subset(dfflights, number_passengers<=150|is.na(number_passengers))
+# preparing dates
+dfflights$date<-as.POSIXct(dfflights$date, format="%Y-%m-%d")
+# removing instances without date
+dfflights<-subset(dfflights,!is.na(date))
+# duration > 0 and < 6h
+dfflights<-subset(dfflights, duration>0 & duration<=6)
+# number of passengers <= 150 but keeping NAs
+dfflights<-subset(dfflights, number_passengers<=150|is.na(number_passengers))
+boxplot(dfflights$duration, xlab="Months", ylab="Duration")
+boxplot(dfflights$duration, xlab="Months", ylab="Duration", main='Flights duration')
+boxplot(dfflights$duration~format(dfflights$date,"%m"), xlab="Months", ylab="Duration", main='Flights duration')
+# preparing dates
+dfweather$date<-as.POSIXct(dfweather$date, format="%Y-%m-%d")
+# removing instances without date
+dfweather<-subset(dfweather,!is.na(date))
+# temperature >= -30 and <= 42
+dfweather<-subset(dfweather,temperature>=-30 & temperature<=42)
+(summary(dfweather))
+# Analysing data types
+(str(dfweather))
+#Analysing temperature - certainly, some seasonality is happening here
+boxplot(dfweather$temperature~format(dfweather$date,"%m"), xlab="Months", ylab="Temperature")
+boxplot(dfweather$temperature~format(dfweather$date,"%d"), xlab="Days", ylab="Temperature")
+# Analysing windSpeed
+dfweather<-subset(dfweather, windSpeed<=100)
+boxplot(dfweather$windSpeed~format(dfweather$date,"%m"), xlab="Months", ylab="WindSpeed")
+# Analysing precipitation
+boxplot(dfweather$precipitation~format(dfweather$date,"%m"), xlab="Months", ylab="Precipitation")
+boxplot(dfweather$temperature~format(dfweather$date,"%m"), xlab="Months", ylab="Temperature")
+boxplot(dfweather$temperature~format(dfweather$date,"%d"), xlab="Days", ylab="Temperature")
+# Removing some outliers
+dfweather<-subset(dfweather, windSpeed<=100)
+boxplot(dfweather$windSpeed~format(dfweather$date,"%m"), xlab="Months", ylab="WindSpeed")
+boxplot(dfweather$precipitation~format(dfweather$date,"%m"), xlab="Months", ylab="Precipitation")
+set.seed(1111)
+dfflights_reduNA<-subset(dfflights_new, !is.na(number_passengers))
+dfflights_onlyNA<-subset(dfflights_new, is.na(number_passengers))
+Tdummy<-sample(2, nrow(dfflights_reduNA), replace=T, prob=c(.8,0.2))
+train<-dfflights_reduNA[Tdummy==1,]
+test<-dfflights_reduNA[Tdummy==2,]
+cmaux<-matrix(c(train$duration, train$temperature, train$windSpeed, train$precipitation, train$number_passengers),nrow=(nrow(train)), ncol=5)
+cor(cmaux)
+modelAll <- lm(number_passengers~duration+temperature, data=train)
+summary(modelAll)
+rSquaredAll<-summary(modelAll)$r.squared
+# predict values for test
+resultsAll<-predict(modelAll, newdata=test, type='response')
+rmseAll<-mean((resultsAll-test$number_passengers)^2)^(1/2)
+# predict values for test
+resultsAll<-predict(modelAll, newdata=test, type='response')
+(rmseAll<-mean((resultsAll-test$number_passengers)^2)^(1/2))
+kfoldVal<-suppressWarnings(CVlm(data=train, form.lm=number_passengers~duration+temperature, m=10, seed=1, legend.pos="topleft",  printit=FALSE, main="10 folds validation - number_passengers"))
+(msekfAll<-attr(kfoldVal, 'ms'))
+kfoldVal<-suppressWarnings(CVlm(data=train, form.lm=number_passengers~duration+temperature, m=10, seed=1, legend.pos="topleft",  printit=FALSE, main="10 folds validation - number_passengers"))
+# collecting MSE
+msekfAll<-attr(kfoldVal, 'ms')
+kfoldVal<-suppressWarnings(CVlm(data=train, form.lm=number_passengers~duration+temperature, m=10, seed=1, legend.pos="topleft",  printit=FALSE, main="10 folds validation - number_passengers"))
+# collecting MSE
+msekfAll<-attr(kfoldVal, 'ms')
+msekfAll
+plot(number_passengers~duration, data=train)
+abline(v=1.5, col='red', lwd=3, lty=2)
+plot(number_passengers~temperature, data=train)
+trainSmaller1.5<-subset(train,duration<(1.5))
+testSmaller1.5<-subset(test,duration<(1.5))
+plot(number_passengers~temperature, data=trainSmaller1.5)
+lines(lowess(trainSmaller1.5$number_passengers~trainSmaller1.5$duration+trainSmaller1.5$temperature), col='green')
+plot(number_passengers~temperature, data=trainSmaller1.5)
+modelSmaller1.5 <- lm(number_passengers~duration+temperature, data=trainSmaller1.5)
+abline(modelSmaller1.5, col='red')
+plot(number_passengers~temperature, data=trainSmaller1.5)
+modelSmaller1.5 <- lm(number_passengers~duration+temperature, data=trainSmaller1.5)summary(modelSmaller1.5)
+modelSmaller1.5 <- lm(number_passengers~duration+temperature, data=trainSmaller1.5)
+summary(modelSmaller1.5)
+kfoldValSmaller<-suppressWarnings(CVlm(data=trainSmaller1.5, form.lm=number_passengers~duration+temperature, m=10, dots=FALSE, seed=1, legend.pos="topleft",  printit=FALSE, main="10 folds validation - number_passengers (class: duration<1.5h)"))
+msekfSmaller1.5<-attr(kfoldValSmaller, 'ms')
+msekfSmaller1.5
+trainLarger1.5<-subset(train,duration>=(1.5))
+testLarger1.5<-subset(test,duration>=(1.5))
+plot(number_passengers~temperature, data=trainLarger1.5)
+lines(lowess(trainLarger1.5$number_passengers~trainLarger1.5$duration+trainLarger1.5$temperature), col='green')
+plot(number_passengers~temperature, data=trainSmaller1.5)
+lines(lowess(trainSmaller1.5$number_passengers~trainSmaller1.5$duration+trainSmaller1.5$temperature), col='green')
+modelLarger1.5 <- lm(number_passengers~temperature, data=trainLarger1.5)
+summary(modelLarger1.5)
+resultsLarger1.5<-predict(modelLarger1.5, newdata=testLarger1.5, type='response')
+# limiting predictions to 50 passengers
+resultsLarger1.5<-ifelse(resultsLarger1.5>50, 50, resultsLarger1.5)
+rmseLarger1.5<-mean((resultsLarger1.5-testLarger1.5$number_passengers)^2)^(1/2)
+kfoldValLarger<-suppressWarnings(CVlm(data=trainLarger1.5, form.lm=number_passengers~temperature, m=10, dots=FALSE, seed=1, legend.pos="topleft",  printit=FALSE, main="10 folds validation - number_passengers (class: duration>=1.5h)"))
+msekfLarger1.5<-attr(kfoldValLarger, 'ms')
+msekfLarger1.5
+resultsT<-c(resultsSmaller1.5,resultsLarger1.5)
+testSmallerT<-c(testSmaller1.5$number_passengers,testLarger1.5$number_passengers)
+rmseT<-mean((resultsT-c(testSmallerT))^2)^(1/2)
+rSquaredT<- sum((resultsT-mean(resultsT))^2)/sum((testSmallerT-mean(testSmallerT))^2)
+print('RMSE Total', rmseAll)
+rmseT
+rmseSmaller1.5
+rmseLarger1.5
+msekfAll
+msekfSmaller1.5
+msekfLarger1.5
+rSquaredAll
+rSquaredT
+print('RMSE Total', rmseAll)
+print('RMSE Total', rmseT)
+rmseSmaller1.5
+rmseLarger1.5
+msekfAll
+msekfSmaller1.5
+msekfLarger1.5
+rSquaredAll
+rSquaredT
+?print
+cat('RMSE Total1', rmseAll)
+cat('RMSE Total2', rmseT)
+rmseSmaller1.5
+rmseLarger1.5
+msekfAll
+msekfSmaller1.5
+msekfLarger1.5
+rSquaredAll
+rSquaredT
+cat('RMSE Total1', rmseAll)
+cat('RMSE Total2', rmseT)
+rmseSmaller1.5
+rmseLarger1.5
+msekfAll
+msekfSmaller1.5
+msekfLarger1.5
+rSquaredAll
+rSquaredT
+sprintf('RMSE Total1', rmseAll)
+cat('RMSE Total2', rmseT)
+rmseSmaller1.5
+rmseLarger1.5
+msekfAll
+msekfSmaller1.5
+msekfLarger1.5
+rSquaredAll
+rSquaredT
+sprintf('RMSE Total1 %s', rmseAll)
+cat('RMSE Total2', rmseT)
+rmseSmaller1.5
+rmseLarger1.5
+msekfAll
+msekfSmaller1.5
+msekfLarger1.5
+rSquaredAll
+rSquaredT
+sprintf('RMSE Total1 %s', round(rmseAll, 4))
+cat('RMSE Total2', rmseT)
+rmseSmaller1.5
+rmseLarger1.5
+msekfAll
+msekfSmaller1.5
+msekfLarger1.5
+rSquaredAll
+rSquaredT
+sprintf('RMSE Total1 = %s', round(rmseAll, 4))
+sprintf('RMSE Total1 = %s', round(rmseT, 4))
+sprintf('RMSE duration<1.5h = %s', round(rmseSmaller1.5, 4))
+sprintf('RMSE duration>=1.5h = %s', round(rmseLarger1.5, 4))
+msekfAll
+msekfSmaller1.5
+msekfLarger1.5
+rSquaredAll
+rSquaredT
+sprintf('RMSE original = %s', round(rmseAll, 4))
+sprintf('RMSE after spliting dataset = %s', round(rmseT, 4))
+sprintf('RMSE duration<1.5h = %s', round(rmseSmaller1.5, 4))
+sprintf('RMSE duration>=1.5h = %s', round(rmseLarger1.5, 4))
+msekfAll
+msekfSmaller1.5
+msekfLarger1.5
+rSquaredAll
+rSquaredT
+sprintf('RMSE original = %s', round(rmseAll, 4))
+sprintf('RMSE after spliting dataset = %s', round(rmseT, 4))
+sprintf('RMSE duration<1.5h = %s', round(rmseSmaller1.5, 4))
+sprintf('RMSE duration>=1.5h = %s', round(rmseLarger1.5, 4))
+sprintf('MSE after spliting dataset = %s', round(msekfAll, 4))
+sprintf('MSE duration<1.5h = %s', round(msekfSmaller1.5, 4))
+sprintf('MSE duration>=1.5h = %s', round(msekfLarger1.5, 4))
+sprintf('R-Squared original = %s', round(rSquaredAll, 4))
+sprintf('R-Squared after spliting dataset = %s', round(rSquaredT, 4))
+#temporary variables
+dfflights_onlyNA_Smaller1.5<-subset(dfflights_onlyNA,duration< (1.5))
+dfflights_onlyNA_Smaller1.5[,6]<-predict(modelSmaller1.5, newdata=dfflights_onlyNA_Smaller1.5, type='response')
+# limiting predictions to 100 passengers
+dfflights_onlyNA_Smaller1.5[,6]<-ifelse(dfflights_onlyNA_Smaller1.5$number_passengers>100, 100, dfflights_onlyNA_Smaller1.5$number_passengers)
+#temporary variables
+dfflights_onlyNA_Larger1.5 <-subset(dfflights_onlyNA,duration>=(1.5))
+dfflights_onlyNA_Larger1.5 [,6]<-predict(modelLarger1.5, newdata=dfflights_onlyNA_Larger1.5, type='response')
+# limiting predictions to 50 passengers
+dfflights_onlyNA_Larger1.5[,6] <-ifelse(dfflights_onlyNA_Larger1.5$number_passengers>50, 50, dfflights_onlyNA_Larger1.5$number_passengers)
+dfflights_final<-rbind(dfflights_onlyNA_Smaller1.5, dfflights_onlyNA_Larger1.5, dfflights_reduNA)
+dfflights_final[,6]<-round(dfflights_final$number_passengers)
+plot(number_passengers~duration, data=dfflights_final)
+plot(number_passengers~duration, data=dfflights_final)
+abline(v=1.5, col='red', lwd=3, lty=2)
+dfflights_final_Smaller1.5<-subset(dfflights_final, duration<1.5)
+summary(dfflights_final_Smaller1.5)
+dfflights_final_Larger1.5<-subset(dfflights_final, duration>=1.5)
+summary(dfflights_final_Larger1.5)
+dfflights_final_Smaller1.5_aggr<-group_by(dfflights_final_Smaller1.5, date)%>%
+summarize(count=n())
+dfflights_final_Larger1.5_aggr<-group_by(dfflights_final_Larger1.5, date)%>%
+summarize(count=n())
+plot(dfflights_final_Smaller1.5_aggr)
+a<-lm(count~date,data=dfflights_final_Smaller1.5_aggr)
+abline(a, col='red')
+summary(a)
+# until 2020
+newdates<-data.frame(date=seq.POSIXt(from=ISOdate(2016,01,01), to=ISOdate(2020,12,31), by="day"))
+aa<-predict(a, newdata=newdates)
+tail(aa)
+summary(b)
+plot(dfflights_final_Larger1.5_aggr)
+b<-lm(count~.,data=dfflights_final_Larger1.5_aggr)
+abline(b, col='red')
+summary(b)
+# until 2020
+bb<-predict(b, newdata=newdates)
+tail(bb)
+a<-subset(dfflights_final_Smaller1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration <1.5h (2015)')
+a<-subset(dfflights_final_Smaller1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration <1.5h (2015)')
+a<-subset(dfflights_final_Larger1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration >=1.5h (2015)')
+a<-subset(dfflights_final_Larger1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration >=1.5h (2015)')
+boxplot(dfflights$duration~format(dfflights$date,"%m"), xlab="Months", ylab="Duration", main='Flights duration analysis')
+boxplot(dfweather$temperature~format(dfweather$date,"%m"), xlab="Months", ylab="Temperature", main='Temperature analysis')
+# Removing some outliers
+dfweather<-subset(dfweather, windSpeed<=100)
+boxplot(dfweather$windSpeed~format(dfweather$date,"%m"), xlab="Months", ylab="WindSpeed", main='Wind speed analysis')
+boxplot(dfweather$precipitation~format(dfweather$date,"%m"), xlab="Months", ylab="Precipitation", main='Precipitation analysis')
+kfoldVal<-suppressWarnings(CVlm(data=train, form.lm=number_passengers~duration+temperature, m=10, seed=1, legend.pos="topleft",  printit=FALSE, main="10 folds validation - number_passengers"))
+kfoldVal<-suppressWarnings(CVlm(data=train, form.lm=number_passengers~duration+temperature, m=10, seed=1, legend.pos="topleft",  printit=FALSE, main="10 folds validation - number_passengers"))
+# collecting MSE
+msekfAll<-attr(kfoldVal, 'ms')
+plot(number_passengers~duration, data=train)
+abline(v=1.5, col='red', lwd=3, lty=2, main='Two classes based on duration')
+plot(number_passengers~duration, data=train, main='Two classes based on duration')
+abline(v=1.5, col='red', lwd=3, lty=2)
+plot(number_passengers~temperature, data=train, main='Number of passengers per temperature')
+plot(number_passengers~temperature, data=trainSmaller1.5)
+lines(lowess(trainSmaller1.5$number_passengers~trainSmaller1.5$duration+trainSmaller1.5$temperature), col='green', main='Temperature for flights with duration<1.5')
+plot(number_passengers~temperature, data=trainSmaller1.5, main='Temperature for flights with duration<1.5')
+lines(lowess(trainSmaller1.5$number_passengers~trainSmaller1.5$duration+trainSmaller1.5$temperature), col='green')
+plot(number_passengers~temperature, data=trainLarger1.5, main='Temperature for flights with duration>=1.5')
+lines(lowess(trainLarger1.5$number_passengers~trainLarger1.5$duration+trainLarger1.5$temperature), col='green')
+plot(number_passengers~duration, data=dfflights_final, main='Two classes based on duration')
+abline(v=1.5, col='red', lwd=3, lty=2)
+plot(dfflights_final_Smaller1.5_aggr, main='Number of flights per day (duration<1.5)')
+a<-lm(count~date,data=dfflights_final_Smaller1.5_aggr)
+abline(a, col='red')
+plot(dfflights_final_Larger1.5_aggr, main='Number of flights per day (duration>=5)')
+b<-lm(count~.,data=dfflights_final_Larger1.5_aggr)
+abline(b, col='red')
+plot(dfflights_final_Larger1.5_aggr, main='Number of flights per day (duration>=1.5)')
+b<-lm(count~.,data=dfflights_final_Larger1.5_aggr)
+abline(b, col='red')
+a<-subset(dfflights_final_Smaller1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration <1.5h (Year: 2015)')
+a<-subset(dfflights_final_Larger1.5_aggr, date>'2015-01-01')
+hist(a$count, main='Frequency of flights with duration >=1.5h (Year: 2015)')
+sprintf('RMSE original = %s', round(rmseAll, 4))
+RMSE original = `r round(rmseAll, 4)`
+resultsT<-c(resultsSmaller1.5,resultsLarger1.5)
+testSmallerT<-c(testSmaller1.5$number_passengers,testLarger1.5$number_passengers)
+rmseT<-mean((resultsT-c(testSmallerT))^2)^(1/2)
+rSquaredT<- sum((resultsT-mean(resultsT))^2)/sum((testSmallerT-mean(testSmallerT))^2)

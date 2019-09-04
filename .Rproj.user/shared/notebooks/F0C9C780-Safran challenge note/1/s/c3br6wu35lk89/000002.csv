@@ -1,0 +1,1 @@
+"0","plot(number_passengers~temperature, data=trainLarger1.5, main='Temperature for flights with duration>=1.5')"

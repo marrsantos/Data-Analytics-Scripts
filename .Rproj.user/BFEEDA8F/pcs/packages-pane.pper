@@ -1,0 +1,7 @@
+{
+    "installOptions" : {
+        "installDependencies" : true,
+        "installFromRepository" : true,
+        "libraryPath" : "C:/Users/310178934/AppData/Local/Continuum/Anaconda3/R/library"
+    }
+}

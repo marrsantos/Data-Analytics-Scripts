@@ -1,0 +1,62 @@
+---
+title: "Monte Carlo Simulation"
+output: html_notebook
+---
+
+#### Introduction
+
+Monte Carlo methods, or Monte Carlo experiments, are a broad class of computational algorithms that rely on repeated random sampling to obtain numerical results. The underlying concept is to use randomness to solve problems that might be deterministic in principle. They are often used in physical and mathematical problems and are most useful when it is difficult or impossible to use other approaches. Monte Carlo methods are mainly used in three problem classes:[1] optimization, numerical integration, and generating draws from a probability distribution.
+
+Exemplo:
+
+População:10000 elementos com média 10 e desvio padrão 2.
+
+```{r}
+set.seed(1)
+populacao <- rnorm(10000,10,2)
+media <- mean(populacao) 
+dp <- sd(populacao)
+media
+dp
+```
+
+Gerando 10000 amostras aleatórias com 10 elementos cada (com reposição).
+
+Como o desvio padrão da população é conhecido, este será o erro padrão.
+$$\ IC=\frac{\bar{X}-z_{score}*Desvio Padrão_{pop}}{n}$$
+
+>>>>> MONTE CARLO: broad class of computational algorithms that rely on repeated random sampling to obtain numerical results. The underlying concept is to use randomness to solve problems that might be deterministic in principle.
+
+```{r}
+set.seed(1)
+ICI=ICS=mediaAmostra = NULL 
+n=10
+for(i in 1:10000){     
+  Amostra <- sample(populacao, n, replace = TRUE)     
+  mediaAmostra[i] <- mean(Amostra)     
+  ICI[i] <- mediaAmostra[i]-1.96*sd(populacao)/sqrt(n)
+  ICS[i] <- mediaAmostra[i]+1.96*sd(populacao)/sqrt(n)
+  }  
+```
+
+Histograma da distribuição de médias
+```{r}
+hist(mediaAmostra)  
+```
+Média e Desvio padrão das amostras
+```{r}
+mean(mediaAmostra)
+sd(mediaAmostra)
+```
+
+Em alinhamento com o teorema do limite central, a distribuição das médias amostrais se aproxima de uma normal. O desvio padrão é menor pois os dados estão mais concentrados ao redor da média.
+
+Sendo normal, em 95% dos casos a media estará dentro do intervalo mencionado.    
+```{r}
+mean(between(mean(populacao),ICI,ICS))
+```
+  
+```{r}
+quantile(mediaAmostra, 0.025)
+quantile(mediaAmostra, 0.975)
+```  

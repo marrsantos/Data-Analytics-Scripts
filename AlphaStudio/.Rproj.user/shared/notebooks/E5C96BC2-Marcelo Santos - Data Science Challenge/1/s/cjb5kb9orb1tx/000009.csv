@@ -1,0 +1,2 @@
+"0","ggplot(c, aes(x=dt, group=signal, colour = signal)) +"
+"0","  geom_line(aes(y=acf), na.rm=TRUE)"

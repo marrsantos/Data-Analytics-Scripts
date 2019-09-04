@@ -1,0 +1,6 @@
+"0","set.seed(1111)"
+"0","dfflights_reduNA<-subset(dfflights_new, !is.na(number_passengers))"
+"0","dfflights_onlyNA<-subset(dfflights_new, is.na(number_passengers))"
+"0","Tdummy<-sample(2, nrow(dfflights_reduNA), replace=T, prob=c(.8,0.2))"
+"0","train<-dfflights_reduNA[Tdummy==1,]"
+"0","test<-dfflights_reduNA[Tdummy==2,]"

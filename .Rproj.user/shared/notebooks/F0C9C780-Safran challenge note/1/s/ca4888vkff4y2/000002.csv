@@ -1,0 +1,4 @@
+"0","resultsSmaller1.5<-predict(modelSmaller1.5, newdata=testSmaller1.5, type='response')"
+"0","# limiting prediction to 100 passengers"
+"0","resultsSmaller1.5<-ifelse(resultsSmaller1.5>100, 100, resultsSmaller1.5) "
+"0","rmseSmaller1.5<-mean((resultsSmaller1.5-testSmaller1.5$number_passengers)^2)^(1/2)"

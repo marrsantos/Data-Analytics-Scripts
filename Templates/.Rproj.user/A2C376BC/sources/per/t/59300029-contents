@@ -1,0 +1,5 @@
+# Load datasets
+#
+data_folder <- paste(getwd(), '/../itau/', sep='')
+mydata <- read.csv(paste(data_folder,"dados_Q5.csv",sep=''), sep=',', header=T)
+#

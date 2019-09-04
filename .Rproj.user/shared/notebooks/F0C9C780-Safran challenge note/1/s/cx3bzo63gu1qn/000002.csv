@@ -1,0 +1,7 @@
+"0","# predict values for test"
+"0","resultsAll<-predict(modelAll, newdata=test, type='response')"
+"0","(rmseAll<-mean((resultsAll-test$number_passengers)^2)^(1/2))"
+"1","[1]"
+"1"," 4.710262"
+"1","
+"

@@ -1,0 +1,377 @@
+---
+title: "Two Sigma Data Science Challenge"
+author: "Marcelo Rodrigues dos Santos"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+library(reshape2)
+```
+
+```{r}
+data_folder <- paste(getwd(), '/../datasets/', sep='')
+```
+
+### Section 1: Stock Market Data
+
+#### Preparing data
+
+Opening Datasets
+```{r}
+dfretorig <- read.csv(paste(data_folder,"returns_20181228.csv",sep=''), sep=',')
+dfretorig$Date<-as.POSIXct(strptime(as.character(dfretorig$Date), "%Y-%m-%d"))
+dfret<-dfretorig
+```
+
+My first validation was checking if weeks were completed. There is at least one week with less than 5 days registered...
+```{r}
+a<-filter(dfret,as.POSIXlt(Date)$wday==0|as.POSIXlt(Date)$wday==6)
+nrow(dfret)/5 
+```
+
+Analyzing the dataset I realized some stocks that only had positive returns during the studied period and higher average values. In this sense, when applying an accummulative approach to returns was causing an exponential effect. See this example.
+
+```{r}
+# stock_0
+dfretaux <- dfret %>% select(Date, stock_0,stock_1,stock_10,stock_24,stock_265)%>%mutate(acum=cumprod(1 + stock_0/100)-1,signal=ifelse(lag(acum, 30) > 0.00, 1, 0))
+dfretaux$Date<-as.POSIXct(strptime(as.character(dfretaux$Date), "%Y-%m-%d"))
+# stock_1
+dfretaux <- dfretaux %>% mutate(acum1=cumprod(1 + stock_1/100)-1,signal1=ifelse(lag(acum1, 30) > 0.00, 1, 0))
+# stock_10
+dfretaux <- dfretaux %>% mutate(acum2=cumprod(1 + stock_10/100)-1,signal2=ifelse(lag(acum2, 30) > 0.00, 1, 0))
+# stock_24
+dfretaux <- dfretaux %>% mutate(acum3=cumprod(1 + stock_24/100)-1,signal3=ifelse(lag(acum3, 30) > 0.00, 1, 0))
+# stock_265
+dfretaux <- dfretaux %>% mutate(acum4=cumprod(1 + stock_265/100)-1,signal4=ifelse(lag(acum4, 30) > 0.00, 1, 0))
+```
+
+See the accumulative function graph without stocks 24 and 25.
+
+```{r fig.height=6, fig.width=9} 
+# gerando uma linha para curva de média
+dfretaux$acumtot<-(dfretaux$acum+dfretaux$acum1+dfretaux$acum2)/3
+ggplot(dfretaux, aes(x=Date)) +
+  geom_line(aes(y=acum),colour = "black",na.rm=TRUE) +
+  geom_line(aes(y=acum1),colour = "blue", na.rm=TRUE) +
+  geom_line(aes(y=acum2),colour = "green",na.rm=TRUE) +
+  geom_line(aes(y=acumtot),colour = "red",na.rm=TRUE) +
+  labs(
+    title="Example of cumulative function", subtitle="stocks: 0, 1 and 10",     x="years", y = "accumulative function") +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.caption = element_text(hjust = 0.5))
+```
+
+Same graph only including the stocks 24 and 265 that have the mentioned exponential behavior.
+
+```{r fig.height=6, fig.width=9} 
+# gerando uma linha para curva de média
+dfretaux$acumtot<-(dfretaux$acum+dfretaux$acum1+dfretaux$acum2+dfretaux$acum3+dfretaux$acum4)/5
+ggplot(dfretaux, aes(x=Date)) +
+  geom_line(aes(y=acum),colour = "black",na.rm=TRUE) +
+  geom_line(aes(y=acum1),colour = "blue", na.rm=TRUE) +
+  geom_line(aes(y=acum2),colour = "green",na.rm=TRUE) +
+  geom_line(aes(y=acum3),colour = "pink",na.rm=TRUE) +
+  geom_line(aes(y=acum4),colour = "cyan",na.rm=TRUE) +
+  geom_line(aes(y=acumtot),colour = "red",na.rm=TRUE) +
+  labs(
+    title="Example of accumulative function", subtitle="stocks: 0, 1, 10, 24 and 265",     x="years", y = "accumulative function") +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.caption = element_text(hjust = 0.5))
+```
+
+#####################################33
+
+```{r fig.height=6, fig.width=9} 
+# teste A
+# gerando uma linha para curva de média
+dfretaux$acumtot<-(dfretaux$acum+dfretaux$acum1+dfretaux$acum2)/3
+
+##Subset the necessary columns
+a<-dfretaux[,c(1,7,9,11,17)]
+##Then rearrange your data frame
+dfretaux_a = melt(a, id=c("Date"))
+
+ggplot(dfretaux_a, aes(x=Date, y=value, colour=variable))+
+  geom_line()+
+  labs(
+    title="Example of cumulative function", subtitle="stocks: 0, 1 and 10",     x="years", y = "accumulative function") +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.caption = element_text(hjust = 0.5))
+```
+
+```{r fig.height=6, fig.width=9} 
+#teste B
+dfretaux$acumtot<-(dfretaux$acum+dfretaux$acum1+dfretaux$acum2)/3
+p<-ggplot(dfretaux, aes(x=Date)) +
+  geom_line(aes(y=acum),colour = "black",na.rm=TRUE) +
+  geom_line(aes(y=acum1),colour = "blue", na.rm=TRUE) +
+  geom_line(aes(y=acum2),colour = "green",na.rm=TRUE) +
+  geom_line(aes(y=acumtot),colour = "red",na.rm=TRUE) +
+  labs(
+    title="Example of accumulative function", subtitle="stocks: 0, 1 and 10",     x="years", y = "accumulative function") +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.caption = element_text(hjust = 0.5))
+#
+dfretaux$acumtot<-(dfretaux$acum+dfretaux$acum1+dfretaux$acum2+dfretaux$acum3+dfretaux$acum4)/5
+q<-ggplot(dfretaux, aes(x=Date)) +
+  geom_line(aes(y=acum),colour = "black",na.rm=TRUE) +
+  geom_line(aes(y=acum1),colour = "blue", na.rm=TRUE) +
+  geom_line(aes(y=acum2),colour = "green",na.rm=TRUE) +
+  geom_line(aes(y=acum3),colour = "pink",na.rm=TRUE) +
+  geom_line(aes(y=acum4),colour = "cyan",na.rm=TRUE) +
+  geom_line(aes(y=acumtot),colour = "red",na.rm=TRUE) +
+  labs(
+    title="Example of accumulative function", subtitle="stocks: 0, 1, 10, 24 and 265",     x="years", y = "accumulative function") +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.caption = element_text(hjust = 0.5))
+ggarrange(p,q,ncol = 2, nrow = 1)
+
+```
+
+```{r fig.height=6, fig.width=9} 
+```
+
+
+
+
+######################################
+
+
+
+
+
+Stocks with this behavior have returns average ranging from 250% to 1200%.
+
+```{r}
+dfret<-dfretorig
+a<-data.frame()
+qtde<-ncol(dfret)-1
+for (i in 2:(qtde+1)) { 
+  a[i,'i']<-ifelse(min(dfret[,i],na.rm=TRUE)>=0,i,-1)
+  a[i,'name']<-colnames(dfret)[i]
+  a[i,'mean']<-mean(dfret[,i],na.rm=TRUE)
+  a[i,'sd']<-sd(dfret[,i],na.rm=TRUE)
+  a[i,'max']<-max(dfret[,i],na.rm=TRUE)
+}
+aa<-filter(a,i>=0)
+head(aa)
+```
+
+Removing these columns (stocks)...
+```{r}
+dfret<-dfret[,-c(aa$i)]
+```
+
+Plotting the daily return average without NAs and stocks with exponential behavior.
+
+```{r}
+qtde<-ncol(dfret)-1
+####
+dfretnew <- dfret[,2:(qtde+1)]/100
+dfretnew$media <- dfretnew[,1:qtde]%>%rowSums(na.rm=TRUE)
+dfretnew$media <- dfretnew$media/qtde
+dfretnew <- dfretnew %>% mutate(acumout=cumprod(1 + media)-1,acumoutsig1=lag(acumout,1))
+dfretnew$Date <- dfret$Date
+# Plot média geral de acumulado
+ggplot(dfretnew, aes(x=Date)) +
+  geom_line(aes(y=acumout),colour = 'blue',na.rm=TRUE)
+```
+
+#### Question #1
+In what month did the returns shift from exhibiting mean reversion
+to exhibiting momentum, or from exhibiting momentum to 
+exhibiting mean reversion? 
+
+Generating autocorrelation probabilities for all days... 
+```{r}
+c<-data.frame()
+qtde<-nrow(dfretnew)
+for (i in nrow(dfretnew):101) {
+  c[i,'acf']<-acf(dfretnew$media[(i-100):i],type='correlation',lag.max=1, plot=FALSE)$acf[2]
+  c[i,'dt']<-as.POSIXct(dfretnew[i,'Date'])
+  c[i,'signal']<-ifelse(c[i,'acf']>=0,1,0)
+  c[i,'media']<-dfretnew[i,'media']
+}
+```
+
+Plotting daily autocorrelations
+```{r}
+ggplot(c, aes(x=dt, group=signal, colour = signal)) +
+  geom_line(aes(y=acf), na.rm=TRUE)
+```
+
+Autocorrelation starts to be negative on May 20th, 1992.
+
+```{r}
+c[615:625,]
+```
+
+*Answer for question #1 is May 1992*
+
+#### Question #2
+What was the average momentum? 
+Single number: the average across all stock returns in the time period.
+
+```{r}
+ggplot(dfretnew, aes(x=Date)) +
+  geom_line(aes(y=acumout),colour = 'blue',na.rm=TRUE) +
+  geom_line(aes(y=c$acf/100),colour = 'red') +
+  geom_vline(xintercept = as.POSIXct('1992-05-18'))
+```
+
+#Answer #2: Average during the time period when these stock returns exhibited momentum
+a<-subset(dfretnew,format(Date,"%Y-%m-%d")<='1992-05-18')
+mean(a$media*100)
+
+#Answer #3: Average during the time period when these stock returns exhibited mean reversion
+a<-subset(dfretnew,format(Date,"%Y-%m-%d")>'1992-05-18')
+mean(a$media*100)
+
+#Answer #4: Mainly, due to changes in the market. For example, when a new market achieves maturity it can shift from momentum to mean reversion dominant.
+
+#Answer #5: if you are able to study and observe the behavior of a stock or asset series during certain time, both strategy could succeed under a mathematical and statistics point of view. However, sometimes market could also have a different behavior due to external unknown events.  
+
+##############################################################
+# Section 2: Oklahoma State Spending
+#
+# Datasets
+dfpurorig <- read.csv(paste(data_folder,"res_purchase_2014.csv",sep=''), sep=',',dec='.')
+dfpurorig$Transaction.Date<-as.POSIXct(strptime(as.character(dfpurorig$Transaction.Date), "%m/%d/%Y"))
+dfpurorig$Posted.Date<-as.POSIXct(strptime(as.character(dfpurorig$Posted.Date), "%m/%d/%Y"))
+dfpurorig$Agency.Number<-as.factor(dfpurorig$Agency.Number)
+dfpur<-dfpurorig
+#
+# cleaning and manipulating the dataset
+#
+# checking wrong amounts
+a<-as.data.frame(as.numeric(as.character(dfpur$Amount)))
+names(a)<-'valor'
+dfpur[is.na(a$valor),'Amount']
+#[1] ($29.99)    $572.27     $12.90      452.91 zero
+# Correcting some amounts
+dfpur$Amount<-as.numeric(as.character(dfpur$Amount))
+dfpur[is.na(a$valor),'Amount']<-c(29.99,572.27,12.90,452.91)
+# 
+# Analyzing all fields
+summary(dfpur)
+#
+# Year.month seems field to include wrong -999 values...
+# Checking if year.months values can be generated 
+# through Transaction.date
+#
+# Also Year.Month=201900 seems wrong.
+table(dfpur$Year.Month)
+# 
+# Checking consistence of Posted.Date and Transaction.Date
+count(dfpur[dfpur$Posted.Date<dfpur$Transaction.Date,])
+#
+a<-dfpur[format(dfpur$Posted.Date,'%Y%m')!=format(dfpur$Transaction.Date,'%Y%m'),]
+#
+# Year.Month can be updated based on Posted.Date
+(a[a$Year.Month!=format(a$Posted.Date,'%Y%m'),])
+#
+# Counting -999 Year.Month
+count(dfpur[dfpur$Year.Month==-999,])
+#
+# Updating Year.Month based on Posted.Date
+dfpur$Year.Month<-as.factor(format(dfpur$Posted.Date,'%Y%m'))
+#
+# checking update
+table(dfpur$Year.Month)
+#
+summary(dfpur$Amount)
+#
+# It seems there are some outlier after the 75o percentile
+# checking top 20 amounts
+(dfpur%>%select(Vendor, Transaction.Date, Amount)%>%filter(Amount>359)%>%top_n(20))%>%arrange(desc(Amount))
+#
+# Looking for top two amounts, I found a vendor named "PAYMENT ADJUSTMENT".
+# Exploring "PAYMENT ADJUSTMENT" vendor.
+(a<-dfpur%>%select(Vendor, Transaction.Date, Amount)%>%filter(Vendor=='PAYMENT ADJUSTMENT'))
+sum(a$Amount)  
+#
+(b<-dfpur%>%select(Vendor, Transaction.Date, Amount)%>%filter(Amount<=0))
+sum(b$Amount)
+#
+# As we do not have any instruction related to negative numbers,
+# I will not use these amounts for answering questions.
+#
+# Removing negative numbers
+dfpur<-subset(dfpur,Amount>0)
+#
+# Also there is not instruction on "PAYMENT ADJUSTMENT" registers
+# Removing "PAYMENT ADJUSTMENT" registers
+dfpur<-subset(dfpur,Vendor!='PAYMENT ADJUSTMENT')
+#
+summary(dfpur)
+#
+#
+dfpur$Description<-as.factor(toupper(dfpur$Description))
+dfpur$Cardholder.Last.Name <-as.factor(toupper(dfpur$Cardholder.Last.Name))
+dfpur$Agency.Name <-as.factor(toupper(dfpur$Agency.Name))
+dfpur$Vendor <-as.factor(toupper(dfpur$Vendor))
+dfpur$Cardholder.First.Initial <- as.factor(toupper(dfpur$Cardholder.First.Initial))
+dfpur$Merchant.Category.Code..MCC. <- as.factor(toupper(dfpur$Merchant.Category.Code..MCC.))
+#
+# Reducing the name of the field "Merchant.Category.Code..MCC." to "Merchant.Category"
+names(dfpur)[11]<-'Merchant.Category'
+#
+# Checking description field
+#
+group_by(dfpur,Description)%>%summarize(c=n())%>%top_n(15)%>%arrange(desc(c))
+# There are several register with strange descriptions (e.g.,"",0) 
+# However, I will keep it as there is not an instruction to change it.
+#
+# Question #1: What is the total amount of spending captured in this dataset? 
+sum(dfpur$Amount)
+# Question #2: How much was spent at WW GRAINGER? 
+(a<-dfpur%>%select(Vendor,Posted.Date,Description,Amount)%>%filter(Vendor=='WW GRAINGER'))%>%arrange(Posted.Date)
+sum(a$Amount)
+# Question #3: How much was spent at WM SUPERCENTER?
+(a<-dfpur%>%select(Vendor,Posted.Date,Description,Amount)%>%filter(Vendor=='WM SUPERCENTER'))%>%arrange(Posted.Date)
+sum(a$Amount)
+# Question #4: What is the standard deviation of the total monthly spending in the dataset? 
+group_by(dfpur,Year.Month)%>%summarize(mean=mean(Amount),sd=sd(Amount),count=n())
+#
+# Question #5: describe the process you would follow to build a 
+# model on this dataset to make predictions about the stock market.
+# 
+# 1) meet with user (Client/Product Owner) to understand 
+#    business questions and expectations
+# 2) understand the business concepts behind this dataset;
+#    invest time for cleaning and preparing data; checking for outliers;
+#    review progress and clarify points on dataset 
+#    and business concepts with user; 
+#    research on analysis perspectives that could potentially 
+#    be interesting for investidors from the specific stock market;
+# 3) explore the dataset to capture business behavior and verify 
+#    possible correlations among variables; try to
+#    apply some clustering methods for better understanding 
+#    variables relationship and preliminary patterns;
+#    review progress and clarify points with user;
+# 4) define statistical/ML approaches (e.g. classification, regression),
+#    develop algorithms and apply proper cross-validation methods 
+#    for generating models; if required, repeat activities from previous steps
+#    and this step 4 until achieving best results; review progress 
+#    and clarify points with user;
+# 5) review final jupiter/R notebook to make sure it includes relevant steps;
+#    present final results to user and deliver notebook.
+#
+# Question #6: What biases might this dataset have if you 
+# tried to use it to model equities? 
+#
+#    It is important to consider that this dataset includes information on the 
+#    purchase/billing perspective. Of course, to be assertive for 
+#    modeling equities, other kind of information must be avaiable 
+#    (e.g., costs, cash flow, balance Sheet, income statement, etc.).
+#    
+#

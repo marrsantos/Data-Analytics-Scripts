@@ -1,0 +1,6 @@
+"0","```r
+summary(dfkpi$numerador)
+```"
+"1","   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+   0.00    0.00    2.00   13.85    5.00  975.31    4855 
+"

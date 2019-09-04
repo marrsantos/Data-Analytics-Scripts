@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "# Safran challenge\n# 05/02/2018 - Author: Marcelo Santos\n#\ndata_folder <- paste(getwd(), '/./Safran/', sep='')\ndfflights <- read.csv(paste(data_folder,\"flights.csv\",sep=''), sep=',', header=T)\ndfweather <- read.csv(paste(data_folder,\"weather.csv\",sep=''), sep=',', header=T)\n#\n# Item #1 and #2\n#\nlibrary(dplyr)\n#\n# Preparing dfflights and dfweather\n# analyzing dataset looking for NAs\n(summary(dfflights))\n# Analyzing data types\n(str(dfflights))\n# preparing dates\ndfflights$date<-as.POSIXct(dfflights$date, format=\"%Y-%m-%d\")\n# removing instances without date\ndfflights<-subset(dfflights,!is.na(date))\n# duration > 0 and < 6h\ndfflights<-subset(dfflights, duration>0 & duration<=6)\n# number of passangers <= 150 but keeping NAs\ndfflights<-subset(dfflights, number_passengers<=150|is.na(number_passengers))\n# preliminary checking for completness of flights dataset\nboxplot(dfflights$duration, xlab=\"Months\", ylab=\"Duration\")\n#\n# analyzing dataset looking for NAs\n(summary(dfweather))\n# Analyzing data types\n(str(dfweather))\n# preparing dates\ndfweather$date<-as.POSIXct(dfweather$date, format=\"%Y-%m-%d\")\n# removing instances without date\ndfweather<-subset(dfweather,!is.na(date))\n# temperature >= -30 and <= 42\ndfweather<-subset(dfweather,temperature>=-30 & temperature<=42)\n# Analyzing temperature - certainly, some seasonality is happending here\nboxplot(dfweather$temperature~format(dfweather$date,\"%m\"), xlab=\"Months\", ylab=\"Temperature\")\nboxplot(dfweather$temperature~format(dfweather$date,\"%d\"), xlab=\"Days\", ylab=\"Temperature\")\n# Analyzing windSpeed\ndfweather<-subset(dfweather, windSpeed<=100)\nboxplot(dfweather$windSpeed~format(dfweather$date,\"%m\"), xlab=\"Months\", ylab=\"WindSpeed\")\n# Analyzing precipitation\nboxplot(dfweather$precipitation~format(dfweather$date,\"%m\"), xlab=\"Months\", ylab=\"Precipitation\")\n\n# combining datasets\ndfflights_new<-left_join(dfweather, dfflights, by = c(\"date\"=\"date\"))\ndfflights_new<-subset(dfflights_new, date>=\"1995-01-01\") #!is.na(date))\n# Checking completness and coherence of data by visual inspection.\n(summary(dfflights_new))\na<-group_by(dfflights_new, id)%>%\n  summarize(count=n()) %>% filter(count>1)\n\n# Item #3\n# My idea is assuming number_passengers is the dependent variable and other variables as independent variables.\n# Starting creating scatter plottings with different variable and see possible linearity.\n# Run a preliminar linear model and verify coeficients and p-values to exclude variables that are not significant.\n# Complement this analysis with a correlation matrix to understand how the different variables correlates to the dependent variable and analyze colinearity aspects.\n# Certainly, temperature would include some seasonality aspects that need to be considered for this model. I would analyze how the seasonality is happenning based Boxplots.\n# Model creation: I would try an autoregressive model (ARMA) with dummies variables at least for temperature/month and other relevant variables as external variables (xreg).\n\n#staring a preliminary linear model...\nmymodel <- lm(number_passengers~., data=dfflights_new)\n",
+    "created" : 1525322923657.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "177013325",
+    "id" : "7E2CA366",
+    "lastKnownWriteTime" : 1525274536,
+    "last_content_update" : 1525274536,
+    "path" : "C:/Users/310178934/Data Analysis/R scripts & templates/Safran challenge.R",
+    "project_path" : "Safran challenge.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

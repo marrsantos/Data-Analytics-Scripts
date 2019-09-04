@@ -1,0 +1,32 @@
+"0","```r
+#
+# Datasets
+#
+dfproc <- read.csv(paste(data_folder,\"procedimentos_201610a201709_CARDIOLOGIA.csv\",sep=''), sep=',', encoding = \"latin3\", dec = \",\",header=FALSE,skip=1)
+dfproc$V3<-as.POSIXct(strptime(as.character(dfproc$V3), \"%d/%m/%Y\"))
+dfproc$V21<-as.POSIXct(strptime(as.character(dfproc$V21), \"%d/%m/%Y\"))
+dfproc$V23<-as.POSIXct(strptime(as.character(dfproc$V23), \"%d/%m/%Y\"))
+dfproc$V13<-as.numeric(dfproc$V13)
+dfproc$V18<-as.numeric(dfproc$V18)
+dfproc1 <- read.csv(paste(data_folder,\"procedimentos_201510a201609_CARDIOLOGIA.csv\",sep=''), sep=';', encoding = \"latin1\", dec = \",\",header=FALSE)
+dfproc1$V3<-as.POSIXct(strptime(as.character(dfproc1$V3), \"%d/%m/%y\"))
+dfproc1$V21<-as.POSIXct(strptime(as.character(dfproc1$V21), \"%d/%m/%y\"))
+dfproc1$V23<-as.POSIXct(strptime(as.character(dfproc1$V23), \"%d/%m/%y\"))
+dfproc1$V5<-as.factor(dfproc1$V5)
+dfproc1$V7<-as.factor(dfproc1$V7)
+dfproc1$V9<-as.factor(dfproc1$V9)
+dfproc1$V13<-as.numeric(dfproc1$V13)
+dfproc1$V14<-as.factor(dfproc1$V14)
+dfproc1$V16<-as.factor(dfproc1$V16)
+dfproc1$V18<-as.numeric(dfproc1$V18)
+dfproc1$V19<-as.factor(dfproc1$V19)
+dfproc1$V24<-as.factor(dfproc1$V24)
+dfproc1$V26<-as.factor(dfproc1$V26)
+dfproc1$V27<-as.factor(dfproc1$V27)
+dfproc1$V30<-as.factor(dfproc1$V30)
+dfproc1$V31<-as.integer(dfproc1$V31)
+dfproc1$V32<-as.factor('')
+dfproc<-rbind(dfproc,dfproc1)
+dfproc<-dfproc[,1:31]
+rm(dfproc1)
+```"

@@ -1,0 +1,6 @@
+"0","```r
+# Qtde de pacientes com várias Autorizações de Internação por ano
+d<-data.frame(group_by(dfproc,Year=as.POSIXlt(periodo)$year+1900,cod_paciente,cod_autorizacao)%>%summarize(count=n(),valtot=sum(valor))%>%subset(cod_autorizacao!='')%>%group_by(Year,cod_paciente)%>%summarize(count1=sum(count),valtot=sum(valtot))%>%group_by(Year,Nro_Internações=count1)%>%summarize(Qtde_Pacientes=n(),Valor_Total=sum(valtot)))
+d$PM<-round(d$Valor_Total/(d$Nro_Internações*d$Qtde_Pacientes), digits=2)
+d
+```"

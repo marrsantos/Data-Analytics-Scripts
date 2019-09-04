@@ -1,0 +1,2 @@
+"0","a<-lm(count~date,data=dfflights_final_Smaller1.5_aggr)"
+"0","abline(a, col='red')"

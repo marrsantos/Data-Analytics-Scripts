@@ -1,0 +1,12 @@
+https://www.youtube.com/watch?v=h4QcWDDlrW0&list=PL7xT0Gz6G0-TfV-S6WiGDvIsZds6Pv_g8&index=1
+
+binomial distribution: https://www.khanacademy.org/math/statistics-probability/random-variables-stats-library/binomial-random-variables/v/binomial-distribution 
+
+intervalos de confiança para proporções
+http://leg.ufpr.br/~silvia/CE003/node68.html
+
+Testes não paramétricos
+https://www.youtube.com/watch?v=td04s5-e6c8
+
+testes proporções (muito bom)
+https://www.inf.ufsc.br/~andre.zibetti/probabilidade/distribuicao_amostral.html

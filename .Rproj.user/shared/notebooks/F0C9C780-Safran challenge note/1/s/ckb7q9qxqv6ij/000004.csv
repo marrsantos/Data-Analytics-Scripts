@@ -1,0 +1,1 @@
+"0","boxplot(dfweather$precipitation~format(dfweather$date,""%m""), xlab=""Months"", ylab=""Precipitation"", main='Precipitation analysis')"

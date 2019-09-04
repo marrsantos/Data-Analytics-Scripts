@@ -1,0 +1,260 @@
+---
+title: "Lista - distribuição amostral da média"
+output: html_notebook
+---
+
+```{r}
+library(data.table)
+library(gtools)
+```
+
+#### Questão 1  
+
+Suponha que sua população seja formada pelos elementos X = {5;7;8;9}.
+a) Calcule a média populacional.
+
+```{r}
+pop <- c(5,7,8,9)
+mean(pop)
+```
+
+b) Calcule o desvio padrão populacional.  
+
+```{r}
+sqrt(((5-7.25)^2+(7-7.25)^2+(8-7.25)^2+(9-7.25)^2)/4)
+```
+
+c) Construa o modelo/distribuição de probabilidades de X.
+```{r}
+as.matrix(prop.table(table(pop)))
+```
+
+```{r}
+hist(pop,freq=FALSE)
+```
+
+d) Construa o modelo de probabilidade das médias amostrais X¯ considerando amostras aleatórias de tamanho 3 com reposição.
+
+```{r}
+amostras<-permutations(n=4,r=3,v=pop,repeats.allowed=T)
+amostras <- rowMeans(amostras)
+```
+
+```{r}
+as.matrix(prop.table(table(amostras)))
+```
+
+e) Calcule a média das médias amostrais.
+```{r}
+mean(amostras)
+```
+
+f) Calcule o desvio padrão das médias amostrais.
+```{r}
+sqrt(sum((amostras-mean(amostras))^2)/length(amostras))
+```
+
+g) Explique o que é o modelo de probabilidade de X e o que é o modelo de probabilidade de X. ¯
+
+Modelo de probabilidade de X -> é a probabilidade de cada elemento da população ocorrer.
+
+Modelo de probabilidade de X_ -> é a probalidade de cada média da distribuição de médias ocorrer.
+
+h) Faça os gráficos dos modelos de probabilidade de X e de X
+
+```{r}
+hist(pop, freq=FALSE)
+```
+```{r}
+hist(amostras, freq=FALSE)
+```
+
+#### Questão 2
+
+Considere X uma variável aleatória de interesse com distribuição aproximadamente Normal com média 10 e desvio padrão 4.
+a) Qual a distribuição (e parâmetros) das médias amostrais considerando amostras independentes de tamanhos: n = 10; n = 25; n = 100; n = 1000.
+
+```{r}
+set.seed(1)
+pop<-rnorm(1000,10,4)
+```
+
+n=10
+```{r}
+n=10
+set.seed(1)
+mediaAmostra = dpAmostra = NULL  
+for(i in 1:20000){     
+  Amostra <- sample(pop, n, replace = TRUE)     
+  mediaAmostra[i] <- mean(Amostra)     
+  dpAmostra[i]    <- sd(Amostra) }  
+```
+
+```{r}
+mean(mediaAmostra)
+sd(mediaAmostra)
+```
+
+n=25
+```{r}
+n=25
+set.seed(1)
+mediaAmostra = dpAmostra = NULL  
+for(i in 1:20000){     
+  Amostra <- sample(pop, n, replace = TRUE)     
+  mediaAmostra[i] <- mean(Amostra)     
+  dpAmostra[i]    <- sd(Amostra) }  
+```
+
+```{r}
+mean(mediaAmostra)
+sd(mediaAmostra)
+```
+
+n=100
+```{r}
+n=100
+set.seed(1)
+mediaAmostra = dpAmostra = NULL  
+for(i in 1:20000){     
+  Amostra <- sample(pop, n, replace = TRUE)     
+  mediaAmostra[i] <- mean(Amostra)     
+  dpAmostra[i]    <- sd(Amostra) }  
+```
+
+```{r}
+mean(mediaAmostra)
+sd(mediaAmostra)
+```
+
+n=1000
+```{r}
+n=1000
+set.seed(1)
+mediaAmostra = dpAmostra = NULL  
+for(i in 1:20000){     
+  Amostra <- sample(pop, n, replace = TRUE)     
+  mediaAmostra[i] <- mean(Amostra)     
+  dpAmostra[i]    <- sd(Amostra) }  
+```
+
+```{r}
+mean(mediaAmostra)
+sd(mediaAmostra)
+```
+
+b) O que podemos notar a medida que o tamanho da amostra aumenta em relação a informação que temos à respeito da média da variável X?
+
+A medida que o tamanho da amostra aumenta o desvio padrão da amostra diminui.
+
+#### Questão 3
+
+Considere que o colesterol de mulheres saudáveis norte-americanas com idade entre 20 e 34 anos seja normalmente distribuído com média 186 mg/dL e desvio padrão 36 mg/dL. (Adaptado de National Center for Health Statistics)
+a) Qual a variável aleatória em questão?
+colesterol de mulheres saudáveis norte-americanas com idade entre 20 e 34 anos 
+
+b) Qual a distribuição da variável aleatória?
+Supõe-se, que seja uma distribuição NORMAL com média 186 e desvio padrão 36
+(rever)
+
+c) Qual a probabilidade de uma mulher vinda da população em questão, sorteada ao acaso, ter colesterol acima de 150 mg/dL? Interprete o valor obtido.
+
+```{r}
+1-pnorm(150,186,36)
+```
+84% das mulheres americanas com idade entre 20 e 34 anos tem colesterol acima de 15 mg/dl.
+
+d) Se uma amostra aleatória de tamanho 50 é retirada da população em questão, qual a probabilidade da média da amostra estar entre 180.1 mg/dL e 191.9 mg/dL?
+
+```{r}
+set.seed(1)
+populacao<-rnorm(1000,186,36)
+mediaAmostra = NULL 
+dpAmostra    = NULL  
+for(i in 1:20000){     
+  Amostra <- sample(populacao, 50, replace = TRUE)     
+  mediaAmostra[i] <- mean(Amostra)     
+  dpAmostra[i]    <- sd(Amostra) }  
+```
+
+```{r}
+(m<-mean(mediaAmostra))
+(d<-sd(mediaAmostra))
+```
+
+```{r}
+round(pnorm(191.9,m,d)-pnorm(180.1,m,d),digits=2)
+```
+
+e) Se uma amostra aleatória de tamanho 100 é retirada da população em questão, qual a probabilidade da média da amostra estar entre 180.1 mg/dL e 191.9 mg/dL?
+```{r}
+set.seed(1)
+populacao<-rnorm(1000,186,36)
+mediaAmostra = NULL 
+dpAmostra    = NULL  
+for(i in 1:20000){     
+  Amostra <- sample(populacao, 100, replace = TRUE)     
+  mediaAmostra[i] <- mean(Amostra)     
+  dpAmostra[i]    <- sd(Amostra) }  
+```
+
+```{r}
+(m<-mean(mediaAmostra))
+(d<-sd(mediaAmostra))
+```
+
+```{r}
+round(pnorm(191.9,m,d)-pnorm(180.1,m,d),digits=2)
+```
+
+f) Qual a vantagem de se utilizar uma amostra de tamanho 100 em vez de uma amostra de tamanho 50?
+
+Reduz-se o desvio padrão e as médias amostrais se aproximam da média da população.
+
+A probabilidade das médias amostrais se afastarem da média populacional da variável X diminui.
+
+#### Questão 4
+
+Supõe-se que o consumo mensal de água por residência em um certo bairro tenha distribuição Normal com média 10m3 e desvio padrão 2m3. Para uma amostra de 25 residências, escolhidas de forma aleatória, qual é a probabilidade de a média amostral não se afastar da verdadeira média populacional por mais de 1m3? O que aconteceria, em termos de probabilidade, se aumentássemos a amostra para 81 residências?
+
+para n=25
+```{r}
+set.seed(1)
+populacao<-rnorm(1000,10,2)
+mediaAmostra = NULL 
+dpAmostra    = NULL  
+for(i in 1:20000){     
+  Amostra <- sample(populacao, 25, replace = TRUE)     
+  mediaAmostra[i] <- mean(Amostra)     
+  dpAmostra[i]    <- sd(Amostra) }  
+```
+
+```{r}
+(m<-mean(mediaAmostra))
+(d<-sd(mediaAmostra))
+```
+
+```{r}
+round(pnorm(11,m,d)-pnorm(9,m,d),digits=5)
+```
+
+para n=81
+```{r}
+set.seed(1)
+populacao<-rnorm(1000,10,2)
+mediaAmostra = NULL 
+dpAmostra    = NULL  
+for(i in 1:20000){     
+  Amostra <- sample(populacao, 81, replace = TRUE)     
+  mediaAmostra[i] <- mean(Amostra)     
+  dpAmostra[i]    <- sd(Amostra) }  
+```
+
+```{r}
+(m<-mean(mediaAmostra))
+(d<-sd(mediaAmostra))
+```
+
+```{r}
+round(pnorm(11,m,d)-pnorm(9,m,d),digits=5)
+```

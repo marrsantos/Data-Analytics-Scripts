@@ -1,0 +1,3 @@
+"0","a<-data.frame(pop)"
+"0","ggplot(a, aes(pop)) +"
+"0","      geom_bar()"

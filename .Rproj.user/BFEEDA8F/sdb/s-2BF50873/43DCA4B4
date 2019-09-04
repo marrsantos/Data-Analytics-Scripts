@@ -1,0 +1,29 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1525323597980.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "43DCA4B4",
+    "lastKnownWriteTime" : 7954884637903448438,
+    "last_content_update" : 1525323597980,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "F9BCA4CB",
+        "caption" : "dfflights_final",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=dfflights_final&cache_key=F9BCA4CB",
+        "displayedObservations" : 99472,
+        "environment" : "",
+        "object" : "dfflights_final",
+        "preview" : 0,
+        "totalObservations" : 99472,
+        "variables" : 7
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

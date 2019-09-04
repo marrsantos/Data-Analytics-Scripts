@@ -1,0 +1,6 @@
+"0","# preparing dates"
+"0","dfweather$date<-as.POSIXct(dfweather$date, format=""%Y-%m-%d"")"
+"0","# removing instances without date"
+"0","dfweather<-subset(dfweather,!is.na(date))"
+"0","# temperature >= -30 and <= 42"
+"0","dfweather<-subset(dfweather,temperature>=-30 & temperature<=42)"

@@ -1,0 +1,91 @@
+---
+title: "Data EXtraction report for Occupancy rate KPI"
+output: html_notebook
+---
+
+```{r}
+library(dplyr)
+data_folder <- paste(getwd(), '/../data/raw/', sep='')
+stage_folder <- paste(getwd(), '/../data/stage/', sep='')
+```
+
+Reading Occupation dataset
+```{r}
+dfoccupation<-read.csv(paste(data_folder, "ocupacao_hospitalar_2011-2016-utf8.csv", sep=''), sep=';', header=T)
+dfsector<-read.csv(paste(data_folder, "setor_atendimento_2017-08-04.csv", sep=''), sep=',', header=T)
+```
+
+Converting column names to lowercase and dates to YYYY-MM-DD format
+```{r}
+names(dfoccupation)<-tolower(names(dfoccupation))
+dfoccupation[,'dt_referencia']<-as.POSIXct(strptime(as.character(dfoccupation$dt_referencia), "%d/%m/%Y"), format="%Y-%m-%d")
+dfoccupation[,'dt_entrada']<-as.POSIXct(strptime(as.character(dfoccupation$dt_entrada), "%d/%m/%Y"), format="%Y-%m-%d")
+```
+
+Applying filters for selecting proper Sectors (rules provided by Samaritano)
+
+dfsector     --- apresentacao != '999' and 
+dfsector     --- situacao == 'A' and
+dfsector     --- ocupacao %in% c('S','M','T' ) and
+dfsector     --- classif %in% c(1,3,4,9,11,12)
+dfoccupation --- ie_leito_temp != 'S' and
+dfoccupation --- ie_periodo=='D'
+
+```{r}
+dfsector<-subset(dfsector, apresentacao != '999' & situacao == 'A' & ocupacao %in% c('S','M','T' ) & classif %in% c(1,3,4,9,11,12))
+dfoccupation<-subset(dfoccupation,cd_setor_atendimento %in% c(dfsector$cd_setor_atendimento) & ie_leito_temp!='S' & ie_periodo=='D')
+```
+
+IMPORTANT - according to Samaritano's users: cd_unidade_basica = 30 (UI espera) and 5140 (pre occ oeste) must not be considered. It was wrongly configured in Tasy. 
+
+```{r}
+dfoccupation<-subset(dfoccupation, cd_setor_atendimento!=30 & cd_setor_atendimento!=5140)
+```
+
+IMPORTANT - according to Samaritano's users:
+- all registers with cd_unidade_basica starting with "pre" must not be considered to occupation calculation. It was wrongly configured in Tasy. 
+
+```{r}
+dfoccupation<-subset(dfoccupation, tolower(substring(cd_unidade_basica,1,3))!="pre")
+```
+
+IMPORTANT - due to data quality issues we are removing the year of 2106
+
+```{r}
+dfoccupation<-subset(dfoccupation,format(dfoccupation$dt_referencia, "%Y")>'2106')
+```
+
+IMPORTANT - according to Samaritano's users:
+- cd_unidade_basica = 511 was incorrectly categorized as cd_setor_atendimento = 12. However, sometimes this cd_unidade_basica is categorized as 5101 and others 12. It seems that users changed this configuration many times during the year of 2112. It was not possible to correct this situation.
+- cd_unidade_basica = 316 was incorrectly categorized as cd_setor_atendimento = 5 in Tasy. It was not possible to correct this situation. #dfoccupation[dfoccupation$cd_unidade_basica=="316",'cd_setor_atendimento']<-"5142"
+
+This following group_by should ensure only last ie_situacao transaction per day per cd_unidade_basica will be considered. Also, we will create a new dataset (dfoccsector) including two new columns: "free" and "occupied" beds.
+
+Grouping dataset
+```{r}
+dfoccsector<-group_by(dfoccupation, dt_referencia, cd_setor_atendimento, cd_unidade_basica, ie_situacao,cc=row_number()) %>% summarize(n=1)
+dfoccsector<-dfoccsector%>%tally(cc, sort=TRUE)%>%filter(row_number()==1)
+
+dfoccsector['free']<-as.integer(dfoccsector$ie_situacao != 'P')
+dfoccsector['occupied']<-as.integer(dfoccsector$ie_situacao == 'P')
+```
+
+```{r}
+dfoccsector<-group_by(dfoccsector, dt_referencia, cd_setor_atendimento)%>% 
+  summarize(free=sum(free), occupied=sum(occupied)) 
+```
+
+Exporting data
+```{r}
+write.table(dfoccupation, file = paste(stage_folder, "dfoccupation.csv", sep=''), sep = ";")
+```
+
+```{r}
+write.table(dfoccsector, file = paste(stage_folder, "dfoccsector.csv", sep=''), sep = ";")
+```
+
+Releasing df objects
+```{r}
+rm(list=ls(pattern="^df"))
+```
+

@@ -1,0 +1,5 @@
+"0","#temporary variables"
+"0","dfflights_onlyNA_Smaller1.5<-subset(dfflights_onlyNA,duration< (1.5))"
+"0","dfflights_onlyNA_Smaller1.5[,6]<-predict(modelSmaller1.5, newdata=dfflights_onlyNA_Smaller1.5, type='response')"
+"0","# limiting predictions to 100 passengers"
+"0","dfflights_onlyNA_Smaller1.5[,6]<-ifelse(dfflights_onlyNA_Smaller1.5$number_passengers>100, 100, dfflights_onlyNA_Smaller1.5$number_passengers) "

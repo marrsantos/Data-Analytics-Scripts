@@ -1,0 +1,101 @@
+---
+title: "Teorema do Limite Central"
+output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+```
+
+População de exemplo
+```{r}
+pop <- c(1,2,3)
+```
+
+Distribuição da população
+```{r include=FALSE}
+a<-data.frame(pop)
+ggplot(a, aes(pop)) +
+      geom_bar()
+```
+
+Media população
+```{r}
+mean(pop)
+```
+Desvio padrao da população (raiz quadrada da variância)
+```{r}
+sqrt(((1-2)^2+(2-2)^2+(3-2)^2)/3)
+```
+###Amostras
+
+Média de todas as amostras possíveis de dois elementos
+```{r}
+amostras<-matrix(data=c(1,1,1,2,1,3,2,1,2,2,2,3,3,1,3,2,3,3),ncol=2,nrow=9,byrow=TRUE)
+amostras <- cbind(amostras, rowMeans(amostras))  
+mediaamostras<-amostras[,3]
+```
+
+Distribuição de frequência de médias de amostras
+```{r echo=FALSE}
+a<-data.frame(mediaamostras)
+ggplot(a, aes(mediaamostras)) +
+      geom_bar()
+```
+
+Média da distruição de médias amostrais
+```{r}
+mean(mediaamostras)
+```
+Variância das médias amostrais
+
+$$\sigma²_{pop}=\frac{\sum_{i=1}^{n}\left(X_i - \bar{X} \right)²}{n}$$
+$$\sigma²_{médias}=\frac{\sum_{i=1}^{n}\left(\bar{X_i} - \bar{X}_{pop} \right)²}{n}$$
+
+```{r}
+(var_a<-sum((mediaamostras-mean(mediaamostras))^2)/(length(mediaamostras)))
+mean((mediaamostras-mean(mediaamostras))^2)
+```
+
+Desvio padrão das médias amostrais (sd ->> variância / n)
+
+$$\ \sigma_{médias}^2={\frac{\sigma^2_{pop}}{n}}$$ 
+
+```{r}
+sqrt(var_a)
+```
+
+Prova usando o método do R
+```{r}
+sd(mediaamostras) * sqrt(length(mediaamostras)-1) / sqrt(length(mediaamostras))
+```
+
+#### Demonstração empírica sobre a utilização de n-1
+```{r}
+set.seed(1)  
+pop <- rnorm(10000,10,2)  
+# Variância
+mean((pop-mean(pop))^2)
+```
+
+```{r}
+variancia = variancian  = NULL  
+for(i in 1:70000) {     
+amostra <- sample(pop,10,TRUE)
+variancia[i] <- var(amostra) ##n-1     
+variancian[i] <- mean((amostra-mean(amostra))^2) ##n 
+}
+```
+
+Na simulação acima, estamos calculando duas variâncias: a primeira (variável "variancia") utilizando "n-1" (padrão do R), e a segunda (variável variancian), utilizando apenas "n". Observe na sequência, que o cálculo com a variável "variancia" ("n-1") se aproxima mais da variância da população (calculada acima).
+```{r}
+mean(variancia)  ## n-1 e'nao viciada para variancia pop  
+mean(variancian) ## n e' nao viciada para variancia pop
+```
+ 
+A conclusão é que existe um erro de estimativa no cálculo da variância populacional a partir de uma amostra. A inclusão do "-1" na fórmula ajuda a corrigir esta distorção.
+
+
+
+
+

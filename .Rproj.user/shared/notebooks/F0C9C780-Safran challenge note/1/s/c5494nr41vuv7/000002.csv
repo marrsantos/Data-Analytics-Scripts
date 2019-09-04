@@ -1,0 +1,1 @@
+"0","plot(number_passengers~duration, data=dfflights_final, main='Two classes based on duration')"

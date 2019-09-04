@@ -1,0 +1,6 @@
+"0","```r
+# Número de eventos e valor por tipo de evento
+d<-data.frame(group_by(dfproc,tipo_evento)%>%summarize(Nro_Eventos=n(),Qtde_Pagto=sum(qtde_pagamento),Valor_Total=sum(valor))%>%arrange(desc(Nro_Eventos)))
+d$PM<-round(d$Valor_Total/d$Qtde_Pagto, digits=2)
+d
+```"

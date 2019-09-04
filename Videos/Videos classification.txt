@@ -1,0 +1,8 @@
+
+Binomial logistic regression
+https://www.youtube.com/watch?v=AVx7Wc1CQ7Y
+
+
+Multinomial logistic regression
+https://www.youtube.com/watch?v=fDjKa7yWk1U&t=44s
+

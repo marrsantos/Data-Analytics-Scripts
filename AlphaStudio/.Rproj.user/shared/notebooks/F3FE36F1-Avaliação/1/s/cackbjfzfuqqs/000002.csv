@@ -1,0 +1,6 @@
+"0","```r
+# Número de eventos e valor por tipo de evento
+d<-data.frame(group_by(dfproc,Year=as.POSIXlt(periodo)$year+1900,tipo_evento)%>%summarize(Nro_Eventos=n(),Valor_Total=sum(valor))%>%arrange(Year,desc(Nro_Eventos)))
+d$PM<-round(d$Valor_Total/(d$Nro_Eventos), digits=2)
+d
+```"

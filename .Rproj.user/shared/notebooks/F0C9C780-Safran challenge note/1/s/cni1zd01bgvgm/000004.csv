@@ -1,0 +1,1 @@
+"0","lines(lowess(trainSmaller1.5$number_passengers~trainSmaller1.5$duration+trainSmaller1.5$temperature), col='green')"

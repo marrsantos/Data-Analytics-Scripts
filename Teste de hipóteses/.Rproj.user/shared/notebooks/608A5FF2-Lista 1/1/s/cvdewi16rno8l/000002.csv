@@ -1,0 +1,7 @@
+"0","n=100"
+"0","set.seed(1)"
+"0","mediaAmostra = dpAmostra = NULL  "
+"0","for(i in 1:20000){     "
+"0","  Amostra <- sample(pop, n, replace = TRUE)     "
+"0","  mediaAmostra[i] <- mean(Amostra)     "
+"0","  dpAmostra[i]    <- sd(Amostra) }  "

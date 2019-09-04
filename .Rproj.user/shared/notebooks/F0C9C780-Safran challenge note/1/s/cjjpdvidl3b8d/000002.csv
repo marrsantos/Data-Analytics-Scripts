@@ -1,0 +1,1 @@
+"0","plot(number_passengers~temperature, data=train, main='Number of passengers per temperature')"

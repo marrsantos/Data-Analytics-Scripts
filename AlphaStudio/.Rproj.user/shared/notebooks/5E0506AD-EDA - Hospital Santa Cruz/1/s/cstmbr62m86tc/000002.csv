@@ -1,0 +1,5 @@
+"0","```r
+cc<-subset(dfkpi,nome_crm==\"LEANDRO CHEMELLO\")
+cc1<-group_by(cc,nome_indicador)%>%summarize(numerador=mean(numerador), denominador=mean(denominador),relativo=mean(relativo),mean(peso),QtdeReg=n())
+kable(cc1)
+```"

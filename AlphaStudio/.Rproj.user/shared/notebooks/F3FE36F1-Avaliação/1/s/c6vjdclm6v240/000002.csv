@@ -1,0 +1,20 @@
+"0","```r
+# Tratando colunas
+names(dfproc)<-c('cod_movimentacao','cod_guia','data_ocorrencia','hora_ocorrencia','cod_medico','nome_medico','cod_especialidade','nome_especialidade','cod_evento','nome_evento','tipo_tabela','tipo_evento','qtde_pagamento','cod_local','nome_local','cod_executante','nome_executante','valor','cod_beneficiario','nome_beneficiario','data_nascimento','sexo','periodo','cid','grau_participacao','origem','cod_medico_resp','especialidade_executante','cod_autorizacao','cod_paciente', 'idade')
+#
+# Acrescentando colunas idade e faixa_etaria
+#
+dfproc$faixa_etaria<-as.factor(cut(as.integer(dfproc$idade), c(0, 18, 23, 33, 38, 43, 48, 53, 58, max(dfproc$idade))))
+dfproc[is.na(dfproc$faixa_etaria),'faixa_etaria']<-'(0,18]'
+#
+# Retirando procedimentos com valor e qtde igual a 0
+#
+dfproc<-subset(dfproc,qtde_pagamento!=0)
+#
+# Incluindo campo para internação
+#
+dfproc[dfproc$cod_autorizacao!='','internado']<-'S'
+dfproc[dfproc$cod_autorizacao=='','internado']<-'N'
+dfproc$internado<-as.factor(dfproc$internado)
+#
+```"

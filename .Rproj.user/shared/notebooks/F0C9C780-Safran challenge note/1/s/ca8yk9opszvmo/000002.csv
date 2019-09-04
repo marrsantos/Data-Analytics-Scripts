@@ -1,0 +1,2 @@
+"0","dfflights_final<-rbind(dfflights_onlyNA_Smaller1.5, dfflights_onlyNA_Larger1.5, dfflights_reduNA)"
+"0","dfflights_final[,6]<-round(dfflights_final$number_passengers)"

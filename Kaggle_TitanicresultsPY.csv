@@ -1,0 +1,892 @@
+,PassengerId,Survived,Pclass,Sex,Age,SibSp,Parch,Ticket,Fare,Cabin,Embarked,Surname
+0,1,0,3,male,22.0,1,0,A/5 21171,7.25,NoCabin,S,Braund
+1,2,1,1,female,38.0,1,0,PC 17599,71.2833,C85,C,Cumings
+2,3,1,3,female,26.0,0,0,STON/O2. 3101282,7.925,NoCabin,S,Heikkinen
+3,4,1,1,female,35.0,1,0,113803,53.1,C123,S,Futrelle
+4,5,0,3,male,35.0,0,0,373450,8.05,NoCabin,S,Allen
+5,6,0,3,male,28.0,0,0,330877,8.4583,NoCabin,Q,Moran
+6,7,0,1,male,54.0,0,0,17463,51.8625,E46,S,McCarthy
+7,8,0,3,male,2.0,3,1,349909,21.075,NoCabin,S,Palsson
+8,9,1,3,female,27.0,0,2,347742,11.1333,NoCabin,S,Johnson
+9,10,1,2,female,14.0,1,0,237736,30.0708,NoCabin,C,Nasser
+10,11,1,3,female,4.0,1,1,PP 9549,16.7,G6,S,Sandstrom
+11,12,1,1,female,58.0,0,0,113783,26.55,C103,S,Bonnell
+12,13,0,3,male,20.0,0,0,A/5. 2151,8.05,NoCabin,S,Saundercock
+13,14,0,3,male,39.0,1,5,347082,31.275,NoCabin,S,Andersson
+14,15,0,3,female,14.0,0,0,350406,7.8542,NoCabin,S,Vestrom
+15,16,1,2,female,55.0,0,0,248706,16.0,NoCabin,S,Hewlett
+16,17,0,3,male,2.0,4,1,382652,29.125,NoCabin,Q,Rice
+17,18,1,2,male,28.0,0,0,244373,13.0,NoCabin,S,Williams
+18,19,0,3,female,31.0,1,0,345763,18.0,NoCabin,S,Vander Planke
+19,20,1,3,female,28.0,0,0,2649,7.225,NoCabin,C,Masselmani
+20,21,0,2,male,35.0,0,0,239865,26.0,NoCabin,S,Fynney
+21,22,1,2,male,34.0,0,0,248698,13.0,D56,S,Beesley
+22,23,1,3,female,15.0,0,0,330923,8.0292,NoCabin,Q,McGowan
+23,24,1,1,male,28.0,0,0,113788,35.5,A6,S,Sloper
+24,25,0,3,female,8.0,3,1,349909,21.075,NoCabin,S,Palsson
+25,26,1,3,female,38.0,1,5,347077,31.3875,NoCabin,S,Asplund
+26,27,0,3,male,28.0,0,0,2631,7.225,NoCabin,C,Emir
+27,28,0,1,male,19.0,3,2,19950,263.0,C23 C25 C27,S,Fortune
+28,29,1,3,female,28.0,0,0,330959,7.8792,NoCabin,Q,O'Dwyer
+29,30,0,3,male,28.0,0,0,349216,7.8958,NoCabin,S,Todoroff
+30,31,0,1,male,40.0,0,0,PC 17601,27.7208,NoCabin,C,Uruchurtu
+31,32,1,1,female,28.0,1,0,PC 17569,146.5208,B78,C,Spencer
+32,33,1,3,female,28.0,0,0,335677,7.75,NoCabin,Q,Glynn
+33,34,0,2,male,66.0,0,0,C.A. 24579,10.5,NoCabin,S,Wheadon
+34,35,0,1,male,28.0,1,0,PC 17604,82.1708,NoCabin,C,Meyer
+35,36,0,1,male,42.0,1,0,113789,52.0,NoCabin,S,Holverson
+36,37,1,3,male,28.0,0,0,2677,7.2292,NoCabin,C,Mamee
+37,38,0,3,male,21.0,0,0,A./5. 2152,8.05,NoCabin,S,Cann
+38,39,0,3,female,18.0,2,0,345764,18.0,NoCabin,S,Vander Planke
+39,40,1,3,female,14.0,1,0,2651,11.2417,NoCabin,C,Nicola-Yarred
+40,41,0,3,female,40.0,1,0,7546,9.475,NoCabin,S,Ahlin
+41,42,0,2,female,27.0,1,0,11668,21.0,NoCabin,S,Turpin
+42,43,0,3,male,28.0,0,0,349253,7.8958,NoCabin,C,Kraeff
+43,44,1,2,female,3.0,1,2,SC/Paris 2123,41.5792,NoCabin,C,Laroche
+44,45,1,3,female,19.0,0,0,330958,7.8792,NoCabin,Q,Devaney
+45,46,0,3,male,28.0,0,0,S.C./A.4. 23567,8.05,NoCabin,S,Rogers
+46,47,0,3,male,28.0,1,0,370371,15.5,NoCabin,Q,Lennon
+47,48,1,3,female,28.0,0,0,14311,7.75,NoCabin,Q,O'Driscoll
+48,49,0,3,male,28.0,2,0,2662,21.6792,NoCabin,C,Samaan
+49,50,0,3,female,18.0,1,0,349237,17.8,NoCabin,S,Arnold-Franchi
+50,51,0,3,male,7.0,4,1,3101295,39.6875,NoCabin,S,Panula
+51,52,0,3,male,21.0,0,0,A/4. 39886,7.8,NoCabin,S,Nosworthy
+52,53,1,1,female,49.0,1,0,PC 17572,76.7292,D33,C,Harper
+53,54,1,2,female,29.0,1,0,2926,26.0,NoCabin,S,Faunthorpe
+54,55,0,1,male,65.0,0,1,113509,61.9792,B30,C,Ostby
+55,56,1,1,male,28.0,0,0,19947,35.5,C52,S,Woolner
+56,57,1,2,female,21.0,0,0,C.A. 31026,10.5,NoCabin,S,Rugg
+57,58,0,3,male,28.5,0,0,2697,7.2292,NoCabin,C,Novel
+58,59,1,2,female,5.0,1,2,C.A. 34651,27.75,NoCabin,S,West
+59,60,0,3,male,11.0,5,2,CA 2144,46.9,NoCabin,S,Goodwin
+60,61,0,3,male,22.0,0,0,2669,7.2292,NoCabin,C,Sirayanian
+61,62,1,1,female,38.0,0,0,113572,80.0,B28,NoEmbarked,Icard
+62,63,0,1,male,45.0,1,0,36973,83.475,C83,S,Harris
+63,64,0,3,male,4.0,3,2,347088,27.9,NoCabin,S,Skoog
+64,65,0,1,male,28.0,0,0,PC 17605,27.7208,NoCabin,C,Stewart
+65,66,1,3,male,28.0,1,1,2661,15.2458,NoCabin,C,Moubarek
+66,67,1,2,female,29.0,0,0,C.A. 29395,10.5,F33,S,Nye
+67,68,0,3,male,19.0,0,0,S.P. 3464,8.1583,NoCabin,S,Crease
+68,69,1,3,female,17.0,4,2,3101281,7.925,NoCabin,S,Andersson
+69,70,0,3,male,26.0,2,0,315151,8.6625,NoCabin,S,Kink
+70,71,0,2,male,32.0,0,0,C.A. 33111,10.5,NoCabin,S,Jenkin
+71,72,0,3,female,16.0,5,2,CA 2144,46.9,NoCabin,S,Goodwin
+72,73,0,2,male,21.0,0,0,S.O.C. 14879,73.5,NoCabin,S,Hood
+73,74,0,3,male,26.0,1,0,2680,14.4542,NoCabin,C,Chronopoulos
+74,75,1,3,male,32.0,0,0,1601,56.4958,NoCabin,S,Bing
+75,76,0,3,male,25.0,0,0,348123,7.65,F G73,S,Moen
+76,77,0,3,male,28.0,0,0,349208,7.8958,NoCabin,S,Staneff
+77,78,0,3,male,28.0,0,0,374746,8.05,NoCabin,S,Moutal
+78,79,1,2,male,0.83,0,2,248738,29.0,NoCabin,S,Caldwell
+79,80,1,3,female,30.0,0,0,364516,12.475,NoCabin,S,Dowdell
+80,81,0,3,male,22.0,0,0,345767,9.0,NoCabin,S,Waelens
+81,82,1,3,male,29.0,0,0,345779,9.5,NoCabin,S,Sheerlinck
+82,83,1,3,female,28.0,0,0,330932,7.7875,NoCabin,Q,McDermott
+83,84,0,1,male,28.0,0,0,113059,47.1,NoCabin,S,Carrau
+84,85,1,2,female,17.0,0,0,SO/C 14885,10.5,NoCabin,S,Ilett
+85,86,1,3,female,33.0,3,0,3101278,15.85,NoCabin,S,Backstrom
+86,87,0,3,male,16.0,1,3,W./C. 6608,34.375,NoCabin,S,Ford
+87,88,0,3,male,28.0,0,0,SOTON/OQ 392086,8.05,NoCabin,S,Slocovski
+88,89,1,1,female,23.0,3,2,19950,263.0,C23 C25 C27,S,Fortune
+89,90,0,3,male,24.0,0,0,343275,8.05,NoCabin,S,Celotti
+90,91,0,3,male,29.0,0,0,343276,8.05,NoCabin,S,Christmann
+91,92,0,3,male,20.0,0,0,347466,7.8542,NoCabin,S,Andreasson
+92,93,0,1,male,46.0,1,0,W.E.P. 5734,61.175,E31,S,Chaffee
+93,94,0,3,male,26.0,1,2,C.A. 2315,20.575,NoCabin,S,Dean
+94,95,0,3,male,59.0,0,0,364500,7.25,NoCabin,S,Coxon
+95,96,0,3,male,28.0,0,0,374910,8.05,NoCabin,S,Shorney
+96,97,0,1,male,71.0,0,0,PC 17754,34.6542,A5,C,Goldschmidt
+97,98,1,1,male,23.0,0,1,PC 17759,63.3583,D10 D12,C,Greenfield
+98,99,1,2,female,34.0,0,1,231919,23.0,NoCabin,S,Doling
+99,100,0,2,male,34.0,1,0,244367,26.0,NoCabin,S,Kantor
+100,101,0,3,female,28.0,0,0,349245,7.8958,NoCabin,S,Petranec
+101,102,0,3,male,28.0,0,0,349215,7.8958,NoCabin,S,Petroff
+102,103,0,1,male,21.0,0,1,35281,77.2875,D26,S,White
+103,104,0,3,male,33.0,0,0,7540,8.6542,NoCabin,S,Johansson
+104,105,0,3,male,37.0,2,0,3101276,7.925,NoCabin,S,Gustafsson
+105,106,0,3,male,28.0,0,0,349207,7.8958,NoCabin,S,Mionoff
+106,107,1,3,female,21.0,0,0,343120,7.65,NoCabin,S,Salkjelsvik
+107,108,1,3,male,28.0,0,0,312991,7.775,NoCabin,S,Moss
+108,109,0,3,male,38.0,0,0,349249,7.8958,NoCabin,S,Rekic
+109,110,1,3,female,28.0,1,0,371110,24.15,NoCabin,Q,Moran
+110,111,0,1,male,47.0,0,0,110465,52.0,C110,S,Porter
+111,112,0,3,female,14.5,1,0,2665,14.4542,NoCabin,C,Zabour
+112,113,0,3,male,22.0,0,0,324669,8.05,NoCabin,S,Barton
+113,114,0,3,female,20.0,1,0,4136,9.825,NoCabin,S,Jussila
+114,115,0,3,female,17.0,0,0,2627,14.4583,NoCabin,C,Attalah
+115,116,0,3,male,21.0,0,0,STON/O 2. 3101294,7.925,NoCabin,S,Pekoniemi
+116,117,0,3,male,70.5,0,0,370369,7.75,NoCabin,Q,Connors
+117,118,0,2,male,29.0,1,0,11668,21.0,NoCabin,S,Turpin
+118,119,0,1,male,24.0,0,1,PC 17558,247.5208,B58 B60,C,Baxter
+119,120,0,3,female,2.0,4,2,347082,31.275,NoCabin,S,Andersson
+120,121,0,2,male,21.0,2,0,S.O.C. 14879,73.5,NoCabin,S,Hickman
+121,122,0,3,male,28.0,0,0,A4. 54510,8.05,NoCabin,S,Moore
+122,123,0,2,male,32.5,1,0,237736,30.0708,NoCabin,C,Nasser
+123,124,1,2,female,32.5,0,0,27267,13.0,E101,S,Webber
+124,125,0,1,male,54.0,0,1,35281,77.2875,D26,S,White
+125,126,1,3,male,12.0,1,0,2651,11.2417,NoCabin,C,Nicola-Yarred
+126,127,0,3,male,28.0,0,0,370372,7.75,NoCabin,Q,McMahon
+127,128,1,3,male,24.0,0,0,C 17369,7.1417,NoCabin,S,Madsen
+128,129,1,3,female,28.0,1,1,2668,22.3583,F E69,C,Peter
+129,130,0,3,male,45.0,0,0,347061,6.975,NoCabin,S,Ekstrom
+130,131,0,3,male,33.0,0,0,349241,7.8958,NoCabin,C,Drazenoic
+131,132,0,3,male,20.0,0,0,SOTON/O.Q. 3101307,7.05,NoCabin,S,Coelho
+132,133,0,3,female,47.0,1,0,A/5. 3337,14.5,NoCabin,S,Robins
+133,134,1,2,female,29.0,1,0,228414,26.0,NoCabin,S,Weisz
+134,135,0,2,male,25.0,0,0,C.A. 29178,13.0,NoCabin,S,Sobey
+135,136,0,2,male,23.0,0,0,SC/PARIS 2133,15.0458,NoCabin,C,Richard
+136,137,1,1,female,19.0,0,2,11752,26.2833,D47,S,Newsom
+137,138,0,1,male,37.0,1,0,113803,53.1,C123,S,Futrelle
+138,139,0,3,male,16.0,0,0,7534,9.2167,NoCabin,S,Osen
+139,140,0,1,male,24.0,0,0,PC 17593,79.2,B86,C,Giglio
+140,141,0,3,female,28.0,0,2,2678,15.2458,NoCabin,C,Boulos
+141,142,1,3,female,22.0,0,0,347081,7.75,NoCabin,S,Nysten
+142,143,1,3,female,24.0,1,0,STON/O2. 3101279,15.85,NoCabin,S,Hakkarainen
+143,144,0,3,male,19.0,0,0,365222,6.75,NoCabin,Q,Burke
+144,145,0,2,male,18.0,0,0,231945,11.5,NoCabin,S,Andrew
+145,146,0,2,male,19.0,1,1,C.A. 33112,36.75,NoCabin,S,Nicholls
+146,147,1,3,male,27.0,0,0,350043,7.7958,NoCabin,S,Andersson
+147,148,0,3,female,9.0,2,2,W./C. 6608,34.375,NoCabin,S,Ford
+148,149,0,2,male,36.5,0,2,230080,26.0,F2,S,Navratil
+149,150,0,2,male,42.0,0,0,244310,13.0,NoCabin,S,Byles
+150,151,0,2,male,51.0,0,0,S.O.P. 1166,12.525,NoCabin,S,Bateman
+151,152,1,1,female,22.0,1,0,113776,66.6,C2,S,Pears
+152,153,0,3,male,55.5,0,0,A.5. 11206,8.05,NoCabin,S,Meo
+153,154,0,3,male,40.5,0,2,A/5. 851,14.5,NoCabin,S,van Billiard
+154,155,0,3,male,28.0,0,0,Fa 265302,7.3125,NoCabin,S,Olsen
+155,156,0,1,male,51.0,0,1,PC 17597,61.3792,NoCabin,C,Williams
+156,157,1,3,female,16.0,0,0,35851,7.7333,NoCabin,Q,Gilnagh
+157,158,0,3,male,30.0,0,0,SOTON/OQ 392090,8.05,NoCabin,S,Corn
+158,159,0,3,male,28.0,0,0,315037,8.6625,NoCabin,S,Smiljanic
+159,160,0,3,male,28.0,8,2,CA. 2343,69.55,NoCabin,S,Sage
+160,161,0,3,male,44.0,0,1,371362,16.1,NoCabin,S,Cribb
+161,162,1,2,female,40.0,0,0,C.A. 33595,15.75,NoCabin,S,Watt
+162,163,0,3,male,26.0,0,0,347068,7.775,NoCabin,S,Bengtsson
+163,164,0,3,male,17.0,0,0,315093,8.6625,NoCabin,S,Calic
+164,165,0,3,male,1.0,4,1,3101295,39.6875,NoCabin,S,Panula
+165,166,1,3,male,9.0,0,2,363291,20.525,NoCabin,S,Goldsmith
+166,167,1,1,female,28.0,0,1,113505,55.0,E33,S,Chibnall
+167,168,0,3,female,45.0,1,4,347088,27.9,NoCabin,S,Skoog
+168,169,0,1,male,28.0,0,0,PC 17318,25.925,NoCabin,S,Baumann
+169,170,0,3,male,28.0,0,0,1601,56.4958,NoCabin,S,Ling
+170,171,0,1,male,61.0,0,0,111240,33.5,B19,S,Van der hoef
+171,172,0,3,male,4.0,4,1,382652,29.125,NoCabin,Q,Rice
+172,173,1,3,female,1.0,1,1,347742,11.1333,NoCabin,S,Johnson
+173,174,0,3,male,21.0,0,0,STON/O 2. 3101280,7.925,NoCabin,S,Sivola
+174,175,0,1,male,56.0,0,0,17764,30.6958,A7,C,Smith
+175,176,0,3,male,18.0,1,1,350404,7.8542,NoCabin,S,Klasen
+176,177,0,3,male,28.0,3,1,4133,25.4667,NoCabin,S,Lefebre
+177,178,0,1,female,50.0,0,0,PC 17595,28.7125,C49,C,Isham
+178,179,0,2,male,30.0,0,0,250653,13.0,NoCabin,S,Hale
+179,180,0,3,male,36.0,0,0,LINE,0.0,NoCabin,S,Leonard
+180,181,0,3,female,28.0,8,2,CA. 2343,69.55,NoCabin,S,Sage
+181,182,0,2,male,28.0,0,0,SC/PARIS 2131,15.05,NoCabin,C,Pernot
+182,183,0,3,male,9.0,4,2,347077,31.3875,NoCabin,S,Asplund
+183,184,1,2,male,1.0,2,1,230136,39.0,F4,S,Becker
+184,185,1,3,female,4.0,0,2,315153,22.025,NoCabin,S,Kink-Heilmann
+185,186,0,1,male,28.0,0,0,113767,50.0,A32,S,Rood
+186,187,1,3,female,28.0,1,0,370365,15.5,NoCabin,Q,O'Brien
+187,188,1,1,male,45.0,0,0,111428,26.55,NoCabin,S,Romaine
+188,189,0,3,male,40.0,1,1,364849,15.5,NoCabin,Q,Bourke
+189,190,0,3,male,36.0,0,0,349247,7.8958,NoCabin,S,Turcin
+190,191,1,2,female,32.0,0,0,234604,13.0,NoCabin,S,Pinsky
+191,192,0,2,male,19.0,0,0,28424,13.0,NoCabin,S,Carbines
+192,193,1,3,female,19.0,1,0,350046,7.8542,NoCabin,S,Andersen-Jensen
+193,194,1,2,male,3.0,1,1,230080,26.0,F2,S,Navratil
+194,195,1,1,female,44.0,0,0,PC 17610,27.7208,B4,C,Brown
+195,196,1,1,female,58.0,0,0,PC 17569,146.5208,B80,C,Lurette
+196,197,0,3,male,28.0,0,0,368703,7.75,NoCabin,Q,Mernagh
+197,198,0,3,male,42.0,0,1,4579,8.4042,NoCabin,S,Olsen
+198,199,1,3,female,28.0,0,0,370370,7.75,NoCabin,Q,Madigan
+199,200,0,2,female,24.0,0,0,248747,13.0,NoCabin,S,Yrois
+200,201,0,3,male,28.0,0,0,345770,9.5,NoCabin,S,Vande Walle
+201,202,0,3,male,28.0,8,2,CA. 2343,69.55,NoCabin,S,Sage
+202,203,0,3,male,34.0,0,0,3101264,6.4958,NoCabin,S,Johanson
+203,204,0,3,male,45.5,0,0,2628,7.225,NoCabin,C,Youseff
+204,205,1,3,male,18.0,0,0,A/5 3540,8.05,NoCabin,S,Cohen
+205,206,0,3,female,2.0,0,1,347054,10.4625,G6,S,Strom
+206,207,0,3,male,32.0,1,0,3101278,15.85,NoCabin,S,Backstrom
+207,208,1,3,male,26.0,0,0,2699,18.7875,NoCabin,C,Albimona
+208,209,1,3,female,16.0,0,0,367231,7.75,NoCabin,Q,Carr
+209,210,1,1,male,40.0,0,0,112277,31.0,A31,C,Blank
+210,211,0,3,male,24.0,0,0,SOTON/O.Q. 3101311,7.05,NoCabin,S,Ali
+211,212,1,2,female,35.0,0,0,F.C.C. 13528,21.0,NoCabin,S,Cameron
+212,213,0,3,male,22.0,0,0,A/5 21174,7.25,NoCabin,S,Perkin
+213,214,0,2,male,30.0,0,0,250646,13.0,NoCabin,S,Givard
+214,215,0,3,male,28.0,1,0,367229,7.75,NoCabin,Q,Kiernan
+215,216,1,1,female,31.0,1,0,35273,113.275,D36,C,Newell
+216,217,1,3,female,27.0,0,0,STON/O2. 3101283,7.925,NoCabin,S,Honkanen
+217,218,0,2,male,42.0,1,0,243847,27.0,NoCabin,S,Jacobsohn
+218,219,1,1,female,32.0,0,0,11813,76.2917,D15,C,Bazzani
+219,220,0,2,male,30.0,0,0,W/C 14208,10.5,NoCabin,S,Harris
+220,221,1,3,male,16.0,0,0,SOTON/OQ 392089,8.05,NoCabin,S,Sunderland
+221,222,0,2,male,27.0,0,0,220367,13.0,NoCabin,S,Bracken
+222,223,0,3,male,51.0,0,0,21440,8.05,NoCabin,S,Green
+223,224,0,3,male,28.0,0,0,349234,7.8958,NoCabin,S,Nenkoff
+224,225,1,1,male,38.0,1,0,19943,90.0,C93,S,Hoyt
+225,226,0,3,male,22.0,0,0,PP 4348,9.35,NoCabin,S,Berglund
+226,227,1,2,male,19.0,0,0,SW/PP 751,10.5,NoCabin,S,Mellors
+227,228,0,3,male,20.5,0,0,A/5 21173,7.25,NoCabin,S,Lovell
+228,229,0,2,male,18.0,0,0,236171,13.0,NoCabin,S,Fahlstrom
+229,230,0,3,female,28.0,3,1,4133,25.4667,NoCabin,S,Lefebre
+230,231,1,1,female,35.0,1,0,36973,83.475,C83,S,Harris
+231,232,0,3,male,29.0,0,0,347067,7.775,NoCabin,S,Larsson
+232,233,0,2,male,59.0,0,0,237442,13.5,NoCabin,S,Sjostedt
+233,234,1,3,female,5.0,4,2,347077,31.3875,NoCabin,S,Asplund
+234,235,0,2,male,24.0,0,0,C.A. 29566,10.5,NoCabin,S,Leyson
+235,236,0,3,female,28.0,0,0,W./C. 6609,7.55,NoCabin,S,Harknett
+236,237,0,2,male,44.0,1,0,26707,26.0,NoCabin,S,Hold
+237,238,1,2,female,8.0,0,2,C.A. 31921,26.25,NoCabin,S,Collyer
+238,239,0,2,male,19.0,0,0,28665,10.5,NoCabin,S,Pengelly
+239,240,0,2,male,33.0,0,0,SCO/W 1585,12.275,NoCabin,S,Hunt
+240,241,0,3,female,28.0,1,0,2665,14.4542,NoCabin,C,Zabour
+241,242,1,3,female,28.0,1,0,367230,15.5,NoCabin,Q,Murphy
+242,243,0,2,male,29.0,0,0,W./C. 14263,10.5,NoCabin,S,Coleridge
+243,244,0,3,male,22.0,0,0,STON/O 2. 3101275,7.125,NoCabin,S,Maenpaa
+244,245,0,3,male,30.0,0,0,2694,7.225,NoCabin,C,Attalah
+245,246,0,1,male,44.0,2,0,19928,90.0,C78,Q,Minahan
+246,247,0,3,female,25.0,0,0,347071,7.775,NoCabin,S,Lindahl
+247,248,1,2,female,24.0,0,2,250649,14.5,NoCabin,S,Hamalainen
+248,249,1,1,male,37.0,1,1,11751,52.5542,D35,S,Beckwith
+249,250,0,2,male,54.0,1,0,244252,26.0,NoCabin,S,Carter
+250,251,0,3,male,28.0,0,0,362316,7.25,NoCabin,S,Reed
+251,252,0,3,female,29.0,1,1,347054,10.4625,G6,S,Strom
+252,253,0,1,male,62.0,0,0,113514,26.55,C87,S,Stead
+253,254,0,3,male,30.0,1,0,A/5. 3336,16.1,NoCabin,S,Lobb
+254,255,0,3,female,41.0,0,2,370129,20.2125,NoCabin,S,Rosblom
+255,256,1,3,female,29.0,0,2,2650,15.2458,NoCabin,C,Touma
+256,257,1,1,female,28.0,0,0,PC 17585,79.2,NoCabin,C,Thorne
+257,258,1,1,female,30.0,0,0,110152,86.5,B77,S,Cherry
+258,259,1,1,female,35.0,0,0,PC 17755,512.3292,NoCabin,C,Ward
+259,260,1,2,female,50.0,0,1,230433,26.0,NoCabin,S,Parrish
+260,261,0,3,male,28.0,0,0,384461,7.75,NoCabin,Q,Smith
+261,262,1,3,male,3.0,4,2,347077,31.3875,NoCabin,S,Asplund
+262,263,0,1,male,52.0,1,1,110413,79.65,E67,S,Taussig
+263,264,0,1,male,40.0,0,0,112059,0.0,B94,S,Harrison
+264,265,0,3,female,28.0,0,0,382649,7.75,NoCabin,Q,Henry
+265,266,0,2,male,36.0,0,0,C.A. 17248,10.5,NoCabin,S,Reeves
+266,267,0,3,male,16.0,4,1,3101295,39.6875,NoCabin,S,Panula
+267,268,1,3,male,25.0,1,0,347083,7.775,NoCabin,S,Persson
+268,269,1,1,female,58.0,0,1,PC 17582,153.4625,C125,S,Graham
+269,270,1,1,female,35.0,0,0,PC 17760,135.6333,C99,S,Bissette
+270,271,0,1,male,28.0,0,0,113798,31.0,NoCabin,S,Cairns
+271,272,1,3,male,25.0,0,0,LINE,0.0,NoCabin,S,Tornquist
+272,273,1,2,female,41.0,0,1,250644,19.5,NoCabin,S,Mellinger
+273,274,0,1,male,37.0,0,1,PC 17596,29.7,C118,C,Natsch
+274,275,1,3,female,28.0,0,0,370375,7.75,NoCabin,Q,Healy
+275,276,1,1,female,63.0,1,0,13502,77.9583,D7,S,Andrews
+276,277,0,3,female,45.0,0,0,347073,7.75,NoCabin,S,Lindblom
+277,278,0,2,male,28.0,0,0,239853,0.0,NoCabin,S,Parkes
+278,279,0,3,male,7.0,4,1,382652,29.125,NoCabin,Q,Rice
+279,280,1,3,female,35.0,1,1,C.A. 2673,20.25,NoCabin,S,Abbott
+280,281,0,3,male,65.0,0,0,336439,7.75,NoCabin,Q,Duane
+281,282,0,3,male,28.0,0,0,347464,7.8542,NoCabin,S,Olsson
+282,283,0,3,male,16.0,0,0,345778,9.5,NoCabin,S,de Pelsmaeker
+283,284,1,3,male,19.0,0,0,A/5. 10482,8.05,NoCabin,S,Dorking
+284,285,0,1,male,28.0,0,0,113056,26.0,A19,S,Smith
+285,286,0,3,male,33.0,0,0,349239,8.6625,NoCabin,C,Stankovic
+286,287,1,3,male,30.0,0,0,345774,9.5,NoCabin,S,de Mulder
+287,288,0,3,male,22.0,0,0,349206,7.8958,NoCabin,S,Naidenoff
+288,289,1,2,male,42.0,0,0,237798,13.0,NoCabin,S,Hosono
+289,290,1,3,female,22.0,0,0,370373,7.75,NoCabin,Q,Connolly
+290,291,1,1,female,26.0,0,0,19877,78.85,NoCabin,S,Barber
+291,292,1,1,female,19.0,1,0,11967,91.0792,B49,C,Bishop
+292,293,0,2,male,36.0,0,0,SC/Paris 2163,12.875,D,C,Levy
+293,294,0,3,female,24.0,0,0,349236,8.85,NoCabin,S,Haas
+294,295,0,3,male,24.0,0,0,349233,7.8958,NoCabin,S,Mineff
+295,296,0,1,male,28.0,0,0,PC 17612,27.7208,NoCabin,C,Lewy
+296,297,0,3,male,23.5,0,0,2693,7.2292,NoCabin,C,Hanna
+297,298,0,1,female,2.0,1,2,113781,151.55,C22 C26,S,Allison
+298,299,1,1,male,28.0,0,0,19988,30.5,C106,S,Saalfeld
+299,300,1,1,female,50.0,0,1,PC 17558,247.5208,B58 B60,C,Baxter
+300,301,1,3,female,28.0,0,0,9234,7.75,NoCabin,Q,Kelly
+301,302,1,3,male,28.0,2,0,367226,23.25,NoCabin,Q,McCoy
+302,303,0,3,male,19.0,0,0,LINE,0.0,NoCabin,S,Johnson
+303,304,1,2,female,28.0,0,0,226593,12.35,E101,Q,Keane
+304,305,0,3,male,28.0,0,0,A/5 2466,8.05,NoCabin,S,Williams
+305,306,1,1,male,0.92,1,2,113781,151.55,C22 C26,S,Allison
+306,307,1,1,female,28.0,0,0,17421,110.8833,NoCabin,C,Fleming
+307,308,1,1,female,17.0,1,0,PC 17758,108.9,C65,C,Penasco y Castellana
+308,309,0,2,male,30.0,1,0,P/PP 3381,24.0,NoCabin,C,Abelson
+309,310,1,1,female,30.0,0,0,PC 17485,56.9292,E36,C,Francatelli
+310,311,1,1,female,24.0,0,0,11767,83.1583,C54,C,Hays
+311,312,1,1,female,18.0,2,2,PC 17608,262.375,B57 B59 B63 B66,C,Ryerson
+312,313,0,2,female,26.0,1,1,250651,26.0,NoCabin,S,Lahtinen
+313,314,0,3,male,28.0,0,0,349243,7.8958,NoCabin,S,Hendekovic
+314,315,0,2,male,43.0,1,1,F.C.C. 13529,26.25,NoCabin,S,Hart
+315,316,1,3,female,26.0,0,0,347470,7.8542,NoCabin,S,Nilsson
+316,317,1,2,female,24.0,1,0,244367,26.0,NoCabin,S,Kantor
+317,318,0,2,male,54.0,0,0,29011,14.0,NoCabin,S,Moraweck
+318,319,1,1,female,31.0,0,2,36928,164.8667,C7,S,Wick
+319,320,1,1,female,40.0,1,1,16966,134.5,E34,C,Spedden
+320,321,0,3,male,22.0,0,0,A/5 21172,7.25,NoCabin,S,Dennis
+321,322,0,3,male,27.0,0,0,349219,7.8958,NoCabin,S,Danoff
+322,323,1,2,female,30.0,0,0,234818,12.35,NoCabin,Q,Slayter
+323,324,1,2,female,22.0,1,1,248738,29.0,NoCabin,S,Caldwell
+324,325,0,3,male,28.0,8,2,CA. 2343,69.55,NoCabin,S,Sage
+325,326,1,1,female,36.0,0,0,PC 17760,135.6333,C32,C,Young
+326,327,0,3,male,61.0,0,0,345364,6.2375,NoCabin,S,Nysveen
+327,328,1,2,female,36.0,0,0,28551,13.0,D,S,Ball
+328,329,1,3,female,31.0,1,1,363291,20.525,NoCabin,S,Goldsmith
+329,330,1,1,female,16.0,0,1,111361,57.9792,B18,C,Hippach
+330,331,1,3,female,28.0,2,0,367226,23.25,NoCabin,Q,McCoy
+331,332,0,1,male,45.5,0,0,113043,28.5,C124,S,Partner
+332,333,0,1,male,38.0,0,1,PC 17582,153.4625,C91,S,Graham
+333,334,0,3,male,16.0,2,0,345764,18.0,NoCabin,S,Vander Planke
+334,335,1,1,female,28.0,1,0,PC 17611,133.65,NoCabin,S,Frauenthal
+335,336,0,3,male,28.0,0,0,349225,7.8958,NoCabin,S,Denkoff
+336,337,0,1,male,29.0,1,0,113776,66.6,C2,S,Pears
+337,338,1,1,female,41.0,0,0,16966,134.5,E40,C,Burns
+338,339,1,3,male,45.0,0,0,7598,8.05,NoCabin,S,Dahl
+339,340,0,1,male,45.0,0,0,113784,35.5,T,S,Blackwell
+340,341,1,2,male,2.0,1,1,230080,26.0,F2,S,Navratil
+341,342,1,1,female,24.0,3,2,19950,263.0,C23 C25 C27,S,Fortune
+342,343,0,2,male,28.0,0,0,248740,13.0,NoCabin,S,Collander
+343,344,0,2,male,25.0,0,0,244361,13.0,NoCabin,S,Sedgwick
+344,345,0,2,male,36.0,0,0,229236,13.0,NoCabin,S,Fox
+345,346,1,2,female,24.0,0,0,248733,13.0,F33,S,Brown
+346,347,1,2,female,40.0,0,0,31418,13.0,NoCabin,S,Smith
+347,348,1,3,female,28.0,1,0,386525,16.1,NoCabin,S,Davison
+348,349,1,3,male,3.0,1,1,C.A. 37671,15.9,NoCabin,S,Coutts
+349,350,0,3,male,42.0,0,0,315088,8.6625,NoCabin,S,Dimic
+350,351,0,3,male,23.0,0,0,7267,9.225,NoCabin,S,Odahl
+351,352,0,1,male,28.0,0,0,113510,35.0,C128,S,Williams-Lambert
+352,353,0,3,male,15.0,1,1,2695,7.2292,NoCabin,C,Elias
+353,354,0,3,male,25.0,1,0,349237,17.8,NoCabin,S,Arnold-Franchi
+354,355,0,3,male,28.0,0,0,2647,7.225,NoCabin,C,Yousif
+355,356,0,3,male,28.0,0,0,345783,9.5,NoCabin,S,Vanden Steen
+356,357,1,1,female,22.0,0,1,113505,55.0,E33,S,Bowerman
+357,358,0,2,female,38.0,0,0,237671,13.0,NoCabin,S,Funk
+358,359,1,3,female,28.0,0,0,330931,7.8792,NoCabin,Q,McGovern
+359,360,1,3,female,28.0,0,0,330980,7.8792,NoCabin,Q,Mockler
+360,361,0,3,male,40.0,1,4,347088,27.9,NoCabin,S,Skoog
+361,362,0,2,male,29.0,1,0,SC/PARIS 2167,27.7208,NoCabin,C,del Carlo
+362,363,0,3,female,45.0,0,1,2691,14.4542,NoCabin,C,Barbara
+363,364,0,3,male,35.0,0,0,SOTON/O.Q. 3101310,7.05,NoCabin,S,Asim
+364,365,0,3,male,28.0,1,0,370365,15.5,NoCabin,Q,O'Brien
+365,366,0,3,male,30.0,0,0,C 7076,7.25,NoCabin,S,Adahl
+366,367,1,1,female,60.0,1,0,110813,75.25,D37,C,Warren
+367,368,1,3,female,28.0,0,0,2626,7.2292,NoCabin,C,Moussa
+368,369,1,3,female,28.0,0,0,14313,7.75,NoCabin,Q,Jermyn
+369,370,1,1,female,24.0,0,0,PC 17477,69.3,B35,C,Aubart
+370,371,1,1,male,25.0,1,0,11765,55.4417,E50,C,Harder
+371,372,0,3,male,18.0,1,0,3101267,6.4958,NoCabin,S,Wiklund
+372,373,0,3,male,19.0,0,0,323951,8.05,NoCabin,S,Beavan
+373,374,0,1,male,22.0,0,0,PC 17760,135.6333,NoCabin,C,Ringhini
+374,375,0,3,female,3.0,3,1,349909,21.075,NoCabin,S,Palsson
+375,376,1,1,female,28.0,1,0,PC 17604,82.1708,NoCabin,C,Meyer
+376,377,1,3,female,22.0,0,0,C 7077,7.25,NoCabin,S,Landergren
+377,378,0,1,male,27.0,0,2,113503,211.5,C82,C,Widener
+378,379,0,3,male,20.0,0,0,2648,4.0125,NoCabin,C,Betros
+379,380,0,3,male,19.0,0,0,347069,7.775,NoCabin,S,Gustafsson
+380,381,1,1,female,42.0,0,0,PC 17757,227.525,NoCabin,C,Bidois
+381,382,1,3,female,1.0,0,2,2653,15.7417,NoCabin,C,Nakid
+382,383,0,3,male,32.0,0,0,STON/O 2. 3101293,7.925,NoCabin,S,Tikkanen
+383,384,1,1,female,35.0,1,0,113789,52.0,NoCabin,S,Holverson
+384,385,0,3,male,28.0,0,0,349227,7.8958,NoCabin,S,Plotcharsky
+385,386,0,2,male,18.0,0,0,S.O.C. 14879,73.5,NoCabin,S,Davies
+386,387,0,3,male,1.0,5,2,CA 2144,46.9,NoCabin,S,Goodwin
+387,388,1,2,female,36.0,0,0,27849,13.0,NoCabin,S,Buss
+388,389,0,3,male,28.0,0,0,367655,7.7292,NoCabin,Q,Sadlier
+389,390,1,2,female,17.0,0,0,SC 1748,12.0,NoCabin,C,Lehmann
+390,391,1,1,male,36.0,1,2,113760,120.0,B96 B98,S,Carter
+391,392,1,3,male,21.0,0,0,350034,7.7958,NoCabin,S,Jansson
+392,393,0,3,male,28.0,2,0,3101277,7.925,NoCabin,S,Gustafsson
+393,394,1,1,female,23.0,1,0,35273,113.275,D36,C,Newell
+394,395,1,3,female,24.0,0,2,PP 9549,16.7,G6,S,Sandstrom
+395,396,0,3,male,22.0,0,0,350052,7.7958,NoCabin,S,Johansson
+396,397,0,3,female,31.0,0,0,350407,7.8542,NoCabin,S,Olsson
+397,398,0,2,male,46.0,0,0,28403,26.0,NoCabin,S,McKane
+398,399,0,2,male,23.0,0,0,244278,10.5,NoCabin,S,Pain
+399,400,1,2,female,28.0,0,0,240929,12.65,NoCabin,S,Trout
+400,401,1,3,male,39.0,0,0,STON/O 2. 3101289,7.925,NoCabin,S,Niskanen
+401,402,0,3,male,26.0,0,0,341826,8.05,NoCabin,S,Adams
+402,403,0,3,female,21.0,1,0,4137,9.825,NoCabin,S,Jussila
+403,404,0,3,male,28.0,1,0,STON/O2. 3101279,15.85,NoCabin,S,Hakkarainen
+404,405,0,3,female,20.0,0,0,315096,8.6625,NoCabin,S,Oreskovic
+405,406,0,2,male,34.0,1,0,28664,21.0,NoCabin,S,Gale
+406,407,0,3,male,51.0,0,0,347064,7.75,NoCabin,S,Widegren
+407,408,1,2,male,3.0,1,1,29106,18.75,NoCabin,S,Richards
+408,409,0,3,male,21.0,0,0,312992,7.775,NoCabin,S,Birkeland
+409,410,0,3,female,28.0,3,1,4133,25.4667,NoCabin,S,Lefebre
+410,411,0,3,male,28.0,0,0,349222,7.8958,NoCabin,S,Sdycoff
+411,412,0,3,male,28.0,0,0,394140,6.8583,NoCabin,Q,Hart
+412,413,1,1,female,33.0,1,0,19928,90.0,C78,Q,Minahan
+413,414,0,2,male,28.0,0,0,239853,0.0,NoCabin,S,Cunningham
+414,415,1,3,male,44.0,0,0,STON/O 2. 3101269,7.925,NoCabin,S,Sundman
+415,416,0,3,female,28.0,0,0,343095,8.05,NoCabin,S,Meek
+416,417,1,2,female,34.0,1,1,28220,32.5,NoCabin,S,Drew
+417,418,1,2,female,18.0,0,2,250652,13.0,NoCabin,S,Silven
+418,419,0,2,male,30.0,0,0,28228,13.0,NoCabin,S,Matthews
+419,420,0,3,female,10.0,0,2,345773,24.15,NoCabin,S,Van Impe
+420,421,0,3,male,28.0,0,0,349254,7.8958,NoCabin,C,Gheorgheff
+421,422,0,3,male,21.0,0,0,A/5. 13032,7.7333,NoCabin,Q,Charters
+422,423,0,3,male,29.0,0,0,315082,7.875,NoCabin,S,Zimmerman
+423,424,0,3,female,28.0,1,1,347080,14.4,NoCabin,S,Danbom
+424,425,0,3,male,18.0,1,1,370129,20.2125,NoCabin,S,Rosblom
+425,426,0,3,male,28.0,0,0,A/4. 34244,7.25,NoCabin,S,Wiseman
+426,427,1,2,female,28.0,1,0,2003,26.0,NoCabin,S,Clarke
+427,428,1,2,female,19.0,0,0,250655,26.0,NoCabin,S,Phillips
+428,429,0,3,male,28.0,0,0,364851,7.75,NoCabin,Q,Flynn
+429,430,1,3,male,32.0,0,0,SOTON/O.Q. 392078,8.05,E10,S,Pickard
+430,431,1,1,male,28.0,0,0,110564,26.55,C52,S,Bjornstrom-Steffansson
+431,432,1,3,female,28.0,1,0,376564,16.1,NoCabin,S,Thorneycroft
+432,433,1,2,female,42.0,1,0,SC/AH 3085,26.0,NoCabin,S,Louch
+433,434,0,3,male,17.0,0,0,STON/O 2. 3101274,7.125,NoCabin,S,Kallio
+434,435,0,1,male,50.0,1,0,13507,55.9,E44,S,Silvey
+435,436,1,1,female,14.0,1,2,113760,120.0,B96 B98,S,Carter
+436,437,0,3,female,21.0,2,2,W./C. 6608,34.375,NoCabin,S,Ford
+437,438,1,2,female,24.0,2,3,29106,18.75,NoCabin,S,Richards
+438,439,0,1,male,64.0,1,4,19950,263.0,C23 C25 C27,S,Fortune
+439,440,0,2,male,31.0,0,0,C.A. 18723,10.5,NoCabin,S,Kvillner
+440,441,1,2,female,45.0,1,1,F.C.C. 13529,26.25,NoCabin,S,Hart
+441,442,0,3,male,20.0,0,0,345769,9.5,NoCabin,S,Hampe
+442,443,0,3,male,25.0,1,0,347076,7.775,NoCabin,S,Petterson
+443,444,1,2,female,28.0,0,0,230434,13.0,NoCabin,S,Reynaldo
+444,445,1,3,male,28.0,0,0,65306,8.1125,NoCabin,S,Johannesen-Bratthammer
+445,446,1,1,male,4.0,0,2,33638,81.8583,A34,S,Dodge
+446,447,1,2,female,13.0,0,1,250644,19.5,NoCabin,S,Mellinger
+447,448,1,1,male,34.0,0,0,113794,26.55,NoCabin,S,Seward
+448,449,1,3,female,5.0,2,1,2666,19.2583,NoCabin,C,Baclini
+449,450,1,1,male,52.0,0,0,113786,30.5,C104,S,Peuchen
+450,451,0,2,male,36.0,1,2,C.A. 34651,27.75,NoCabin,S,West
+451,452,0,3,male,28.0,1,0,65303,19.9667,NoCabin,S,Hagland
+452,453,0,1,male,30.0,0,0,113051,27.75,C111,C,Foreman
+453,454,1,1,male,49.0,1,0,17453,89.1042,C92,C,Goldenberg
+454,455,0,3,male,28.0,0,0,A/5 2817,8.05,NoCabin,S,Peduzzi
+455,456,1,3,male,29.0,0,0,349240,7.8958,NoCabin,C,Jalsevac
+456,457,0,1,male,65.0,0,0,13509,26.55,E38,S,Millet
+457,458,1,1,female,28.0,1,0,17464,51.8625,D21,S,Kenyon
+458,459,1,2,female,50.0,0,0,F.C.C. 13531,10.5,NoCabin,S,Toomey
+459,460,0,3,male,28.0,0,0,371060,7.75,NoCabin,Q,O'Connor
+460,461,1,1,male,48.0,0,0,19952,26.55,E12,S,Anderson
+461,462,0,3,male,34.0,0,0,364506,8.05,NoCabin,S,Morley
+462,463,0,1,male,47.0,0,0,111320,38.5,E63,S,Gee
+463,464,0,2,male,48.0,0,0,234360,13.0,NoCabin,S,Milling
+464,465,0,3,male,28.0,0,0,A/S 2816,8.05,NoCabin,S,Maisner
+465,466,0,3,male,38.0,0,0,SOTON/O.Q. 3101306,7.05,NoCabin,S,Goncalves
+466,467,0,2,male,28.0,0,0,239853,0.0,NoCabin,S,Campbell
+467,468,0,1,male,56.0,0,0,113792,26.55,NoCabin,S,Smart
+468,469,0,3,male,28.0,0,0,36209,7.725,NoCabin,Q,Scanlan
+469,470,1,3,female,0.75,2,1,2666,19.2583,NoCabin,C,Baclini
+470,471,0,3,male,28.0,0,0,323592,7.25,NoCabin,S,Keefe
+471,472,0,3,male,38.0,0,0,315089,8.6625,NoCabin,S,Cacic
+472,473,1,2,female,33.0,1,2,C.A. 34651,27.75,NoCabin,S,West
+473,474,1,2,female,23.0,0,0,SC/AH Basle 541,13.7917,D,C,Jerwan
+474,475,0,3,female,22.0,0,0,7553,9.8375,NoCabin,S,Strandberg
+475,476,0,1,male,28.0,0,0,110465,52.0,A14,S,Clifford
+476,477,0,2,male,34.0,1,0,31027,21.0,NoCabin,S,Renouf
+477,478,0,3,male,29.0,1,0,3460,7.0458,NoCabin,S,Braund
+478,479,0,3,male,22.0,0,0,350060,7.5208,NoCabin,S,Karlsson
+479,480,1,3,female,2.0,0,1,3101298,12.2875,NoCabin,S,Hirvonen
+480,481,0,3,male,9.0,5,2,CA 2144,46.9,NoCabin,S,Goodwin
+481,482,0,2,male,28.0,0,0,239854,0.0,NoCabin,S,Frost
+482,483,0,3,male,50.0,0,0,A/5 3594,8.05,NoCabin,S,Rouse
+483,484,1,3,female,63.0,0,0,4134,9.5875,NoCabin,S,Turkula
+484,485,1,1,male,25.0,1,0,11967,91.0792,B49,C,Bishop
+485,486,0,3,female,28.0,3,1,4133,25.4667,NoCabin,S,Lefebre
+486,487,1,1,female,35.0,1,0,19943,90.0,C93,S,Hoyt
+487,488,0,1,male,58.0,0,0,11771,29.7,B37,C,Kent
+488,489,0,3,male,30.0,0,0,A.5. 18509,8.05,NoCabin,S,Somerton
+489,490,1,3,male,9.0,1,1,C.A. 37671,15.9,NoCabin,S,Coutts
+490,491,0,3,male,28.0,1,0,65304,19.9667,NoCabin,S,Hagland
+491,492,0,3,male,21.0,0,0,SOTON/OQ 3101317,7.25,NoCabin,S,Windelov
+492,493,0,1,male,55.0,0,0,113787,30.5,C30,S,Molson
+493,494,0,1,male,71.0,0,0,PC 17609,49.5042,NoCabin,C,Artagaveytia
+494,495,0,3,male,21.0,0,0,A/4 45380,8.05,NoCabin,S,Stanley
+495,496,0,3,male,28.0,0,0,2627,14.4583,NoCabin,C,Yousseff
+496,497,1,1,female,54.0,1,0,36947,78.2667,D20,C,Eustis
+497,498,0,3,male,28.0,0,0,C.A. 6212,15.1,NoCabin,S,Shellard
+498,499,0,1,female,25.0,1,2,113781,151.55,C22 C26,S,Allison
+499,500,0,3,male,24.0,0,0,350035,7.7958,NoCabin,S,Svensson
+500,501,0,3,male,17.0,0,0,315086,8.6625,NoCabin,S,Calic
+501,502,0,3,female,21.0,0,0,364846,7.75,NoCabin,Q,Canavan
+502,503,0,3,female,28.0,0,0,330909,7.6292,NoCabin,Q,O'Sullivan
+503,504,0,3,female,37.0,0,0,4135,9.5875,NoCabin,S,Laitinen
+504,505,1,1,female,16.0,0,0,110152,86.5,B79,S,Maioni
+505,506,0,1,male,18.0,1,0,PC 17758,108.9,C65,C,Penasco y Castellana
+506,507,1,2,female,33.0,0,2,26360,26.0,NoCabin,S,Quick
+507,508,1,1,male,28.0,0,0,111427,26.55,NoCabin,S,Bradley
+508,509,0,3,male,28.0,0,0,C 4001,22.525,NoCabin,S,Olsen
+509,510,1,3,male,26.0,0,0,1601,56.4958,NoCabin,S,Lang
+510,511,1,3,male,29.0,0,0,382651,7.75,NoCabin,Q,Daly
+511,512,0,3,male,28.0,0,0,SOTON/OQ 3101316,8.05,NoCabin,S,Webber
+512,513,1,1,male,36.0,0,0,PC 17473,26.2875,E25,S,McGough
+513,514,1,1,female,54.0,1,0,PC 17603,59.4,NoCabin,C,Rothschild
+514,515,0,3,male,24.0,0,0,349209,7.4958,NoCabin,S,Coleff
+515,516,0,1,male,47.0,0,0,36967,34.0208,D46,S,Walker
+516,517,1,2,female,34.0,0,0,C.A. 34260,10.5,F33,S,Lemore
+517,518,0,3,male,28.0,0,0,371110,24.15,NoCabin,Q,Ryan
+518,519,1,2,female,36.0,1,0,226875,26.0,NoCabin,S,Angle
+519,520,0,3,male,32.0,0,0,349242,7.8958,NoCabin,S,Pavlovic
+520,521,1,1,female,30.0,0,0,12749,93.5,B73,S,Perreault
+521,522,0,3,male,22.0,0,0,349252,7.8958,NoCabin,S,Vovk
+522,523,0,3,male,28.0,0,0,2624,7.225,NoCabin,C,Lahoud
+523,524,1,1,female,44.0,0,1,111361,57.9792,B18,C,Hippach
+524,525,0,3,male,28.0,0,0,2700,7.2292,NoCabin,C,Kassem
+525,526,0,3,male,40.5,0,0,367232,7.75,NoCabin,Q,Farrell
+526,527,1,2,female,50.0,0,0,W./C. 14258,10.5,NoCabin,S,Ridsdale
+527,528,0,1,male,28.0,0,0,PC 17483,221.7792,C95,S,Farthing
+528,529,0,3,male,39.0,0,0,3101296,7.925,NoCabin,S,Salonen
+529,530,0,2,male,23.0,2,1,29104,11.5,NoCabin,S,Hocking
+530,531,1,2,female,2.0,1,1,26360,26.0,NoCabin,S,Quick
+531,532,0,3,male,28.0,0,0,2641,7.2292,NoCabin,C,Toufik
+532,533,0,3,male,17.0,1,1,2690,7.2292,NoCabin,C,Elias
+533,534,1,3,female,28.0,0,2,2668,22.3583,NoCabin,C,Peter
+534,535,0,3,female,30.0,0,0,315084,8.6625,NoCabin,S,Cacic
+535,536,1,2,female,7.0,0,2,F.C.C. 13529,26.25,NoCabin,S,Hart
+536,537,0,1,male,45.0,0,0,113050,26.55,B38,S,Butt
+537,538,1,1,female,30.0,0,0,PC 17761,106.425,NoCabin,C,LeRoy
+538,539,0,3,male,28.0,0,0,364498,14.5,NoCabin,S,Risien
+539,540,1,1,female,22.0,0,2,13568,49.5,B39,C,Frolicher
+540,541,1,1,female,36.0,0,2,WE/P 5735,71.0,B22,S,Crosby
+541,542,0,3,female,9.0,4,2,347082,31.275,NoCabin,S,Andersson
+542,543,0,3,female,11.0,4,2,347082,31.275,NoCabin,S,Andersson
+543,544,1,2,male,32.0,1,0,2908,26.0,NoCabin,S,Beane
+544,545,0,1,male,50.0,1,0,PC 17761,106.425,C86,C,Douglas
+545,546,0,1,male,64.0,0,0,693,26.0,NoCabin,S,Nicholson
+546,547,1,2,female,19.0,1,0,2908,26.0,NoCabin,S,Beane
+547,548,1,2,male,28.0,0,0,SC/PARIS 2146,13.8625,NoCabin,C,Padro y Manent
+548,549,0,3,male,33.0,1,1,363291,20.525,NoCabin,S,Goldsmith
+549,550,1,2,male,8.0,1,1,C.A. 33112,36.75,NoCabin,S,Davies
+550,551,1,1,male,17.0,0,2,17421,110.8833,C70,C,Thayer
+551,552,0,2,male,27.0,0,0,244358,26.0,NoCabin,S,Sharp
+552,553,0,3,male,28.0,0,0,330979,7.8292,NoCabin,Q,O'Brien
+553,554,1,3,male,22.0,0,0,2620,7.225,NoCabin,C,Leeni
+554,555,1,3,female,22.0,0,0,347085,7.775,NoCabin,S,Ohman
+555,556,0,1,male,62.0,0,0,113807,26.55,NoCabin,S,Wright
+556,557,1,1,female,48.0,1,0,11755,39.6,A16,C,Duff Gordon
+557,558,0,1,male,28.0,0,0,PC 17757,227.525,NoCabin,C,Robbins
+558,559,1,1,female,39.0,1,1,110413,79.65,E67,S,Taussig
+559,560,1,3,female,36.0,1,0,345572,17.4,NoCabin,S,de Messemaeker
+560,561,0,3,male,28.0,0,0,372622,7.75,NoCabin,Q,Morrow
+561,562,0,3,male,40.0,0,0,349251,7.8958,NoCabin,S,Sivic
+562,563,0,2,male,28.0,0,0,218629,13.5,NoCabin,S,Norman
+563,564,0,3,male,28.0,0,0,SOTON/OQ 392082,8.05,NoCabin,S,Simmons
+564,565,0,3,female,28.0,0,0,SOTON/O.Q. 392087,8.05,NoCabin,S,Meanwell
+565,566,0,3,male,24.0,2,0,A/4 48871,24.15,NoCabin,S,Davies
+566,567,0,3,male,19.0,0,0,349205,7.8958,NoCabin,S,Stoytcheff
+567,568,0,3,female,29.0,0,4,349909,21.075,NoCabin,S,Palsson
+568,569,0,3,male,28.0,0,0,2686,7.2292,NoCabin,C,Doharr
+569,570,1,3,male,32.0,0,0,350417,7.8542,NoCabin,S,Jonsson
+570,571,1,2,male,62.0,0,0,S.W./PP 752,10.5,NoCabin,S,Harris
+571,572,1,1,female,53.0,2,0,11769,51.4792,C101,S,Appleton
+572,573,1,1,male,36.0,0,0,PC 17474,26.3875,E25,S,Flynn
+573,574,1,3,female,28.0,0,0,14312,7.75,NoCabin,Q,Kelly
+574,575,0,3,male,16.0,0,0,A/4. 20589,8.05,NoCabin,S,Rush
+575,576,0,3,male,19.0,0,0,358585,14.5,NoCabin,S,Patchett
+576,577,1,2,female,34.0,0,0,243880,13.0,NoCabin,S,Garside
+577,578,1,1,female,39.0,1,0,13507,55.9,E44,S,Silvey
+578,579,0,3,female,28.0,1,0,2689,14.4583,NoCabin,C,Caram
+579,580,1,3,male,32.0,0,0,STON/O 2. 3101286,7.925,NoCabin,S,Jussila
+580,581,1,2,female,25.0,1,1,237789,30.0,NoCabin,S,Christy
+581,582,1,1,female,39.0,1,1,17421,110.8833,C68,C,Thayer
+582,583,0,2,male,54.0,0,0,28403,26.0,NoCabin,S,Downton
+583,584,0,1,male,36.0,0,0,13049,40.125,A10,C,Ross
+584,585,0,3,male,28.0,0,0,3411,8.7125,NoCabin,C,Paulner
+585,586,1,1,female,18.0,0,2,110413,79.65,E68,S,Taussig
+586,587,0,2,male,47.0,0,0,237565,15.0,NoCabin,S,Jarvis
+587,588,1,1,male,60.0,1,1,13567,79.2,B41,C,Frolicher-Stehli
+588,589,0,3,male,22.0,0,0,14973,8.05,NoCabin,S,Gilinski
+589,590,0,3,male,28.0,0,0,A./5. 3235,8.05,NoCabin,S,Murdlin
+590,591,0,3,male,35.0,0,0,STON/O 2. 3101273,7.125,NoCabin,S,Rintamaki
+591,592,1,1,female,52.0,1,0,36947,78.2667,D20,C,Stephenson
+592,593,0,3,male,47.0,0,0,A/5 3902,7.25,NoCabin,S,Elsbury
+593,594,0,3,female,28.0,0,2,364848,7.75,NoCabin,Q,Bourke
+594,595,0,2,male,37.0,1,0,SC/AH 29037,26.0,NoCabin,S,Chapman
+595,596,0,3,male,36.0,1,1,345773,24.15,NoCabin,S,Van Impe
+596,597,1,2,female,28.0,0,0,248727,33.0,NoCabin,S,Leitch
+597,598,0,3,male,49.0,0,0,LINE,0.0,NoCabin,S,Johnson
+598,599,0,3,male,28.0,0,0,2664,7.225,NoCabin,C,Boulos
+599,600,1,1,male,49.0,1,0,PC 17485,56.9292,A20,C,Duff Gordon
+600,601,1,2,female,24.0,2,1,243847,27.0,NoCabin,S,Jacobsohn
+601,602,0,3,male,28.0,0,0,349214,7.8958,NoCabin,S,Slabenoff
+602,603,0,1,male,28.0,0,0,113796,42.4,NoCabin,S,Harrington
+603,604,0,3,male,44.0,0,0,364511,8.05,NoCabin,S,Torber
+604,605,1,1,male,35.0,0,0,111426,26.55,NoCabin,C,Homer
+605,606,0,3,male,36.0,1,0,349910,15.55,NoCabin,S,Lindell
+606,607,0,3,male,30.0,0,0,349246,7.8958,NoCabin,S,Karaic
+607,608,1,1,male,27.0,0,0,113804,30.5,NoCabin,S,Daniel
+608,609,1,2,female,22.0,1,2,SC/Paris 2123,41.5792,NoCabin,C,Laroche
+609,610,1,1,female,40.0,0,0,PC 17582,153.4625,C125,S,Shutes
+610,611,0,3,female,39.0,1,5,347082,31.275,NoCabin,S,Andersson
+611,612,0,3,male,28.0,0,0,SOTON/O.Q. 3101305,7.05,NoCabin,S,Jardin
+612,613,1,3,female,28.0,1,0,367230,15.5,NoCabin,Q,Murphy
+613,614,0,3,male,28.0,0,0,370377,7.75,NoCabin,Q,Horgan
+614,615,0,3,male,35.0,0,0,364512,8.05,NoCabin,S,Brocklebank
+615,616,1,2,female,24.0,1,2,220845,65.0,NoCabin,S,Herman
+616,617,0,3,male,34.0,1,1,347080,14.4,NoCabin,S,Danbom
+617,618,0,3,female,26.0,1,0,A/5. 3336,16.1,NoCabin,S,Lobb
+618,619,1,2,female,4.0,2,1,230136,39.0,F4,S,Becker
+619,620,0,2,male,26.0,0,0,31028,10.5,NoCabin,S,Gavey
+620,621,0,3,male,27.0,1,0,2659,14.4542,NoCabin,C,Yasbeck
+621,622,1,1,male,42.0,1,0,11753,52.5542,D19,S,Kimball
+622,623,1,3,male,20.0,1,1,2653,15.7417,NoCabin,C,Nakid
+623,624,0,3,male,21.0,0,0,350029,7.8542,NoCabin,S,Hansen
+624,625,0,3,male,21.0,0,0,54636,16.1,NoCabin,S,Bowen
+625,626,0,1,male,61.0,0,0,36963,32.3208,D50,S,Sutton
+626,627,0,2,male,57.0,0,0,219533,12.35,NoCabin,Q,Kirkland
+627,628,1,1,female,21.0,0,0,13502,77.9583,D9,S,Longley
+628,629,0,3,male,26.0,0,0,349224,7.8958,NoCabin,S,Bostandyeff
+629,630,0,3,male,28.0,0,0,334912,7.7333,NoCabin,Q,O'Connell
+630,631,1,1,male,80.0,0,0,27042,30.0,A23,S,Barkworth
+631,632,0,3,male,51.0,0,0,347743,7.0542,NoCabin,S,Lundahl
+632,633,1,1,male,32.0,0,0,13214,30.5,B50,C,Stahelin-Maeglin
+633,634,0,1,male,28.0,0,0,112052,0.0,NoCabin,S,Parr
+634,635,0,3,female,9.0,3,2,347088,27.9,NoCabin,S,Skoog
+635,636,1,2,female,28.0,0,0,237668,13.0,NoCabin,S,Davis
+636,637,0,3,male,32.0,0,0,STON/O 2. 3101292,7.925,NoCabin,S,Leinonen
+637,638,0,2,male,31.0,1,1,C.A. 31921,26.25,NoCabin,S,Collyer
+638,639,0,3,female,41.0,0,5,3101295,39.6875,NoCabin,S,Panula
+639,640,0,3,male,28.0,1,0,376564,16.1,NoCabin,S,Thorneycroft
+640,641,0,3,male,20.0,0,0,350050,7.8542,NoCabin,S,Jensen
+641,642,1,1,female,24.0,0,0,PC 17477,69.3,B35,C,Sagesser
+642,643,0,3,female,2.0,3,2,347088,27.9,NoCabin,S,Skoog
+643,644,1,3,male,28.0,0,0,1601,56.4958,NoCabin,S,Foo
+644,645,1,3,female,0.75,2,1,2666,19.2583,NoCabin,C,Baclini
+645,646,1,1,male,48.0,1,0,PC 17572,76.7292,D33,C,Harper
+646,647,0,3,male,19.0,0,0,349231,7.8958,NoCabin,S,Cor
+647,648,1,1,male,56.0,0,0,13213,35.5,A26,C,Simonius-Blumer
+648,649,0,3,male,28.0,0,0,S.O./P.P. 751,7.55,NoCabin,S,Willey
+649,650,1,3,female,23.0,0,0,CA. 2314,7.55,NoCabin,S,Stanley
+650,651,0,3,male,28.0,0,0,349221,7.8958,NoCabin,S,Mitkoff
+651,652,1,2,female,18.0,0,1,231919,23.0,NoCabin,S,Doling
+652,653,0,3,male,21.0,0,0,8475,8.4333,NoCabin,S,Kalvik
+653,654,1,3,female,28.0,0,0,330919,7.8292,NoCabin,Q,O'Leary
+654,655,0,3,female,18.0,0,0,365226,6.75,NoCabin,Q,Hegarty
+655,656,0,2,male,24.0,2,0,S.O.C. 14879,73.5,NoCabin,S,Hickman
+656,657,0,3,male,28.0,0,0,349223,7.8958,NoCabin,S,Radeff
+657,658,0,3,female,32.0,1,1,364849,15.5,NoCabin,Q,Bourke
+658,659,0,2,male,23.0,0,0,29751,13.0,NoCabin,S,Eitemiller
+659,660,0,1,male,58.0,0,2,35273,113.275,D48,C,Newell
+660,661,1,1,male,50.0,2,0,PC 17611,133.65,NoCabin,S,Frauenthal
+661,662,0,3,male,40.0,0,0,2623,7.225,NoCabin,C,Badt
+662,663,0,1,male,47.0,0,0,5727,25.5875,E58,S,Colley
+663,664,0,3,male,36.0,0,0,349210,7.4958,NoCabin,S,Coleff
+664,665,1,3,male,20.0,1,0,STON/O 2. 3101285,7.925,NoCabin,S,Lindqvist
+665,666,0,2,male,32.0,2,0,S.O.C. 14879,73.5,NoCabin,S,Hickman
+666,667,0,2,male,25.0,0,0,234686,13.0,NoCabin,S,Butler
+667,668,0,3,male,28.0,0,0,312993,7.775,NoCabin,S,Rommetvedt
+668,669,0,3,male,43.0,0,0,A/5 3536,8.05,NoCabin,S,Cook
+669,670,1,1,female,28.0,1,0,19996,52.0,C126,S,Taylor
+670,671,1,2,female,40.0,1,1,29750,39.0,NoCabin,S,Brown
+671,672,0,1,male,31.0,1,0,F.C. 12750,52.0,B71,S,Davidson
+672,673,0,2,male,70.0,0,0,C.A. 24580,10.5,NoCabin,S,Mitchell
+673,674,1,2,male,31.0,0,0,244270,13.0,NoCabin,S,Wilhelms
+674,675,0,2,male,28.0,0,0,239856,0.0,NoCabin,S,Watson
+675,676,0,3,male,18.0,0,0,349912,7.775,NoCabin,S,Edvardsson
+676,677,0,3,male,24.5,0,0,342826,8.05,NoCabin,S,Sawyer
+677,678,1,3,female,18.0,0,0,4138,9.8417,NoCabin,S,Turja
+678,679,0,3,female,43.0,1,6,CA 2144,46.9,NoCabin,S,Goodwin
+679,680,1,1,male,36.0,0,1,PC 17755,512.3292,B51 B53 B55,C,Cardeza
+680,681,0,3,female,28.0,0,0,330935,8.1375,NoCabin,Q,Peters
+681,682,1,1,male,27.0,0,0,PC 17572,76.7292,D49,C,Hassab
+682,683,0,3,male,20.0,0,0,6563,9.225,NoCabin,S,Olsvigen
+683,684,0,3,male,14.0,5,2,CA 2144,46.9,NoCabin,S,Goodwin
+684,685,0,2,male,60.0,1,1,29750,39.0,NoCabin,S,Brown
+685,686,0,2,male,25.0,1,2,SC/Paris 2123,41.5792,NoCabin,C,Laroche
+686,687,0,3,male,14.0,4,1,3101295,39.6875,NoCabin,S,Panula
+687,688,0,3,male,19.0,0,0,349228,10.1708,NoCabin,S,Dakic
+688,689,0,3,male,18.0,0,0,350036,7.7958,NoCabin,S,Fischer
+689,690,1,1,female,15.0,0,1,24160,211.3375,B5,S,Madill
+690,691,1,1,male,31.0,1,0,17474,57.0,B20,S,Dick
+691,692,1,3,female,4.0,0,1,349256,13.4167,NoCabin,C,Karun
+692,693,1,3,male,28.0,0,0,1601,56.4958,NoCabin,S,Lam
+693,694,0,3,male,25.0,0,0,2672,7.225,NoCabin,C,Saad
+694,695,0,1,male,60.0,0,0,113800,26.55,NoCabin,S,Weir
+695,696,0,2,male,52.0,0,0,248731,13.5,NoCabin,S,Chapman
+696,697,0,3,male,44.0,0,0,363592,8.05,NoCabin,S,Kelly
+697,698,1,3,female,28.0,0,0,35852,7.7333,NoCabin,Q,Mullens
+698,699,0,1,male,49.0,1,1,17421,110.8833,C68,C,Thayer
+699,700,0,3,male,42.0,0,0,348121,7.65,F G63,S,Humblen
+700,701,1,1,female,18.0,1,0,PC 17757,227.525,C62 C64,C,Astor
+701,702,1,1,male,35.0,0,0,PC 17475,26.2875,E24,S,Silverthorne
+702,703,0,3,female,18.0,0,1,2691,14.4542,NoCabin,C,Barbara
+703,704,0,3,male,25.0,0,0,36864,7.7417,NoCabin,Q,Gallagher
+704,705,0,3,male,26.0,1,0,350025,7.8542,NoCabin,S,Hansen
+705,706,0,2,male,39.0,0,0,250655,26.0,NoCabin,S,Morley
+706,707,1,2,female,45.0,0,0,223596,13.5,NoCabin,S,Kelly
+707,708,1,1,male,42.0,0,0,PC 17476,26.2875,E24,S,Calderhead
+708,709,1,1,female,22.0,0,0,113781,151.55,NoCabin,S,Cleaver
+709,710,1,3,male,28.0,1,1,2661,15.2458,NoCabin,C,Moubarek
+710,711,1,1,female,24.0,0,0,PC 17482,49.5042,C90,C,Mayne
+711,712,0,1,male,28.0,0,0,113028,26.55,C124,S,Klaber
+712,713,1,1,male,48.0,1,0,19996,52.0,C126,S,Taylor
+713,714,0,3,male,29.0,0,0,7545,9.4833,NoCabin,S,Larsson
+714,715,0,2,male,52.0,0,0,250647,13.0,NoCabin,S,Greenberg
+715,716,0,3,male,19.0,0,0,348124,7.65,F G73,S,Soholt
+716,717,1,1,female,38.0,0,0,PC 17757,227.525,C45,C,Endres
+717,718,1,2,female,27.0,0,0,34218,10.5,E101,S,Troutt
+718,719,0,3,male,28.0,0,0,36568,15.5,NoCabin,Q,McEvoy
+719,720,0,3,male,33.0,0,0,347062,7.775,NoCabin,S,Johnson
+720,721,1,2,female,6.0,0,1,248727,33.0,NoCabin,S,Harper
+721,722,0,3,male,17.0,1,0,350048,7.0542,NoCabin,S,Jensen
+722,723,0,2,male,34.0,0,0,12233,13.0,NoCabin,S,Gillespie
+723,724,0,2,male,50.0,0,0,250643,13.0,NoCabin,S,Hodges
+724,725,1,1,male,27.0,1,0,113806,53.1,E8,S,Chambers
+725,726,0,3,male,20.0,0,0,315094,8.6625,NoCabin,S,Oreskovic
+726,727,1,2,female,30.0,3,0,31027,21.0,NoCabin,S,Renouf
+727,728,1,3,female,28.0,0,0,36866,7.7375,NoCabin,Q,Mannion
+728,729,0,2,male,25.0,1,0,236853,26.0,NoCabin,S,Bryhl
+729,730,0,3,female,25.0,1,0,STON/O2. 3101271,7.925,NoCabin,S,Ilmakangas
+730,731,1,1,female,29.0,0,0,24160,211.3375,B5,S,Allen
+731,732,0,3,male,11.0,0,0,2699,18.7875,NoCabin,C,Hassan
+732,733,0,2,male,28.0,0,0,239855,0.0,NoCabin,S,Knight
+733,734,0,2,male,23.0,0,0,28425,13.0,NoCabin,S,Berriman
+734,735,0,2,male,23.0,0,0,233639,13.0,NoCabin,S,Troupiansky
+735,736,0,3,male,28.5,0,0,54636,16.1,NoCabin,S,Williams
+736,737,0,3,female,48.0,1,3,W./C. 6608,34.375,NoCabin,S,Ford
+737,738,1,1,male,35.0,0,0,PC 17755,512.3292,B101,C,Lesurer
+738,739,0,3,male,28.0,0,0,349201,7.8958,NoCabin,S,Ivanoff
+739,740,0,3,male,28.0,0,0,349218,7.8958,NoCabin,S,Nankoff
+740,741,1,1,male,28.0,0,0,16988,30.0,D45,S,Hawksford
+741,742,0,1,male,36.0,1,0,19877,78.85,C46,S,Cavendish
+742,743,1,1,female,21.0,2,2,PC 17608,262.375,B57 B59 B63 B66,C,Ryerson
+743,744,0,3,male,24.0,1,0,376566,16.1,NoCabin,S,McNamee
+744,745,1,3,male,31.0,0,0,STON/O 2. 3101288,7.925,NoCabin,S,Stranden
+745,746,0,1,male,70.0,1,1,WE/P 5735,71.0,B22,S,Crosby
+746,747,0,3,male,16.0,1,1,C.A. 2673,20.25,NoCabin,S,Abbott
+747,748,1,2,female,30.0,0,0,250648,13.0,NoCabin,S,Sinkkonen
+748,749,0,1,male,19.0,1,0,113773,53.1,D30,S,Marvin
+749,750,0,3,male,31.0,0,0,335097,7.75,NoCabin,Q,Connaghton
+750,751,1,2,female,4.0,1,1,29103,23.0,NoCabin,S,Wells
+751,752,1,3,male,6.0,0,1,392096,12.475,E121,S,Moor
+752,753,0,3,male,33.0,0,0,345780,9.5,NoCabin,S,Vande Velde
+753,754,0,3,male,23.0,0,0,349204,7.8958,NoCabin,S,Jonkoff
+754,755,1,2,female,48.0,1,2,220845,65.0,NoCabin,S,Herman
+755,756,1,2,male,0.67,1,1,250649,14.5,NoCabin,S,Hamalainen
+756,757,0,3,male,28.0,0,0,350042,7.7958,NoCabin,S,Carlsson
+757,758,0,2,male,18.0,0,0,29108,11.5,NoCabin,S,Bailey
+758,759,0,3,male,34.0,0,0,363294,8.05,NoCabin,S,Theobald
+759,760,1,1,female,33.0,0,0,110152,86.5,B77,S,Rothes
+760,761,0,3,male,28.0,0,0,358585,14.5,NoCabin,S,Garfirth
+761,762,0,3,male,41.0,0,0,SOTON/O2 3101272,7.125,NoCabin,S,Nirva
+762,763,1,3,male,20.0,0,0,2663,7.2292,NoCabin,C,Barah
+763,764,1,1,female,36.0,1,2,113760,120.0,B96 B98,S,Carter
+764,765,0,3,male,16.0,0,0,347074,7.775,NoCabin,S,Eklund
+765,766,1,1,female,51.0,1,0,13502,77.9583,D11,S,Hogeboom
+766,767,0,1,male,28.0,0,0,112379,39.6,NoCabin,C,Brewe
+767,768,0,3,female,30.5,0,0,364850,7.75,NoCabin,Q,Mangan
+768,769,0,3,male,28.0,1,0,371110,24.15,NoCabin,Q,Moran
+769,770,0,3,male,32.0,0,0,8471,8.3625,NoCabin,S,Gronnestad
+770,771,0,3,male,24.0,0,0,345781,9.5,NoCabin,S,Lievens
+771,772,0,3,male,48.0,0,0,350047,7.8542,NoCabin,S,Jensen
+772,773,0,2,female,57.0,0,0,S.O./P.P. 3,10.5,E77,S,Mack
+773,774,0,3,male,28.0,0,0,2674,7.225,NoCabin,C,Elias
+774,775,1,2,female,54.0,1,3,29105,23.0,NoCabin,S,Hocking
+775,776,0,3,male,18.0,0,0,347078,7.75,NoCabin,S,Myhrman
+776,777,0,3,male,28.0,0,0,383121,7.75,F38,Q,Tobin
+777,778,1,3,female,5.0,0,0,364516,12.475,NoCabin,S,Emanuel
+778,779,0,3,male,28.0,0,0,36865,7.7375,NoCabin,Q,Kilgannon
+779,780,1,1,female,43.0,0,1,24160,211.3375,B3,S,Robert
+780,781,1,3,female,13.0,0,0,2687,7.2292,NoCabin,C,Ayoub
+781,782,1,1,female,17.0,1,0,17474,57.0,B20,S,Dick
+782,783,0,1,male,29.0,0,0,113501,30.0,D6,S,Long
+783,784,0,3,male,28.0,1,2,W./C. 6607,23.45,NoCabin,S,Johnston
+784,785,0,3,male,25.0,0,0,SOTON/O.Q. 3101312,7.05,NoCabin,S,Ali
+785,786,0,3,male,25.0,0,0,374887,7.25,NoCabin,S,Harmer
+786,787,1,3,female,18.0,0,0,3101265,7.4958,NoCabin,S,Sjoblom
+787,788,0,3,male,8.0,4,1,382652,29.125,NoCabin,Q,Rice
+788,789,1,3,male,1.0,1,2,C.A. 2315,20.575,NoCabin,S,Dean
+789,790,0,1,male,46.0,0,0,PC 17593,79.2,B82 B84,C,Guggenheim
+790,791,0,3,male,28.0,0,0,12460,7.75,NoCabin,Q,Keane
+791,792,0,2,male,16.0,0,0,239865,26.0,NoCabin,S,Gaskell
+792,793,0,3,female,28.0,8,2,CA. 2343,69.55,NoCabin,S,Sage
+793,794,0,1,male,28.0,0,0,PC 17600,30.6958,NoCabin,C,Hoyt
+794,795,0,3,male,25.0,0,0,349203,7.8958,NoCabin,S,Dantcheff
+795,796,0,2,male,39.0,0,0,28213,13.0,NoCabin,S,Otter
+796,797,1,1,female,49.0,0,0,17465,25.9292,D17,S,Leader
+797,798,1,3,female,31.0,0,0,349244,8.6833,NoCabin,S,Osman
+798,799,0,3,male,30.0,0,0,2685,7.2292,NoCabin,C,Ibrahim Shawah
+799,800,0,3,female,30.0,1,1,345773,24.15,NoCabin,S,Van Impe
+800,801,0,2,male,34.0,0,0,250647,13.0,NoCabin,S,Ponesell
+801,802,1,2,female,31.0,1,1,C.A. 31921,26.25,NoCabin,S,Collyer
+802,803,1,1,male,11.0,1,2,113760,120.0,B96 B98,S,Carter
+803,804,1,3,male,0.42,0,1,2625,8.5167,NoCabin,C,Thomas
+804,805,1,3,male,27.0,0,0,347089,6.975,NoCabin,S,Hedman
+805,806,0,3,male,31.0,0,0,347063,7.775,NoCabin,S,Johansson
+806,807,0,1,male,39.0,0,0,112050,0.0,A36,S,Andrews
+807,808,0,3,female,18.0,0,0,347087,7.775,NoCabin,S,Pettersson
+808,809,0,2,male,39.0,0,0,248723,13.0,NoCabin,S,Meyer
+809,810,1,1,female,33.0,1,0,113806,53.1,E8,S,Chambers
+810,811,0,3,male,26.0,0,0,3474,7.8875,NoCabin,S,Alexander
+811,812,0,3,male,39.0,0,0,A/4 48871,24.15,NoCabin,S,Lester
+812,813,0,2,male,35.0,0,0,28206,10.5,NoCabin,S,Slemen
+813,814,0,3,female,6.0,4,2,347082,31.275,NoCabin,S,Andersson
+814,815,0,3,male,30.5,0,0,364499,8.05,NoCabin,S,Tomlin
+815,816,0,1,male,28.0,0,0,112058,0.0,B102,S,Fry
+816,817,0,3,female,23.0,0,0,STON/O2. 3101290,7.925,NoCabin,S,Heininen
+817,818,0,2,male,31.0,1,1,S.C./PARIS 2079,37.0042,NoCabin,C,Mallet
+818,819,0,3,male,43.0,0,0,C 7075,6.45,NoCabin,S,Holm
+819,820,0,3,male,10.0,3,2,347088,27.9,NoCabin,S,Skoog
+820,821,1,1,female,52.0,1,1,12749,93.5,B69,S,Hays
+821,822,1,3,male,27.0,0,0,315098,8.6625,NoCabin,S,Lulic
+822,823,0,1,male,38.0,0,0,19972,0.0,NoCabin,S,Reuchlin
+823,824,1,3,female,27.0,0,1,392096,12.475,E121,S,Moor
+824,825,0,3,male,2.0,4,1,3101295,39.6875,NoCabin,S,Panula
+825,826,0,3,male,28.0,0,0,368323,6.95,NoCabin,Q,Flynn
+826,827,0,3,male,28.0,0,0,1601,56.4958,NoCabin,S,Lam
+827,828,1,2,male,1.0,0,2,S.C./PARIS 2079,37.0042,NoCabin,C,Mallet
+828,829,1,3,male,28.0,0,0,367228,7.75,NoCabin,Q,McCormack
+829,830,1,1,female,62.0,0,0,113572,80.0,B28,NoEmbarked,Stone
+830,831,1,3,female,15.0,1,0,2659,14.4542,NoCabin,C,Yasbeck
+831,832,1,2,male,0.83,1,1,29106,18.75,NoCabin,S,Richards
+832,833,0,3,male,28.0,0,0,2671,7.2292,NoCabin,C,Saad
+833,834,0,3,male,23.0,0,0,347468,7.8542,NoCabin,S,Augustsson
+834,835,0,3,male,18.0,0,0,2223,8.3,NoCabin,S,Allum
+835,836,1,1,female,39.0,1,1,PC 17756,83.1583,E49,C,Compton
+836,837,0,3,male,21.0,0,0,315097,8.6625,NoCabin,S,Pasic
+837,838,0,3,male,28.0,0,0,392092,8.05,NoCabin,S,Sirota
+838,839,1,3,male,32.0,0,0,1601,56.4958,NoCabin,S,Chip
+839,840,1,1,male,28.0,0,0,11774,29.7,C47,C,Marechal
+840,841,0,3,male,20.0,0,0,SOTON/O2 3101287,7.925,NoCabin,S,Alhomaki
+841,842,0,2,male,16.0,0,0,S.O./P.P. 3,10.5,NoCabin,S,Mudd
+842,843,1,1,female,30.0,0,0,113798,31.0,NoCabin,C,Serepeca
+843,844,0,3,male,34.5,0,0,2683,6.4375,NoCabin,C,Lemberopolous
+844,845,0,3,male,17.0,0,0,315090,8.6625,NoCabin,S,Culumovic
+845,846,0,3,male,42.0,0,0,C.A. 5547,7.55,NoCabin,S,Abbing
+846,847,0,3,male,28.0,8,2,CA. 2343,69.55,NoCabin,S,Sage
+847,848,0,3,male,35.0,0,0,349213,7.8958,NoCabin,C,Markoff
+848,849,0,2,male,28.0,0,1,248727,33.0,NoCabin,S,Harper
+849,850,1,1,female,28.0,1,0,17453,89.1042,C92,C,Goldenberg
+850,851,0,3,male,4.0,4,2,347082,31.275,NoCabin,S,Andersson
+851,852,0,3,male,74.0,0,0,347060,7.775,NoCabin,S,Svensson
+852,853,0,3,female,9.0,1,1,2678,15.2458,NoCabin,C,Boulos
+853,854,1,1,female,16.0,0,1,PC 17592,39.4,D28,S,Lines
+854,855,0,2,female,44.0,1,0,244252,26.0,NoCabin,S,Carter
+855,856,1,3,female,18.0,0,1,392091,9.35,NoCabin,S,Aks
+856,857,1,1,female,45.0,1,1,36928,164.8667,NoCabin,S,Wick
+857,858,1,1,male,51.0,0,0,113055,26.55,E17,S,Daly
+858,859,1,3,female,24.0,0,3,2666,19.2583,NoCabin,C,Baclini
+859,860,0,3,male,28.0,0,0,2629,7.2292,NoCabin,C,Razi
+860,861,0,3,male,41.0,2,0,350026,14.1083,NoCabin,S,Hansen
+861,862,0,2,male,21.0,1,0,28134,11.5,NoCabin,S,Giles
+862,863,1,1,female,48.0,0,0,17466,25.9292,D17,S,Swift
+863,864,0,3,female,28.0,8,2,CA. 2343,69.55,NoCabin,S,Sage
+864,865,0,2,male,24.0,0,0,233866,13.0,NoCabin,S,Gill
+865,866,1,2,female,42.0,0,0,236852,13.0,NoCabin,S,Bystrom
+866,867,1,2,female,27.0,1,0,SC/PARIS 2149,13.8583,NoCabin,C,Duran y More
+867,868,0,1,male,31.0,0,0,PC 17590,50.4958,A24,S,Roebling
+868,869,0,3,male,28.0,0,0,345777,9.5,NoCabin,S,van Melkebeke
+869,870,1,3,male,4.0,1,1,347742,11.1333,NoCabin,S,Johnson
+870,871,0,3,male,26.0,0,0,349248,7.8958,NoCabin,S,Balkic
+871,872,1,1,female,47.0,1,1,11751,52.5542,D35,S,Beckwith
+872,873,0,1,male,33.0,0,0,695,5.0,B51 B53 B55,S,Carlsson
+873,874,0,3,male,47.0,0,0,345765,9.0,NoCabin,S,Vander Cruyssen
+874,875,1,2,female,28.0,1,0,P/PP 3381,24.0,NoCabin,C,Abelson
+875,876,1,3,female,15.0,0,0,2667,7.225,NoCabin,C,Najib
+876,877,0,3,male,20.0,0,0,7534,9.8458,NoCabin,S,Gustafsson
+877,878,0,3,male,19.0,0,0,349212,7.8958,NoCabin,S,Petroff
+878,879,0,3,male,28.0,0,0,349217,7.8958,NoCabin,S,Laleff
+879,880,1,1,female,56.0,0,1,11767,83.1583,C50,C,Potter
+880,881,1,2,female,25.0,0,1,230433,26.0,NoCabin,S,Shelley
+881,882,0,3,male,33.0,0,0,349257,7.8958,NoCabin,S,Markun
+882,883,0,3,female,22.0,0,0,7552,10.5167,NoCabin,S,Dahlberg
+883,884,0,2,male,28.0,0,0,C.A./SOTON 34068,10.5,NoCabin,S,Banfield
+884,885,0,3,male,25.0,0,0,SOTON/OQ 392076,7.05,NoCabin,S,Sutehall
+885,886,0,3,female,39.0,0,5,382652,29.125,NoCabin,Q,Rice
+886,887,0,2,male,27.0,0,0,211536,13.0,NoCabin,S,Montvila
+887,888,1,1,female,19.0,0,0,112053,30.0,B42,S,Graham
+888,889,0,3,female,28.0,1,2,W./C. 6607,23.45,NoCabin,S,Johnston
+889,890,1,1,male,26.0,0,0,111369,30.0,C148,C,Behr
+890,891,0,3,male,32.0,0,0,370376,7.75,NoCabin,Q,Dooley

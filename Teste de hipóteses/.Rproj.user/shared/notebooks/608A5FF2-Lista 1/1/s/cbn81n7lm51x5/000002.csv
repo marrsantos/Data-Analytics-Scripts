@@ -1,0 +1,8 @@
+"0","set.seed(1)"
+"0","populacao<-rnorm(1000,10,2)"
+"0","mediaAmostra = NULL "
+"0","dpAmostra    = NULL  "
+"0","for(i in 1:20000){     "
+"0","  Amostra <- sample(populacao, 25, replace = TRUE)     "
+"0","  mediaAmostra[i] <- mean(Amostra)     "
+"0","  dpAmostra[i]    <- sd(Amostra) }  "

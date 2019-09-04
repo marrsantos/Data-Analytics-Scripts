@@ -1,0 +1,5 @@
+"0","```r
+# Pacientes com várias Autorizações de Internação
+d<-data.frame(distinct(dfproc,cod_paciente,nome_beneficiario,cod_autorizacao)%>%group_by(cod_paciente,nome_beneficiario)%>%summarize(count=n()))%>%group_by(Nro_Internações=count)%>%summarize(count1=n())%>%arrange(desc(count1))
+d
+```"

@@ -1,0 +1,10 @@
+"0","```r
+#
+# Configurando pasta de trabalho
+#
+data_folder <- paste(getwd(), '/Hospital Santa Cruz/', sep='')
+#
+# Dataset Hospital Santa Cruz
+#
+dfkpi <- read.csv(paste(data_folder,\"dados_hospitalgeral_2018.csv\",sep=''), sep=';', encoding = \"latin1\", dec = \",\")
+```"

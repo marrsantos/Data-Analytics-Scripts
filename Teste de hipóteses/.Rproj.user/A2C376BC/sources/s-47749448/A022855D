@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563476879566.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A022855D",
+    "lastKnownWriteTime" : 1563452289,
+    "last_content_update" : 1563452289,
+    "path" : "~/Dados Oficiais/R scripts _ templates/Teste de hipóteses/Lista 1.Rmd",
+    "project_path" : "Lista 1.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "cursorPosition" : "71,12",
+        "scrollLine" : "70",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

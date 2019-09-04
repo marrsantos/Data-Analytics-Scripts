@@ -1,0 +1,3 @@
+"0","a<-data.frame(mediaamostras)"
+"0","ggplot(a, aes(mediaamostras)) +"
+"0","      geom_bar()"

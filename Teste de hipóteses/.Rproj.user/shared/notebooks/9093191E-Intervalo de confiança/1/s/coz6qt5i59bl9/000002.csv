@@ -1,0 +1,5 @@
+"0","media = NULL"
+"0","for(i in 1:20000)"
+"0","{"
+"0","  media[i]<-mean(sample(Amostra,10,TRUE))"
+"0","}"

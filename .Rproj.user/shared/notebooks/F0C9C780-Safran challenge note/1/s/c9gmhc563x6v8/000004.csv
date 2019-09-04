@@ -1,0 +1,3 @@
+"0","# Removing some outliers"
+"0","dfweather<-subset(dfweather, windSpeed<=100)"
+"0","boxplot(dfweather$windSpeed~format(dfweather$date,""%m""), xlab=""Months"", ylab=""WindSpeed"", main='Wind speed analysis')"

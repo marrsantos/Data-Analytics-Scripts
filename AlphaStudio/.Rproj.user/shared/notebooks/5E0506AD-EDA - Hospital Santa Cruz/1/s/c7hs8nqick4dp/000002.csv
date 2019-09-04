@@ -1,0 +1,8 @@
+"0","```r
+#
+# Tabela de indicadores por domínio
+#
+a<-distinct(dfkpi,nome_dominio,nome_indicador)%>%group_by(nome_dominio, nome_indicador)%>%summarize(n=n())
+names(a)<-c('Grupo','Indicador')
+kable(a[,1:2])
+```"

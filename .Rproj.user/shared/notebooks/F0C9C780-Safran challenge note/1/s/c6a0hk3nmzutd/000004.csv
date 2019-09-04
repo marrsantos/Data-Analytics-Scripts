@@ -1,0 +1,2 @@
+"0","# collecting MSE"
+"0","msekfAll<-attr(kfoldVal, 'ms')"

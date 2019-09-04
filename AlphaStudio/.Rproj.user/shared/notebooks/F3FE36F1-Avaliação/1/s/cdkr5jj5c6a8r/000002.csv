@@ -1,0 +1,7 @@
+"0","```r
+#
+# Configurando pasta de trabalho
+#
+data_folder <- paste(getwd(), '/../datasets/', sep='')
+#
+```"

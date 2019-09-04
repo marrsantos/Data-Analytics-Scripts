@@ -1,0 +1,7 @@
+"0","```r
+# Qtde de Pacientes Internados e não internados
+d<-data.frame(group_by(dfproc,Year=as.POSIXlt(periodo)$year+1900,cod_paciente,cod_autorizacao)%>%summarize(count=sum(qtde_pagamento),valtot=sum(valor))%>%subset(cod_autorizacao=='')%>%group_by(Year)%>%summarize(Ambulatorial=sum(count),Valor_Total_Amb=sum(valtot))%>%arrange(Year))
+dd<-data.frame(group_by(dfproc,Year=as.POSIXlt(periodo)$year+1900,cod_paciente,cod_autorizacao)%>%summarize(valtot=sum(valor))%>%subset(cod_autorizacao!='')%>%group_by(Year)%>%summarize(Internação=n(),Valor_Total_Int=sum(valtot))%>%arrange(Year))
+ddd<-left_join(d,dd,by = \"Year\")
+ddd
+```"

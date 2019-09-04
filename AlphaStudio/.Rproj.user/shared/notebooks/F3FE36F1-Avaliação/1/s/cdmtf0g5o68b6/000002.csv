@@ -1,0 +1,5 @@
+"0","```r
+# Séries mencionadas no campo 
+d<-group_by(dfproc,Série=substring(substring(cod_guia, regexpr(\": \",cod_guia) + 2),1,regexpr(\":\",substring(cod_guia, regexpr(\": \",cod_guia) + 2))-2))%>%summarize(Qtde=n())%>%arrange(desc(Qtde))
+d
+```"

@@ -1,0 +1,3 @@
+"0","amostras<-matrix(data=c(1,1,1,2,1,3,2,1,2,2,2,3,3,1,3,2,3,3),ncol=2,nrow=9,byrow=TRUE)"
+"0","amostras <- cbind(amostras, rowMeans(amostras))  "
+"0","mediaamostras<-amostras[,3]"

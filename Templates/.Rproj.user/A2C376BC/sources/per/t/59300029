@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1540835506536.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4000941933",
+    "id" : "59300029",
+    "lastKnownWriteTime" : 1540835777,
+    "last_content_update" : 1540835777981,
+    "path" : "~/Dados Oficiais/R scripts _ templates/Itau/Question1.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "4,1",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

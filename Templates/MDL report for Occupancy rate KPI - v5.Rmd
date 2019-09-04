@@ -1,0 +1,2474 @@
+---
+title: "MDL report for Occupancy rate KPI"
+output: html_notebook
+---
+
+```{r}
+data_folder <- paste(getwd(), '/../data/raw/', sep='')
+stage_folder <- paste(getwd(), '/../data/stage/', sep='')
+script_folder <- paste(getwd(), '/../scripts/', sep='')
+simulation_folder <- paste(getwd(), '/../data/simulation/', sep='')
+```
+
+Importing Libraries and functions
+```{r}
+library(dplyr)
+library(tseries)
+library(forecast)
+library(gridExtra)
+library(grid)
+source(paste(script_folder,"library.R",sep=''))
+```
+
+Reading datasets
+```{r}
+dfoccupation<-read.csv(paste(stage_folder,"dfoccupation.csv",sep=''), sep=';', header=T)
+dfoccupation[,'dt_referencia']<-as.POSIXct(dfoccupation$dt_referencia,format="%Y-%m-%d")
+dfoccsector<-read.csv(paste(stage_folder,"dfoccsector.csv",sep=''), sep=';', header=T)
+dfoccsector[,'dt_referencia']<-as.POSIXct(dfoccsector$dt_referencia,format="%Y-%m-%d")
+```
+
+## Hospital Occupancy Rate analysis
+
+Medical Clinic	
+Sectors: 3o Andar Norte (5), 5o Andar Norte (12), Térreo	(2), 6o andar	(11), 11o andar	(34), 12o andar	(183)
+
+Surgery
+Sectors: 02º Andar Lane (5147), 02º Andar Norte (13), 10º Andar (5057)
+		
+UTI
+Sectors: 	CTI-C (25), CTI Adulto - Ala Oeste	(5038), UTI Adulto	(29), UTI Neurológica	(5103), UTI Infantil	(27), UTI neonatal	(178), 
+
+Semi- ICU	
+Sectors: Semi Intensiva Adulto I	(179), Semi Intensiva Adulto II	(180), Semi Intensiva Infantil	(28), Semi Intensiva Neonatal (177)
+		
+Oncology	
+Sectors: 8o andar	(5123), 9o andar	(32)
+		
+Maternity	
+Sector: 4o andar	(14)
+
+Checking number of beds by sector
+```{r}
+a<-subset(dfoccupation,as.numeric(format(dfoccupation$dt_referencia, "%Y"))==2112)
+group_by(a, cd_setor_atendimento,ds_setor_atendimento)%>%summarize(nn=length(unique(cd_unidade_basica)))
+```
+
+Releasing dfoccupation object
+```{r}
+rm(dfoccupation)
+```
+
+```{r}
+dfclinic_s<-subset(dfoccsector, cd_setor_atendimento==2 | cd_setor_atendimento==5| cd_setor_atendimento==11 |cd_setor_atendimento==34 | cd_setor_atendimento==183 | cd_setor_atendimento==5147 | cd_setor_atendimento==13 | cd_setor_atendimento==5057 | cd_setor_atendimento==25 | cd_setor_atendimento==5038 | cd_setor_atendimento==29 | cd_setor_atendimento==5103 | cd_setor_atendimento==27 | cd_setor_atendimento==178 | cd_setor_atendimento==179 | cd_setor_atendimento==180 | cd_setor_atendimento==28 | cd_setor_atendimento==177 | cd_setor_atendimento==5123 | cd_setor_atendimento==32 | cd_setor_atendimento==14)
+```
+
+```{r}
+dfclinic_s_month<-group_by(dfclinic_s, format(dt_referencia,"%Y-%m-01"))%>% 
+  summarize(free=sum(free)/30.42, occupied=sum(occupied)/30.42, occ=occupied/(occupied+free)) 
+  names(dfclinic_s_month)[1]<-"dt_referencia"
+dfclinic_s_month[,'dt_referencia']<-as.POSIXct(dfclinic_s_month$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_month<-subset(dfclinic_s_month,!is.na(dt_referencia))
+```
+
+```{r}
+# weekly capacity since 2106
+dfclinic_s_week<-group_by(dfclinic_s, as.POSIXlt(format(dt_referencia,"%Y %U 1"), format="%Y %U %w")-1)%>% 
+  summarize(free=sum(free)/7, occupied=sum(occupied)/7, occ=occupied/(occupied+free)) 
+names(dfclinic_s_week)[1]<-"dt_referencia"
+dfclinic_s_week[,'dt_referencia']<-as.POSIXct(dfclinic_s_week$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_week<-subset(dfclinic_s_week,!is.na(dt_referencia))
+```
+
+```{r}
+# daily capacity since 2106
+dfclinic_s_day<-group_by(dfclinic_s, dt_referencia)%>% 
+  summarize(free=sum(free), occupied=sum(occupied), occ=occupied/(occupied+free)) 
+dfclinic_s_day<-subset(dfclinic_s_day,!is.na(dt_referencia))
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_month$free+dfclinic_s_month$occupied, type='l', ylab="Beds", main = "Hospital Capacity vs Occupied beds", xlab="Months")
+lines(dfclinic_s_month$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_month$occ, col='red', type='l', ylab="Occ", xlab = "Months", main="Monthly Occ rate")
+#par(old.par)
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_week$free+dfclinic_s_week$occupied, type='l', ylab="Beds", main = "Hospital Capacity vs Occupied beds", xlab="Weeks")
+lines(dfclinic_s_week$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_week$occ, col='red', type='l', ylab="Occ", xlab = "Weeks",  main="Weekly Occ rate")
+#par(old.par)
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_day$free+dfclinic_s_day$occupied, type='l', ylab="Beds", main = "Daily capacity vs Occupied beds")
+lines(dfclinic_s_day$occupied, col='green', type='l')
+legend("topleft", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_day$occ, col='red', type='l', ylab="Occ", xlab = "Days", main="Daily Occ rate")
+#par(old.par)
+```
+
+Preliminary seasonality analysis for Hospital Occupancy rate
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%m"), xlab="Months", ylab="Occ")
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%w"), xlab="Week days", ylab="Occ")
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%d"), xlab="days", ylab="Occ")
+```
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%Y"), xlab="days", ylab="Occ")
+```
+
+Probably there were some change for the capacity management process happenning at the end of 2107/2108/2109... it seems interesting for this hospital occupancy rate analysis to remove 2107
+
+```{r}
+dfclinic_s_day<-subset(dfclinic_s_day, format(dt_referencia,"%Y")>2107)
+dfclinic_s_week<-subset(dfclinic_s_week, format(dt_referencia,"%Y")>2107)
+dfclinic_s_month<-subset(dfclinic_s_month, format(dt_referencia,"%Y")>2107)
+```
+
+```{r}
+plot(dfclinic_s_day$occ, main="All sectors", type='l')
+trendday<-lm(occ ~ c(1:nrow(dfclinic_s_day)),data=dfclinic_s_day)
+abline(trendday, col="red", lty=2, lwd=3)
+summary(trendday)
+```
+```{r}
+plot(dfclinic_s_week$occ, main="All sectors", type='l')
+trendweek<-lm(occ ~ c(1:nrow(dfclinic_s_week)),data=dfclinic_s_week)
+abline(trendweek, col="red", lty=2, lwd=3)
+summary(trendweek)
+```
+
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_day$occ)
+```
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_week$occ)
+```
+
+Analyzing results of a 1st differentiation
+```{r}
+plot(diff(dfclinic_s_day$occ), main="All sectors", type='l')
+aa<- diff(dfclinic_s_day$occ)
+fittrend<-lm(aa ~ c(1:length(aa)))
+abline(fittrend, col="red", lty=2, lwd=3)
+summary(fittrend)
+```
+
+Testing stationarity for 1st differention
+```{r}
+adf.test(diff(dfclinic_s_day$occ))
+```
+
+
+ACF for original dataset
+```{r}
+old.par <- par(mfrow=c(1, 2))
+acf(dfclinic_s_week$occ)
+pacf(dfclinic_s_week$occ)
+par(old.par)
+```
+
+Setting train/test datasets (after observed effect in 2110...)
+
+```{r}
+BOT<-1 # Begin of training
+EOT<-as.integer(nrow(dfclinic_s_week)*.90) #end of training
+hpred<-10 # prediction horizon
+
+vdiff<-0
+if (vdiff==0) {
+  train = window(dfclinic_s_week$occ, start=BOT, end=EOT)
+  test = window(dfclinic_s_week$occ, start=EOT+1)
+} else {
+  train = window(diff(dfclinic_s_week$occ),  start=BOT, end=EOT)
+  vseedt<-dfclinic_s_week$occ[1]
+  test = window(diff(dfclinic_s_week$occ), start=EOT+1)
+  vseedt1<-dfclinic_s_week$occ[as.integer(EOT)+1]
+}
+```
+
+### Analyzing ARIMA methods
+
+Considering personas identified during Samaritano interviews, we are assuming a prediction period around 3/8 weeks (short term) and assuming a weekly dataset for this analysis.
+
+Analyzing ACF/PACF for defining p, d, q 
+
+```{r}
+fit1 = arima(train, order=c(0,0,0))
+fcast1<-forecast(fit1, h=hpred)
+coef1 = accuracy(fcast1, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast1$residuals)
+pacf(fcast1$residuals)
+plot(fcast1$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit1)
+```
+
+```{r}
+fit2 = Arima(train, order=c(0,0,3), include.drift=TRUE)
+fcast2<-forecast(fit2, h=hpred)
+coef2 = accuracy(fcast2, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast2$residuals)
+pacf(fcast2$residuals)
+plot(fcast2$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit2)
+```
+
+
+```{r}
+fit3 = Arima(train, order=c(3,0,0), include.drift=TRUE)
+fcast3<-forecast(fit3, h=hpred)
+coef3 = accuracy(fcast3, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast3$residuals)
+pacf(fcast3$residuals)
+plot(fcast3$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit3)
+```
+
+
+```{r}
+fit4 = Arima(train, order=c(2,0,2), include.drift=TRUE)
+fcast4<-forecast(fit4, h=hpred)
+coef4 = accuracy(fcast4, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast4$residuals)
+pacf(fcast4$residuals)
+plot(fcast4$residuals)
+par(old.par)
+```
+```{r}
+summary(fit4)
+```
+
+Using auto.arima metrics as a reference
+```{r}
+fit5<-auto.arima(train)
+fcast5<-forecast(fit5, h=hpred)
+coef5 = accuracy(fcast5, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast5$residuals)
+pacf(fcast5$residuals)
+plot(fcast5$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit5)
+```
+
+Using a seasonal model
+```{r}
+fit6<-Arima(train, order=c(3,0,0), seasonal=list(order=c(0,0,1),period=52), include.drift=TRUE)
+fcast6<-forecast(fit6, h=hpred)
+coef6 = accuracy(fcast6, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast6$residuals)
+pacf(fcast6$residuals)
+plot(fcast6$residuals)
+par(old.par)
+```
+
+```{r}
+hist(fit2$residuals)
+hist(fit3$residuals)
+hist(fit4$residuals)
+hist(fit5$residuals)
+hist(fit6$residuals)
+```
+
+
+Comparing models
+```{r}
+coef2
+coef3
+coef4
+coef5
+coef6
+```
+```{r}
+AIC(fit2, fit3, fit4, fit5, fit6)
+```
+```{r}
+BIC(fit2, fit3, fit4, fit5, fit6)
+```
+```{r}
+# Coefficients matrix
+
+dados<-dfclinic_s_week$occ
+
+samplepred<- c(4,8,12,16,20)
+
+samples<-generatesamples(samplepred, dados)
+
+samplesBOT<-samples[,1]
+samplesEOT<-samples[,2]
+
+models<-matrix(rep(0,30),ncol=5, nrow=6)
+models[1,1]<-1
+models[1,2]<-"ARIMA(300)(001)52"
+models[1,3]<-"300"
+models[1,4]<-"00152"
+models[2,1]<-1
+models[2,2]<-"ARIMA(300)"
+models[2,3]<-"300"
+models[3,1]<-1
+models[3,2]<-"AutoARIMA(211)"
+models[3,3]<-"211"
+models[4,1]<-2
+models[4,2]<-"ETS(ANN)"
+models[4,3]<-"ANN"
+models[5,1]<-2
+models[5,2]<-"ETS(AAN)"
+models[5,3]<-"AAN"
+models[5,4]<-TRUE
+models[6,1]<-1
+models[6,2]<-"ARIMA(300) drift"
+models[6,3]<-"300"
+models[6,5]<-TRUE
+
+matrixname<-"Occupancy Rate - Hospital "
+
+#results<-checkperformance(dados, models, samplespred, samplesBOT, samplesEOT, matrixname)
+results<-checkperformanceOccDummy(dados, models, samplespred, samplesBOT, samplesEOT, matrixname, "Allsectors")
+```
+
+```{r}
+grid.newpage()
+grid.table(results, cols=c("Method", "Average of RMSE", "% Gain" ))
+```
+
+Predicting new data for Hospital Occ
+
+```{r}
+vpred<-8
+
+# Removing outliers
+dados<-dfclinic_s_week$occ
+
+samples<-generatesamples(vpred, dados)
+
+plot(dados, main='Comparing Models - Hospital Occupation rate', type = 'l', ylab="Occ", xlab="Weeks")
+
+for (i in 1:nrow(samples)) {
+  
+  BOT<-samples[i,1] 
+  EOT<-samples[i,2]
+    
+  strain = window(dados, start=BOT, end=EOT)
+  stest = window(dados, start=EOT+1)
+  vpredposition<-(EOT+1)
+
+  # fiiting models
+  fitf1<-Arima(strain, order=c(3,0,0), seasonal = list(order=c(0,0,1), period=52))
+  fcastf1<-forecast(fitf1, h=vpred)
+  
+  fitf2<-ets(strain, model="AAN")
+  fcastf2<-forecast(fitf2, h=vpred)
+  
+  aa<-ts(strain, frequency=1)
+  fitf3<-tslm(aa~trend)
+  fcastf3<-forecast(fitf3,h=vpred)
+  
+  fcastf4<-rep(mean(strain),vpred)
+
+  lines(vpredposition:(vpredposition+vpred-1), fcastf1$mean, col='blue')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf2$mean, col='green')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf3$mean, col='red')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf4, col='brown', lty=2)
+  abline(a=0,b=0,v=EOT, col="black", lty=2)
+}
+legend("topleft", c("ARIMA(300)","ets(AAN)","linear model", "Mean"), fill=c("blue","green","red", "brown"), horiz=TRUE, cex=.5)
+```
+
+
+
+# Medical Clinic Occupancy rate analysis
+
+Sectors: 3o Andar Norte (5), 5o Andar Norte (12), Térreo	(2), 6o andar	(11), 11o andar	(34), 12o andar	(183)
+
+```{r}
+dfclinic_s<-subset(dfoccsector, cd_setor_atendimento==5 | cd_setor_atendimento==12 | cd_setor_atendimento==2 | cd_setor_atendimento==11 | cd_setor_atendimento==34 | cd_setor_atendimento==183)
+```
+
+```{r}
+# monthly capacity since 2106
+dfclinic_s_month<-group_by(dfclinic_s, format(dt_referencia,"%Y-%m-01"))%>% 
+  summarize(free=sum(free)/30.42, occupied=sum(occupied)/30.42, occ=occupied/(occupied+free)) 
+  names(dfclinic_s_month)[1]<-"dt_referencia"
+dfclinic_s_month[,'dt_referencia']<-as.POSIXct(dfclinic_s_month$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_month<-subset(dfclinic_s_month,!is.na(dt_referencia))
+```
+
+```{r}
+# weekly capacity since 2106
+dfclinic_s_week<-group_by(dfclinic_s, as.POSIXlt(format(dt_referencia,"%Y %U 1"), format="%Y %U %w")-1)%>% 
+  summarize(free=sum(free)/7, occupied=sum(occupied)/7, occ=occupied/(occupied+free)) 
+names(dfclinic_s_week)[1]<-"dt_referencia"
+dfclinic_s_week[,'dt_referencia']<-as.POSIXct(dfclinic_s_week$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_week<-subset(dfclinic_s_week,!is.na(dt_referencia))
+```
+
+
+```{r}
+# daily capacity since 2106
+dfclinic_s_day<-group_by(dfclinic_s, dt_referencia)%>% 
+  summarize(free=sum(free), occupied=sum(occupied), occ=occupied/(occupied+free)) 
+dfclinic_s_day<-subset(dfclinic_s_day,!is.na(dt_referencia))
+```
+
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_month$free+dfclinic_s_month$occupied, type='l', ylab="Beds", main = "Medical Clinic area capacity vs Occupied beds" )
+lines(dfclinic_s_month$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Free beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_month$occ, col='red', type='l', ylab="Occ", xlab = "Months", main="Monthly Occ rate")
+#par(old.par)
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_week$free+dfclinic_s_week$occupied, type='l', ylab="Beds", main = "Medical Clinic area capacity vs Occupied beds")
+lines(dfclinic_s_week$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Free beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_week$occ, col='red', type='l', ylab="Occ", xlab = "Weeks",  main="Weekly Occ rate")
+#par(old.par)
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_day$free+dfclinic_s_day$occupied, type='l', ylab="Beds", main = "Medical Clinic capacity vs Occupied beds")
+lines(dfclinic_s_day$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Free beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_day$occ, col='red', type='l', ylab="Occ", xlab = "Days", main="Daily Occ rate")
+#par(old.par)
+```
+
+
+Descriptive statistics for datasets
+```{r}
+summary(dfclinic_s_day)
+summary(dfclinic_s_week)
+summary(dfclinic_s_month)
+```
+
+Preliminar seasonality analysis
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%m"))
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%w"))
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%d"))
+```
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%Y"))
+```
+Let us consider data after 2107
+
+```{r}
+dfclinic_s_day<-subset(dfclinic_s_day, format(dt_referencia,"%Y")>2107)
+dfclinic_s_week<-subset(dfclinic_s_week, format(dt_referencia,"%Y")>2107)
+dfclinic_s_month<-subset(dfclinic_s_month, format(dt_referencia,"%Y")>2107)
+```
+
+```{r}
+plot(dfclinic_s_week$occ, main="Sectors of Medical Clinic area", type='l', xlab="Weeks", ylab="Occ")
+trendweek<-lm(occ ~ c(1:nrow(dfclinic_s_week)),data=dfclinic_s_week)
+abline(trendweek, col="red", lty=2, lwd=3)
+summary(trendweek)
+```
+
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_week$occ)
+```
+
+Analyzing results after 1st differentiation
+```{r}
+plot(diff(dfclinic_s_week$occ), main="Medical Clinic area", type='l')
+aa<- diff(dfclinic_s_week$occ)
+fittrend<-lm(aa ~ c(1:length(aa)))
+abline(fittrend, col="red", lty=2, lwd=3)
+summary(fittrend)
+```
+
+Testing stationarity for 1st differention
+```{r}
+adf.test(diff(dfclinic_s_week$occ))
+```
+
+ACF for original dataset
+```{r}
+old.par <- par(mfrow=c(1, 2))
+acf(dfclinic_s_week$occ)
+pacf(dfclinic_s_week$occ)
+par(old.par)
+```
+
+Setting train/test datasets (after observed effect in 2110...)
+
+```{r}
+BOT<-1 # Begin of training
+EOT<-as.integer(nrow(dfclinic_s_week)*.90) #end of training
+hpred<-10 # prediction horizon
+
+vdiff<-0
+if (vdiff==0) {
+  train = window(dfclinic_s_week$occ, start=BOT, end=EOT)
+  test = window(dfclinic_s_week$occ, start=EOT+1)
+} else {
+  train = window(diff(dfclinic_s_week$occ),  start=BOT, end=EOT)
+  vseedt<-dfclinic_s_week$occ[1]
+  test = window(diff(dfclinic_s_week$occ), start=EOT+1)
+  vseedt1<-dfclinic_s_week$occ[as.integer(EOT)+1]
+}
+```
+
+### Analyzing ARIMA methods
+
+Considering personas identified during Samaritano interviews, we are assuming a prediction period around 3/6 weeks (short term) and assuming a weekly dataset for this analysis.
+
+Analyzing ACF/PACF for defining p, d, q 
+
+```{r}
+fit1 = arima(train, order=c(0,0,0))
+fcast1<-forecast(fit1, h=hpred)
+coef1 = accuracy(fcast1, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast1$residuals)
+pacf(fcast1$residuals)
+plot(fcast1$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit1)
+```
+
+```{r}
+fit2 = Arima(train, order=c(0,0,4), include.drift=TRUE)
+fcast2<-forecast(fit2, h=hpred)
+coef2 = accuracy(fcast2, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast2$residuals)
+pacf(fcast2$residuals)
+plot(fcast2$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit2)
+```
+
+
+```{r}
+fit3 = Arima(train, order=c(3,0,0), include.drift=TRUE)
+fcast3<-forecast(fit3, h=hpred)
+coef3 = accuracy(fcast3, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast3$residuals)
+pacf(fcast3$residuals)
+plot(fcast3$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit3)
+```
+
+
+```{r}
+fit4 = Arima(train, order=c(2,0,3), include.drift=TRUE)
+fcast4<-forecast(fit4, h=hpred)
+coef4 = accuracy(fcast4, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast4$residuals)
+pacf(fcast4$residuals)
+plot(fcast4$residuals)
+par(old.par)
+```
+```{r}
+summary(fit4)
+```
+
+Using auto.arima metrics as a reference
+```{r}
+fit5<-auto.arima(train)
+fcast5<-forecast(fit5, h=hpred)
+coef5 = accuracy(fcast5, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast5$residuals)
+pacf(fcast5$residuals)
+plot(fcast5$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit5)
+```
+
+Using a seasonal model
+```{r}
+fit6<-Arima(train, order=c(3,0,0), seasonal=list(order=c(0,0,2),period=52))
+fcast6<-forecast(fit6, h=hpred)
+coef6 = accuracy(fcast6, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast6$residuals)
+pacf(fcast6$residuals)
+plot(fcast6$residuals)
+par(old.par)
+```
+
+```{r}
+hist(fit2$residuals)
+hist(fit3$residuals)
+hist(fit4$residuals)
+hist(fit5$residuals)
+hist(fit6$residuals)
+```
+
+
+Comparing models
+```{r}
+coef2
+coef3
+coef4
+coef5
+coef6
+```
+```{r}
+AIC(fit2, fit3, fit4, fit5, fit6)
+```
+```{r}
+BIC(fit2, fit3, fit4, fit5, fit6)
+```
+
+```{r}
+# Coefficients matrix
+
+dados<-dfclinic_s_week$occ
+
+samplepred<- c(4,8,12,16,20)
+
+samples<-generatesamples(samplepred, dados)
+
+samplesBOT<-samples[,1]
+samplesEOT<-samples[,2]
+
+models<-matrix(rep(0,30),ncol=5, nrow=6)
+models[1,1]<-1
+models[1,2]<-"ARIMA(300)(002)52"
+models[1,3]<-"300"
+models[1,4]<-"00252"
+models[2,1]<-1
+models[2,2]<-"ARIMA(300)"
+models[2,3]<-"300"
+models[3,1]<-1
+models[3,2]<-"AutoARIMA(103)"
+models[3,3]<-"103"
+models[4,1]<-2
+models[4,2]<-"ETS(ANN)"
+models[4,3]<-"ANN"
+models[5,1]<-2
+models[5,2]<-"ETS(AAN)"
+models[5,3]<-"AAN"
+models[5,4]<-TRUE
+models[6,1]<-1
+models[6,2]<-"ARIMA(103) drift"
+models[6,3]<-"103"
+models[6,5]<-TRUE
+
+matrixname<-"Occupancy Rate - Medical Clinic area "
+
+results<-checkperformance(dados, models, samplespred, samplesBOT, samplesEOT, matrixname)
+```
+
+```{r}
+grid.newpage()
+grid.table(results, cols=c("Method", "Average of RMSE", "% Gain" ))
+```
+
+Predicting new data for Intensive Care (ICU)
+
+```{r}
+vpred<-8
+
+# Removing outliers
+dados<-dfclinic_s_week$occ
+
+samples<-generatesamples(vpred, dados)
+
+plot(dados, main='Comparing Models - Medical Clinic area', type = 'l', ylab="Occ", xlab="Weeks")
+
+for (i in 1:nrow(samples)) {
+  
+  BOT<-samples[i,1] 
+  EOT<-samples[i,2]
+    
+  strain = window(dados, start=BOT, end=EOT)
+  stest = window(dados, start=EOT+1)
+  vpredposition<-(EOT+1)
+
+  # fiiting models
+  fitf1<-Arima(strain, order=c(3,0,0), seasonal=list(order=c(0,0,2), period=52))
+  fcastf1<-forecast(fitf1, h=vpred)
+  
+  fitf2<-ets(strain, model="ANN")
+  fcastf2<-forecast(fitf2, h=vpred)
+  
+  aa<-ts(strain, frequency=1)
+  fitf3<-tslm(aa~trend)
+  fcastf3<-forecast(fitf3,h=vpred)
+  
+  fcastf4<-rep(mean(strain),vpred)
+
+  lines(vpredposition:(vpredposition+vpred-1), fcastf1$mean, col='blue')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf2$mean, col='green')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf3$mean, col='red')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf4, col='brown', lty=2)
+  abline(a=0,b=0,v=EOT, col="black", lty=2)
+}
+legend("topleft", c("ARIMA(300)(002)52","ets(ANN)","linear model", "Mean"), fill=c("blue","green","red", "brown"), horiz=TRUE, cex=.5)
+```
+
+
+
+# Intensive Care (ICU) Occupancy Rate analysis
+
+Sectors: CTI-C (25), CTI Adulto - Ala Oeste	(5038), UTI Adulto	(29), UTI Neurológica	(5103), UTI Infantil	(27), UTI neonatal	(178)
+
+
+```{r}
+dfclinic_s<-subset(dfoccsector, cd_setor_atendimento==25 | cd_setor_atendimento==5038 | cd_setor_atendimento==29  | cd_setor_atendimento==5103 | cd_setor_atendimento==27  | cd_setor_atendimento==178)
+```
+
+```{r}
+dfclinic_s_month<-group_by(dfclinic_s, format(dt_referencia,"%Y-%m-01"))%>% 
+  summarize(free=sum(free)/30.42, occupied=sum(occupied)/30.42, occ=occupied/(occupied+free)) 
+  names(dfclinic_s_month)[1]<-"dt_referencia"
+dfclinic_s_month[,'dt_referencia']<-as.POSIXct(dfclinic_s_month$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_month<-subset(dfclinic_s_month,!is.na(dt_referencia))
+```
+
+```{r}
+# weekly capacity since 2106
+dfclinic_s_week<-group_by(dfclinic_s, as.POSIXlt(format(dt_referencia,"%Y %U 1"), format="%Y %U %w")-1)%>% 
+  summarize(free=sum(free)/7, occupied=sum(occupied)/7, occ=occupied/(occupied+free)) 
+names(dfclinic_s_week)[1]<-"dt_referencia"
+dfclinic_s_week[,'dt_referencia']<-as.POSIXct(dfclinic_s_week$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_week<-subset(dfclinic_s_week,!is.na(dt_referencia))
+```
+
+```{r}
+# daily capacity since 2106
+dfclinic_s_day<-group_by(dfclinic_s, dt_referencia)%>% 
+  summarize(free=sum(free), occupied=sum(occupied), occ=occupied/(occupied+free))
+dfclinic_s_day<-subset(dfclinic_s_day,!is.na(dt_referencia))
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_month$free+dfclinic_s_month$occupied, type='l', ylab="Beds", main = "Monthly capacity vs Occupied beds" )
+lines(dfclinic_s_month$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_month$occ, col='red', type='l', ylab="Occ", xlab = "Months", main="Monthly Occ rate")
+#par(old.par)
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_week$free+dfclinic_s_week$occupied, type='l', ylab="Beds", main = "Weekly capacity vs Occupied beds")
+lines(dfclinic_s_week$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_week$occ, col='red', type='l', ylab="Occ", xlab = "Weeks",  main="Weekly Occ rate")
+#par(old.par)
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_day$free+dfclinic_s_day$occupied, type='l', ylab="Beds", main = "Daily capacity vs Occupied beds")
+lines(dfclinic_s_day$occupied, col='green', type='l')
+legend("topleft", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_day$occ, col='red', type='l', ylab="Occ", xlab = "Days", main="Daily Occ rate")
+#par(old.par)
+```
+
+
+Preliminar seasonality analysis for Hospital Occupancy rate
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%m"))
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%w"))
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%d"))
+```
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%Y"))
+```
+
+Probably there were some change for the capacity management process happenning at the end of 2108... it seems interesting for this hospital occupancy rate analysis remove years of 2107 and 2018
+
+```{r}
+dfclinic_s_day<-subset(dfclinic_s_day, format(dt_referencia,"%Y")>2107)
+dfclinic_s_week<-subset(dfclinic_s_week, format(dt_referencia,"%Y")>2107)
+dfclinic_s_month<-subset(dfclinic_s_month, format(dt_referencia,"%Y")>2107)
+```
+```{r}
+plot(dfclinic_s_day$occ, main="ICU sectors", type='l')
+trendday<-lm(occ ~ c(1:nrow(dfclinic_s_day)),data=dfclinic_s_day)
+abline(trendday, col="red", lty=2, lwd=3)
+summary(trendday)
+```
+```{r}
+plot(dfclinic_s_week$occ, main="ICU sectors", type='l')
+trendweek<-lm(occ ~ c(1:nrow(dfclinic_s_week)),data=dfclinic_s_week)
+abline(trendweek, col="red", lty=2, lwd=3)
+summary(trendweek)
+```
+
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_day$occ)
+```
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_week$occ)
+```
+
+Analyzing results of a 1st differentiation
+```{r}
+plot(diff(dfclinic_s_day$occ), main="ICU sectors", type='l')
+aa<- diff(dfclinic_s_day$occ)
+fittrend<-lm(aa ~ c(1:length(aa)))
+abline(fittrend, col="red", lty=2, lwd=3)
+summary(fittrend)
+```
+
+Testing stationarity for 1st differention
+```{r}
+adf.test(diff(dfclinic_s_day$occ))
+```
+
+ACF for original dataset
+```{r}
+old.par <- par(mfrow=c(1, 2))
+acf(dfclinic_s_day$occ)
+pacf(dfclinic_s_day$occ)
+par(old.par)
+```
+
+ACF for original dataset
+```{r}
+old.par <- par(mfrow=c(1, 2))
+acf(dfclinic_s_week$occ)
+pacf(dfclinic_s_week$occ)
+par(old.par)
+```
+
+Setting train/test datasets (after observed effect in 2110...)
+
+```{r}
+BOT<-1 # Begin of training
+EOT<-as.integer(nrow(dfclinic_s_week)*.85) #end of training
+hpred<-10 # prediction horizon
+
+vdiff<-0
+if (vdiff==0) {
+  train = window(dfclinic_s_week$occ, start=BOT, end=EOT)
+  test = window(dfclinic_s_week$occ, start=EOT+1)
+} else {
+  train = window(diff(dfclinic_s_week$occ),  start=BOT, end=EOT)
+  vseedt<-dfclinic_s_week$occ[1]
+  test = window(diff(dfclinic_s_week$occ), start=EOT+1)
+  vseedt1<-dfclinic_s_week$occ[as.integer(EOT)+1]
+}
+```
+
+### Analyzing ARIMA methods
+
+Considering personas identified during Samaritano interviews, we are assuming a prediction period around 3/8 weeks (short term) and assuming a weekly dataset for this analysis.
+
+Analyzing ACF/PACF for defining p, d, q 
+
+```{r}
+fit1 = arima(train, order=c(0,0,0))
+fcast1<-forecast(fit1, h=hpred)
+coef1 = accuracy(fcast1, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast1$residuals)
+pacf(fcast1$residuals)
+plot(fcast1$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit1)
+```
+
+```{r}
+fit2 = arima(train, order=c(0,0,3))
+fcast2<-forecast(fit2, h=hpred)
+coef2 = accuracy(fcast2, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast2$residuals)
+pacf(fcast2$residuals)
+plot(fcast2$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit2)
+```
+
+
+```{r}
+fit3 = arima(train, order=c(1,0,1))
+fcast3<-forecast(fit3, h=hpred)
+coef3 = accuracy(fcast3, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast3$residuals)
+pacf(fcast3$residuals)
+plot(fcast3$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit3)
+```
+
+
+```{r}
+fit4 = Arima(train, order=c(0,0,3), seasonal = list(order=c(0,0,2),period=52))
+fcast4<-forecast(fit4, h=hpred)
+coef4 = accuracy(fcast4, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast4$residuals)
+pacf(fcast4$residuals)
+plot(fcast4$residuals)
+par(old.par)
+```
+```{r}
+summary(fit4)
+```
+
+Using auto.arima metrics as a reference
+```{r}
+fit5<-auto.arima(train)
+fcast5<-forecast(fit5, h=hpred)
+coef5 = accuracy(fcast5, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast5$residuals)
+pacf(fcast5$residuals)
+plot(fcast5$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit5)
+```
+
+```{r}
+hist(fit2$residuals)
+hist(fit3$residuals)
+hist(fit4$residuals)
+hist(fit5$residuals)
+```
+
+
+Comparing models
+```{r}
+coef2
+coef3
+coef4
+coef5
+```
+```{r}
+AIC(fit2, fit3, fit4, fit5)
+```
+```{r}
+BIC(fit2, fit3, fit4, fit5)
+```
+```{r}
+
+dados<-dfclinic_s_week$occ
+
+samplepred<- c(4,8,12,16,20)
+
+samples<-generatesamples(samplepred, dados)
+
+samplesBOT<-samples[,1]
+samplesEOT<-samples[,2]
+
+models<-matrix(rep(0,30),ncol=5, nrow=6)
+models[1,1]<-1
+models[1,2]<-"ARIMA(003)"
+models[1,3]<-"003"
+models[2,1]<-1
+models[2,2]<-"ARIMA(101)"
+models[2,3]<-"101"
+models[3,1]<-1
+models[3,2]<-"AutoARIMA(200)"
+models[3,3]<-"200"
+models[4,1]<-2
+models[4,2]<-"ETS(ANN)"
+models[4,3]<-"ANN"
+models[5,1]<-2
+models[5,2]<-"ETS(AAN)"
+models[5,3]<-"AAN"
+models[5,4]<-TRUE
+models[6,1]<-1
+models[6,2]<-"ARIMA(200) drift"
+models[6,3]<-"200"
+models[6,5]<-TRUE
+
+matrixname<-"Occupancy Rate - Intensive Care (ICU) "
+
+results<-checkperformance(dados, models, samplespred, samplesBOT, samplesEOT, matrixname)
+```
+
+```{r}
+grid.newpage()
+grid.table(results, cols=c("Method", "Average of RMSE", "% Gain Gold standard" ))
+```
+
+Predicting new data for Intensive Care (ICU)
+
+```{r}
+vpred<-8
+
+dados<-dfclinic_s_week$occ
+
+samples<-generatesamples(vpred, dados)
+
+plot(dados, main='Comparing Models - Intensive Care (ICU) area', type = 'l', ylab="Occ", xlab="Weeks")
+
+for (i in 1:nrow(samples)) {
+  
+  BOT<-samples[i,1] 
+  EOT<-samples[i,2]
+    
+  strain = window(dados, start=BOT, end=EOT)
+  stest = window(dados, start=EOT+1)
+  vpredposition<-(EOT+1)
+
+  # fiiting models
+  fitf1<-Arima(strain, order=c(0,0,3))
+  fcastf1<-forecast(fitf1, h=vpred)
+  
+  fitf2<-Arima(strain, order=c(1,0,1))
+  fcastf2<-forecast(fitf2, h=vpred)
+  
+  aa<-ts(strain, frequency=1)
+  fitf3<-tslm(aa~trend)
+  fcastf3<-forecast(fitf3,h=vpred)
+  
+  fcastf4<-rep(mean(strain),vpred)
+
+  lines(vpredposition:(vpredposition+vpred-1), fcastf1$mean, col='blue')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf2$mean, col='green')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf3$mean, col='red')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf4, col='brown', lty=2)
+  abline(a=0,b=0,v=EOT, col="black", lty=2)
+}
+legend("topleft", c("ARIMA(003)","ARIMA(101)","linear model", "Mean"), fill=c("blue","green","red", "brown"), horiz=TRUE, cex=.5)
+```
+
+
+
+# Semi-Intensive Care  Occupancy Rate analysis
+
+Sectors: Semi Intensiva Adulto I	(179), Semi Intensiva Adulto II	(180), Semi Intensiva Infantil	(28), Semi Intensiva Neonatal	(177)
+
+```{r}
+dfclinic_s<-subset(dfoccsector, cd_setor_atendimento==179 | cd_setor_atendimento==180 | cd_setor_atendimento==28  | cd_setor_atendimento==177)
+```
+
+```{r}
+dfclinic_s_month<-group_by(dfclinic_s, format(dt_referencia,"%Y-%m-01"))%>% 
+  summarize(free=sum(free)/30.42, occupied=sum(occupied)/30.42, occ=occupied/(occupied+free)) 
+  names(dfclinic_s_month)[1]<-"dt_referencia"
+dfclinic_s_month[,'dt_referencia']<-as.POSIXct(dfclinic_s_month$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_month<-subset(dfclinic_s_month,!is.na(dt_referencia))
+```
+
+```{r}
+# weekly capacity since 2106
+dfclinic_s_week<-group_by(dfclinic_s, as.POSIXlt(format(dt_referencia,"%Y %U 1"), format="%Y %U %w")-1)%>% 
+  summarize(free=sum(free)/7, occupied=sum(occupied)/7, occ=occupied/(occupied+free)) 
+names(dfclinic_s_week)[1]<-"dt_referencia"
+dfclinic_s_week[,'dt_referencia']<-as.POSIXct(dfclinic_s_week$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_week<-subset(dfclinic_s_week,!is.na(dt_referencia))
+```
+
+```{r}
+# daily capacity since 2106
+dfclinic_s_day<-group_by(dfclinic_s, dt_referencia)%>% 
+  summarize(free=sum(free), occupied=sum(occupied), occ=occupied/(occupied+free))
+dfclinic_s_day<-subset(dfclinic_s_day,!is.na(dt_referencia))
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_month$free+dfclinic_s_month$occupied, type='l', ylab="Beds", main = "Monthly capacity vs Occupied beds" )
+lines(dfclinic_s_month$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_month$occ, col='red', type='l', ylab="Occ", xlab = "Months", main="Monthly Occ rate")
+#par(old.par)
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_week$free+dfclinic_s_week$occupied, type='l', ylab="Beds", main = "Weekly capacity vs Occupied beds")
+lines(dfclinic_s_week$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_week$occ, col='red', type='l', ylab="Occ", xlab = "Weeks",  main="Weekly Occ rate")
+#par(old.par)
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_day$free+dfclinic_s_day$occupied, type='l', ylab="Beds", main = "Daily capacity vs Occupied beds")
+lines(dfclinic_s_day$occupied, col='green', type='l')
+legend("topleft", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_day$occ, col='red', type='l', ylab="Occ", xlab = "Days", main="Daily Occ rate")
+#par(old.par)
+```
+
+There is a clear reduction of number of beds in 2112
+
+Preliminar seasonality analysis for Hospital Occupancy rate
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%m"))
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%w"))
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%d"))
+```
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%Y"))
+```
+
+Clear reduction of beds in 2112
+
+```{r}
+dfclinic_s_day<-subset(dfclinic_s_day, format(dt_referencia,"%Y")>2106)
+dfclinic_s_week<-subset(dfclinic_s_week, format(dt_referencia,"%Y")>2106)
+dfclinic_s_month<-subset(dfclinic_s_month, format(dt_referencia,"%Y")>2106)
+```
+```{r}
+plot(dfclinic_s_day$occ, main="Semi-ICU sectors", type='l')
+trendday<-lm(occ ~ c(1:nrow(dfclinic_s_day)),data=dfclinic_s_day)
+abline(trendday, col="red", lty=2, lwd=3)
+summary(trendday)
+```
+```{r}
+plot(dfclinic_s_week$occ, main="Semi-ICU sectors", type='l')
+trendweek<-lm(occ ~ c(1:nrow(dfclinic_s_week)),data=dfclinic_s_week)
+abline(trendweek, col="red", lty=2, lwd=3)
+summary(trendweek)
+```
+
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_day$occ)
+```
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_week$occ)
+```
+
+Analyzing results of a 1st differentiation
+```{r}
+plot(diff(dfclinic_s_day$occ), main="Semi-ICU sectors", type='l')
+aa<- diff(dfclinic_s_day$occ)
+fittrend<-lm(aa ~ c(1:length(aa)))
+abline(fittrend, col="red", lty=2, lwd=3)
+summary(fittrend)
+```
+
+Testing stationarity for 1st differention
+```{r}
+adf.test(diff(dfclinic_s_day$occ))
+```
+
+ACF for original dataset
+```{r}
+old.par <- par(mfrow=c(1, 2))
+acf(dfclinic_s_day$occ)
+pacf(dfclinic_s_day$occ)
+par(old.par)
+```
+
+Setting train/test datasets
+
+```{r}
+BOT<-1 # Begin of training
+EOT<-as.integer(nrow(dfclinic_s_week)*.85) #end of training
+hpred<-10 # prediction horizon
+
+vdiff<-0
+if (vdiff==0) {
+  train = window(dfclinic_s_week$occ, start=BOT, end=EOT)
+  test = window(dfclinic_s_week$occ, start=EOT+1)
+} else {
+  train = window(diff(dfclinic_s_week$occ),  start=BOT, end=EOT)
+  vseedt<-dfclinic_s_week$occ[1]
+  test = window(diff(dfclinic_s_week$occ), start=EOT+1)
+  vseedt1<-dfclinic_s_week$occ[as.integer(EOT)+1]
+}
+```
+
+### Analyzing ARIMA methods
+
+Considering personas identified during Samaritano interviews, we are assuming a prediction period around 3/8 weeks (short term) and assuming a weekly dataset for this analysis.
+
+Analyzing ACF/PACF for defining p, d, q 
+
+```{r}
+fit1 = arima(train, order=c(0,0,0))
+fcast1<-forecast(fit1, h=hpred)
+coef1 = accuracy(fcast1, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast1$residuals)
+pacf(fcast1$residuals)
+plot(fcast1$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit1)
+```
+
+```{r}
+fit2 = arima(train, order=c(2,0,0))
+fcast2<-forecast(fit2, h=hpred)
+coef2 = accuracy(fcast2, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast2$residuals)
+pacf(fcast2$residuals)
+plot(fcast2$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit2)
+```
+
+
+```{r}
+fit3 = arima(train, order=c(2,0,1))
+fcast3<-forecast(fit3, h=hpred)
+coef3 = accuracy(fcast3, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast3$residuals)
+pacf(fcast3$residuals)
+plot(fcast3$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit3)
+```
+
+
+```{r}
+fit4 = arima(train, order=c(2,0,2))
+fcast4<-forecast(fit4, h=hpred)
+coef4 = accuracy(fcast4, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast4$residuals)
+pacf(fcast4$residuals)
+plot(fcast4$residuals)
+par(old.par)
+```
+```{r}
+summary(fit4)
+```
+
+Using auto.arima metrics as a reference
+```{r}
+fit5<-auto.arima(train)
+fcast5<-forecast(fit5, h=hpred)
+coef5 = accuracy(fcast5, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast5$residuals)
+pacf(fcast5$residuals)
+plot(fcast5$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit5)
+```
+
+```{r}
+coef2
+coef3
+coef4
+coef5
+```
+```{r}
+AIC(fit2, fit3, fit4, fit5)
+```
+```{r}
+BIC(fit2, fit3, fit4, fit5)
+```
+
+```{r}
+dados<-dfclinic_s_week$occ
+
+samplepred<- c(4,8,12,16,20)
+
+samples<-generatesamples(samplepred, dados)
+
+samplesBOT<-samples[,1]
+samplesEOT<-samples[,2]
+
+models<-matrix(rep(0,25),ncol=5, nrow=5)
+models[1,1]<-1
+models[1,2]<-"ARIMA(200)"
+models[1,3]<-"200"
+models[2,1]<-1
+models[2,2]<-"ARIMA(202)"
+models[2,3]<-"202"
+models[3,1]<-1
+models[3,2]<-"AutoARIMA(003)"
+models[3,3]<-"003"
+models[4,1]<-2
+models[4,2]<-"ETS(ANN)"
+models[4,3]<-"ANN"
+models[5,1]<-2
+models[5,2]<-"ETS(AAN)"
+models[5,3]<-"AAN"
+models[5,4]<-TRUE
+
+matrixname<-"Occupancy Rate - Semi-ICU "
+
+results<-checkperformance(dados, models, samplespred, samplesBOT, samplesEOT, matrixname)
+```
+
+```{r}
+grid.newpage()
+grid.table(results, cols=c("Method", "Average of RMSE", "% Gain Gold standard" ))
+```
+
+Predicting new data for Semi-ICU Occupancy rate
+
+```{r}
+vpred<-8
+
+# Removing outliers
+dados<-dfclinic_s_week$occ
+
+samples<-generatesamples(vpred, dados)
+
+plot(dados, main='Comparing Models - Semi-ICU area', type = 'l', ylab="Occ", xlab="Weeks")
+
+for (i in 1:nrow(samples)) {
+  
+  BOT<-samples[i,1] 
+  EOT<-samples[i,2]
+    
+  strain = window(dados, start=BOT, end=EOT)
+  stest = window(dados, start=EOT+1)
+  vpredposition<-(EOT+1)
+
+  # fiiting models
+  fitf1<-Arima(strain, order=c(2,0,0))
+  fcastf1<-forecast(fitf1, h=vpred)
+  
+  fitf2<-Arima(strain, order=c(2,0,2))
+  fcastf2<-forecast(fitf2, h=vpred)
+  
+  aa<-ts(strain, frequency=1)
+  fitf3<-tslm(aa~trend)
+  fcastf3<-forecast(fitf3,h=vpred)
+  
+  fcastf4<-rep(mean(strain),vpred)
+
+  lines(vpredposition:(vpredposition+vpred-1), fcastf1$mean, col='blue')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf2$mean, col='green')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf3$mean, col='red')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf4, col='brown', lty=2)
+  abline(a=0,b=0,v=EOT, col="black", lty=2)
+}
+legend("topleft", c("ARIMA(200)","ARIMA(202)","linear model", "Mean"), fill=c("blue","green","red", "brown"), horiz=TRUE, cex=.5)
+```
+
+
+# Oncology Occupancy Rate analysis
+
+Sectors: 8o andar	(5123), 9o andar	(32)
+
+
+```{r}
+dfclinic_s<-subset(dfoccsector, cd_setor_atendimento==32 | cd_setor_atendimento==5123)
+```
+
+```{r}
+dfclinic_s_month<-group_by(dfclinic_s, format(dt_referencia,"%Y-%m-01"))%>% 
+  summarize(free=sum(free)/30.42, occupied=sum(occupied)/30.42, occ=occupied/(occupied+free)) 
+  names(dfclinic_s_month)[1]<-"dt_referencia"
+dfclinic_s_month[,'dt_referencia']<-as.POSIXct(dfclinic_s_month$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_month<-subset(dfclinic_s_month,!is.na(dt_referencia))
+```
+
+```{r}
+# weekly capacity since 2106
+dfclinic_s_week<-group_by(dfclinic_s, as.POSIXlt(format(dt_referencia,"%Y %U 1"), format="%Y %U %w")-1)%>% 
+  summarize(free=sum(free)/7, occupied=sum(occupied)/7, occ=occupied/(occupied+free)) 
+names(dfclinic_s_week)[1]<-"dt_referencia"
+dfclinic_s_week[,'dt_referencia']<-as.POSIXct(dfclinic_s_week$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_week<-subset(dfclinic_s_week,!is.na(dt_referencia))
+```
+
+```{r}
+# daily capacity since 2106
+dfclinic_s_day<-group_by(dfclinic_s, dt_referencia)%>% 
+  summarize(free=sum(free), occupied=sum(occupied), occ=occupied/(occupied+free))
+dfclinic_s_day<-subset(dfclinic_s_day,!is.na(dt_referencia))
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_month$free+dfclinic_s_month$occupied, type='l', ylab="Beds", xlab= "Months", main = "Oncology capacity vs Occupied beds" )
+lines(dfclinic_s_month$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_month$occ, col='red', type='l', ylab="Occ", xlab = "Months", main="Monthly Occ rate")
+#par(old.par)
+```
+
+
+There was a increase of capacity after 2nd year
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_week$free+dfclinic_s_week$occupied, type='l', ylab="Beds", main = "Oncology capacity vs Occupied beds", xlab="Weeks")
+lines(dfclinic_s_week$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_week$occ, type='l', ylab="Occ", xlab = "Weeks",  main="Oncology Occ rate")
+#par(old.par)
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_day$free+dfclinic_s_day$occupied, type='l', ylab="Beds", main = "Daily capacity vs Occupied beds")
+lines(dfclinic_s_day$occupied, col='green', type='l')
+legend("topleft", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_day$occ, col='red', type='l', ylab="Occ", xlab = "Days", main="Daily Occ rate")
+#par(old.par)
+```
+
+
+Preliminar seasonality analysis for Hospital Occupancy rate
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%m"), xlab="Months", ylab="Occ")
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%w"), xlab="Week days", ylab="Occ")
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%d"), xlab="Days", ylab="Occ")
+```
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%Y"), ylab="Occ", xlab="Years")
+```
+
+2108 will be not considered for these analysis
+
+```{r}
+dfclinic_s_day<-subset(dfclinic_s_day, format(dt_referencia,"%Y")>2108)
+dfclinic_s_week<-subset(dfclinic_s_week, format(dt_referencia,"%Y")>2108)
+dfclinic_s_month<-subset(dfclinic_s_month, format(dt_referencia,"%Y")>2108)
+```
+```{r}
+plot(dfclinic_s_day$occ, main="Oncology area", type='l', ylab="Occ",xlab="Days")
+trendday<-lm(occ ~ c(1:nrow(dfclinic_s_day)),data=dfclinic_s_day)
+abline(trendday, col="red", lty=2, lwd=3)
+summary(trendday)
+```
+```{r}
+plot(dfclinic_s_week$occ, main="Oncology area", type='l', ylab="Occ",xlab="Weeks")
+trendweek<-lm(occ ~ c(1:nrow(dfclinic_s_week)),data=dfclinic_s_week)
+abline(trendweek, col="red", lty=2, lwd=3)
+summary(trendweek)
+```
+
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_day$occ)
+```
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_week$occ)
+```
+
+Analyzing results of a 1st differentiation
+```{r}
+plot(diff(dfclinic_s_day$occ), main="Oncology area - 1st differentiation", type='l', xlab= "Days", ylab="Occ")
+aa<- diff(dfclinic_s_day$occ)
+fittrend<-lm(aa ~ c(1:length(aa)))
+abline(fittrend, col="red", lty=2, lwd=3)
+summary(fittrend)
+```
+
+Testing stationarity for 1st differention
+```{r}
+adf.test(diff(dfclinic_s_day$occ))
+```
+
+ACF for original dataset
+```{r}
+old.par <- par(mfrow=c(1, 2))
+acf(dfclinic_s_day$occ)
+pacf(dfclinic_s_day$occ)
+par(old.par)
+```
+
+ACF for original dataset
+```{r}
+old.par <- par(mfrow=c(1, 2))
+acf(dfclinic_s_week$occ)
+pacf(dfclinic_s_week$occ)
+par(old.par)
+```
+
+Setting train/test datasets
+
+```{r}
+BOT<-1 # Begin of training
+EOT<-as.integer(nrow(dfclinic_s_week)*.85) #end of training
+hpred<-10 # prediction horizon
+
+vdiff<-0
+if (vdiff==0) {
+  train = window(dfclinic_s_week$occ, start=BOT, end=EOT)
+  test = window(dfclinic_s_week$occ, start=EOT+1)
+} else {
+  train = window(diff(dfclinic_s_week$occ),  start=BOT, end=EOT)
+  vseedt<-dfclinic_s_week$occ[1]
+  test = window(diff(dfclinic_s_week$occ), start=EOT+1)
+  vseedt1<-dfclinic_s_week$occ[as.integer(EOT)+1]
+}
+```
+
+### Analyzing ARIMA methods
+
+Considering personas identified during Samaritano interviews, we are assuming a prediction period around 3/8 weeks (short term) and assuming a weekly dataset for this analysis.
+
+Analyzing ACF/PACF for defining p, d, q 
+
+```{r}
+fit1 = arima(train, order=c(0,1,0))
+fcast1<-forecast(fit1, h=vpred)
+coef1 = accuracy(fcast1, test[1:vpred-1])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast1$residuals)
+pacf(fcast1$residuals)
+plot(fcast1$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit1)
+```
+
+```{r}
+fit2 = Arima(train, order=c(1,1,1), seasonal=list(order=c(0,0,1), period=52))
+fcast2<-forecast(fit2, h=vpred)
+coef2 = accuracy(fcast2, test[1:vpred-1])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast2$residuals)
+pacf(fcast2$residuals)
+plot(fcast2$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit2)
+```
+
+
+```{r}
+fit3 = Arima(train, order=c(1,1,1), include.drift=TRUE)
+fcast3<-forecast(fit3, h=vpred)
+coef3 = accuracy(fcast3, test[1:vpred-1])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast3$residuals)
+pacf(fcast3$residuals)
+plot(fcast3$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit3)
+```
+
+
+```{r}
+fit4 = arima(train, order=c(0,1,2))
+fcast4<-forecast(fit4, h=vpred)
+coef4 = accuracy(fcast4, test[1:vpred-1])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast4$residuals)
+pacf(fcast4$residuals)
+plot(fcast4$residuals)
+par(old.par)
+```
+```{r}
+summary(fit4)
+```
+
+Using auto.arima metrics as a reference
+```{r}
+fit5<-auto.arima(train)
+fcast5<-forecast(fit5, h=hpred)
+coef5 = accuracy(fcast5, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast5$residuals)
+pacf(fcast5$residuals)
+plot(fcast5$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit5)
+```
+
+```{r}
+hist(fit2$residuals)
+hist(fit3$residuals)
+hist(fit4$residuals)
+hist(fit5$residuals)
+```
+
+
+Comparing models
+```{r}
+coef2
+coef3
+coef4
+coef5
+```
+```{r}
+AIC(fit2, fit3, fit4, fit5)
+```
+```{r}
+BIC(fit2, fit3, fit4, fit5)
+```
+
+```{r}
+dados<-dfclinic_s_week$occ
+
+samplepred<- c(4,8,12,16,20)
+
+samples<-generatesamples(samplepred, dados)
+
+samplesBOT<-samples[,1]
+samplesEOT<-samples[,2]
+
+models<-matrix(rep(0,30),ncol=5, nrow=6)
+models[1,1]<-1
+models[1,2]<-"ARIMA(012)"
+models[1,3]<-"012"
+models[2,1]<-1
+models[2,2]<-"ARIMA(111)(001)52"
+models[2,3]<-"111"
+models[2,4]<-"00152"
+models[3,1]<-1
+models[3,2]<-"AutoARIMA(011)"
+models[3,3]<-"011"
+models[4,1]<-2
+models[4,2]<-"ETS(ANN)"
+models[4,3]<-"ANN"
+models[5,1]<-2
+models[5,2]<-"ETS(AAN)"
+models[5,3]<-"AAN"
+models[5,4]<-TRUE
+models[6,1]<-1
+models[6,2]<-"ARIMA(011) drift"
+models[6,3]<-"011"
+models[6,5]<-TRUE
+
+matrixname<-"Occupancy Rate - Oncology "
+
+results<-checkperformance(dados, models, samplespred, samplesBOT, samplesEOT, matrixname)
+```
+
+```{r}
+grid.newpage()
+grid.table(results, cols=c("Method", "Average of RMSE", "% Gain" ))
+```
+
+Predicting new data for Oncology Occupancy rate
+
+```{r}
+vpred<-8
+
+# Removing outliers
+dados<-dfclinic_s_week$occ
+
+samples<-generatesamples(vpred, dados)
+
+plot(dados, main='Comparing Models - Oncology area', type = 'l', ylab="Occ", xlab="Weeks")
+
+for (i in 1:nrow(samples)) {
+  
+  BOT<-samples[i,1] 
+  EOT<-samples[i,2]
+    
+  strain = window(dados, start=BOT, end=EOT)
+  stest = window(dados, start=EOT+1)
+  vpredposition<-(EOT+1)
+
+  # fiiting models
+  fitf1<-Arima(strain, order=c(1,1,1), seasonal=list(order=c(0,0,1), period=52))
+  fcastf1<-forecast(fitf1, h=vpred)
+  
+  fitf2<-auto.arima(strain)
+  fcastf2<-forecast(fitf2, h=vpred)
+
+  aa<-ts(strain, frequency=1)
+  fitf3<-tslm(aa~trend)
+  fcastf3<-forecast(fitf3,h=vpred)
+  
+  fcastf4<-rep(mean(strain),vpred)
+
+  lines(vpredposition:(vpredposition+vpred-1), fcastf1$mean, col='blue')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf2$mean, col='green')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf3$mean, col='red')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf4, col='brown', lty=2)
+  abline(a=0,b=0,v=EOT, col="black", lty=2)
+}
+legend("topleft", c("ARIMA(111)(001)52","AutoARIMA","linear model", "Mean"), fill=c("blue","green","red", "brown"), horiz=TRUE, cex=.5)
+```
+
+
+# Maternity Occupancy Rate analysis
+
+Sector: 4o andar	(14)
+
+```{r}
+dfclinic_s<-subset(dfoccsector, cd_setor_atendimento==14)
+```
+
+```{r}
+dfclinic_s_month<-group_by(dfclinic_s, format(dt_referencia,"%Y-%m-01"))%>% 
+  summarize(free=sum(free)/30.42, occupied=sum(occupied)/30.42, occ=occupied/(occupied+free)) 
+  names(dfclinic_s_month)[1]<-"dt_referencia"
+dfclinic_s_month[,'dt_referencia']<-as.POSIXct(dfclinic_s_month$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_month<-subset(dfclinic_s_month,!is.na(dt_referencia))
+```
+
+```{r}
+# weekly capacity since 2106
+dfclinic_s_week<-group_by(dfclinic_s, as.POSIXlt(format(dt_referencia,"%Y %U 1"), format="%Y %U %w")-1)%>% 
+  summarize(free=sum(free)/7, occupied=sum(occupied)/7, occ=occupied/(occupied+free)) 
+names(dfclinic_s_week)[1]<-"dt_referencia"
+dfclinic_s_week[,'dt_referencia']<-as.POSIXct(dfclinic_s_week$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_week<-subset(dfclinic_s_week,!is.na(dt_referencia))
+```
+
+```{r}
+# daily capacity since 2106
+dfclinic_s_day<-group_by(dfclinic_s, dt_referencia)%>% 
+  summarize(free=sum(free), occupied=sum(occupied), occ=occupied/(occupied+free))
+dfclinic_s_day<-subset(dfclinic_s_day,!is.na(dt_referencia))
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_month$free+dfclinic_s_month$occupied, type='l', ylab="Beds", main = "Monthly capacity vs Occupied beds" )
+lines(dfclinic_s_month$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_month$occ, col='red', type='l', ylab="Occ", xlab = "Months", main="Monthly Occ rate")
+#par(old.par)
+```
+
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_week$free+dfclinic_s_week$occupied, type='l', ylab="Beds", main = "Weekly capacity vs Occupied beds")
+lines(dfclinic_s_week$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_week$occ, col='red', type='l', ylab="Occ", xlab = "Weeks",  main="Weekly Occ rate")
+#par(old.par)
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_day$free+dfclinic_s_day$occupied, type='l', ylab="Beds", main = "Daily capacity vs Occupied beds")
+lines(dfclinic_s_day$occupied, col='green', type='l')
+legend("topleft", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_day$occ, col='red', type='l', ylab="Occ", xlab = "Days", main="Daily Occ rate")
+#par(old.par)
+```
+
+
+Preliminar seasonality analysis for Hospital Occupancy rate
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%m"))
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%w"))
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%d"))
+```
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%Y"))
+```
+
+2107 will be not considered for these analysis
+
+```{r}
+dfclinic_s_day<-subset(dfclinic_s_day, format(dt_referencia,"%Y")>2107)
+dfclinic_s_week<-subset(dfclinic_s_week, format(dt_referencia,"%Y")>2107)
+dfclinic_s_month<-subset(dfclinic_s_month, format(dt_referencia,"%Y")>2107)
+```
+```{r}
+plot(dfclinic_s_day$occ, main="Maternity sectors", type='l')
+trendday<-lm(occ ~ c(1:nrow(dfclinic_s_day)),data=dfclinic_s_day)
+abline(trendday, col="red", lty=2, lwd=3)
+summary(trendday)
+```
+```{r}
+plot(dfclinic_s_week$occ, main="Maternity sectors", type='l')
+trendweek<-lm(occ ~ c(1:nrow(dfclinic_s_week)),data=dfclinic_s_week)
+abline(trendweek, col="red", lty=2, lwd=3)
+summary(trendweek)
+```
+
+replacing missing values to mean
+```{r}
+dfclinic_s_day$occ[dfclinic_s_day$occ<0.1]<-as.numeric(mean(dfclinic_s_day$occ))
+dfclinic_s_week$occ[dfclinic_s_week$occ<0.1]<-as.numeric(mean(dfclinic_s_week$occ))
+dfclinic_s_month$occ[dfclinic_s_month$occ<0.1]<-as.numeric(mean(dfclinic_s_month$occ))
+```
+
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_day$occ)
+```
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_week$occ)
+```
+
+Analyzing results of a 1st differentiation
+```{r}
+plot(diff(dfclinic_s_day$occ), main="Maternity sectors", type='l')
+aa<- diff(dfclinic_s_day$occ)
+fittrend<-lm(aa ~ c(1:length(aa)))
+abline(fittrend, col="red", lty=2, lwd=3)
+summary(fittrend)
+```
+
+Testing stationarity for 1st differention
+```{r}
+adf.test(diff(dfclinic_s_day$occ))
+```
+
+ACF for original dataset
+```{r}
+old.par <- par(mfrow=c(1, 2))
+acf(dfclinic_s_day$occ)
+pacf(dfclinic_s_day$occ)
+par(old.par)
+```
+
+ACF for original dataset
+```{r}
+old.par <- par(mfrow=c(1, 2))
+acf(dfclinic_s_week$occ)
+pacf(dfclinic_s_week$occ)
+par(old.par)
+```
+
+Setting train/test datasets
+
+```{r}
+BOT<-1 # Begin of training
+EOT<-as.integer(nrow(dfclinic_s_week)*.85) #end of training
+hpred<-10 # prediction horizon
+
+vdiff<-0
+if (vdiff==0) {
+  train = window(dfclinic_s_week$occ, start=BOT, end=EOT)
+  test = window(dfclinic_s_week$occ, start=EOT+1)
+} else {
+  train = window(diff(dfclinic_s_week$occ),  start=BOT, end=EOT)
+  vseedt<-dfclinic_s_week$occ[1]
+  test = window(diff(dfclinic_s_week$occ), start=EOT+1)
+  vseedt1<-dfclinic_s_week$occ[as.integer(EOT)+1]
+}
+```
+
+### Analyzing ARIMA methods
+
+Considering personas identified during Samaritano interviews, we are assuming a prediction period around 3/8 weeks (short term) and assuming a weekly dataset for this analysis.
+
+Analyzing ACF/PACF for defining p, d, q 
+
+```{r}
+fit1 = arima(train, order=c(0,0,0))
+fcast1<-forecast(fit1, h=hpred)
+coef1 = accuracy(fcast1, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast1$residuals)
+pacf(fcast1$residuals)
+plot(fcast1$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit1)
+```
+
+```{r}
+fit2 = arima(train, order=c(0,0,4))
+fcast2<-forecast(fit2, h=hpred)
+coef2 = accuracy(fcast2, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast2$residuals)
+pacf(fcast2$residuals)
+plot(fcast2$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit2)
+```
+
+
+```{r}
+fit3 = Arima(train, order=c(1,0,2), seasonal=list(order=c(0,0,1), period=52))
+fcast3<-forecast(fit3, h=hpred)
+coef3 = accuracy(fcast3, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast3$residuals)
+pacf(fcast3$residuals)
+plot(fcast3$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit3)
+```
+
+
+```{r}
+fit4 = arima(train, order=c(2,0,1))
+fcast4<-forecast(fit4, h=hpred)
+coef4 = accuracy(fcast4, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast4$residuals)
+pacf(fcast4$residuals)
+plot(fcast4$residuals)
+par(old.par)
+```
+```{r}
+summary(fit4)
+```
+
+Using auto.arima metrics as a reference
+```{r}
+fit5<-auto.arima(train)
+fcast5<-forecast(fit5, h=hpred)
+coef5 = accuracy(fcast5, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast5$residuals)
+pacf(fcast5$residuals)
+plot(fcast5$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit5)
+```
+
+```{r}
+hist(fit2$residuals)
+hist(fit3$residuals)
+hist(fit4$residuals)
+hist(fit5$residuals)
+```
+
+
+Comparing models
+```{r}
+coef2
+coef3
+coef4
+coef5
+```
+```{r}
+AIC(fit2, fit3, fit4, fit5)
+```
+```{r}
+BIC(fit2, fit3, fit4, fit5)
+```
+
+
+```{r}
+dados<-dfclinic_s_week$occ
+
+samplepred<- c(4,8,12,16,20)
+
+samples<-generatesamples(samplepred, dados)
+
+samplesBOT<-samples[,1]
+samplesEOT<-samples[,2]
+
+models<-matrix(rep(0,20),ncol=5, nrow=4)
+models[1,1]<-1
+models[1,2]<-"ARIMA(201)"
+models[1,3]<-"201"
+models[2,1]<-1
+models[2,2]<-"ARIMA(102)(001)52"
+models[2,3]<-"102"
+models[2,4]<-"00152"
+models[3,1]<-1
+models[3,2]<-"AutoARIMA"
+models[3,3]<-"102"
+models[4,1]<-2
+models[4,2]<-"ETS(ANN)"
+models[4,3]<-"ANN"
+
+matrixname<-"Occupancy Rate - Maternity "
+
+results<-checkperformance(dados, models, samplespred, samplesBOT, samplesEOT, matrixname)
+```
+
+```{r}
+grid.newpage()
+grid.table(results, cols=c("Method", "Average of RMSE", "% Gain" ))
+```
+
+Predicting new data for Maternity Occupancy rate
+
+```{r}
+vpred<-8
+
+# Removing outliers
+dados<-dfclinic_s_week$occ
+
+samples<-generatesamples(vpred, dados)
+
+plot(dados, main='Comparing Models - Maternity area', type = 'l', ylab="Occ", xlab="Weeks")
+
+for (i in 1:nrow(samples)) {
+  
+  BOT<-samples[i,1] 
+  EOT<-samples[i,2]
+    
+  strain = window(dados, start=BOT, end=EOT)
+  stest = window(dados, start=EOT+1)
+  vpredposition<-(EOT+1)
+
+  # fiiting models
+  fitf1<-Arima(strain, order=c(2,0,1))
+  fcastf1<-forecast(fitf1, h=vpred)
+  
+  fitf2<-Arima(strain, order=c(1,0,2), seasonal=list(order=c(0,0,1), period=52))
+  fcastf2<-forecast(fitf2, h=vpred)
+  
+  aa<-ts(strain, frequency=1)
+  fitf3<-tslm(aa~trend)
+  fcastf3<-forecast(fitf3,h=vpred)
+  
+  fcastf4<-rep(mean(strain),vpred)
+
+  lines(vpredposition:(vpredposition+vpred-1), fcastf1$mean, col='blue')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf2$mean, col='green')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf3$mean, col='red')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf4, col='brown', lty=2)
+  abline(a=0,b=0,v=EOT, col="black", lty=2)
+}
+legend("topleft", c("ARIMA(201)","Arima(102)(001)52","linear model", "Mean"), fill=c("blue","green","red", "brown"), horiz=TRUE, cex=.5)
+```
+
+
+# Surgery Occupancy Rate analysis
+
+Sectors: 02º Andar Lane (5147), 02º Andar Norte (13), 10º Andar (5057)
+
+```{r}
+dfclinic_s<-subset(dfoccsector, cd_setor_atendimento==5147 | cd_setor_atendimento==13 | cd_setor_atendimento==5057)
+```
+
+```{r}
+dfclinic_s_month<-group_by(dfclinic_s, format(dt_referencia,"%Y-%m-01"))%>% 
+  summarize(free=sum(free)/30.42, occupied=sum(occupied)/30.42, occ=occupied/(occupied+free)) 
+  names(dfclinic_s_month)[1]<-"dt_referencia"
+dfclinic_s_month[,'dt_referencia']<-as.POSIXct(dfclinic_s_month$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_month<-subset(dfclinic_s_month,!is.na(dt_referencia))
+```
+
+```{r}
+# weekly capacity since 2106
+dfclinic_s_week<-group_by(dfclinic_s, as.POSIXlt(format(dt_referencia,"%Y %U 1"), format="%Y %U %w")-1)%>% 
+  summarize(free=sum(free)/7, occupied=sum(occupied)/7, occ=occupied/(occupied+free)) 
+names(dfclinic_s_week)[1]<-"dt_referencia"
+dfclinic_s_week[,'dt_referencia']<-as.POSIXct(dfclinic_s_week$dt_referencia, format="%Y-%m-%d")
+dfclinic_s_week<-subset(dfclinic_s_week,!is.na(dt_referencia))
+```
+
+```{r}
+# daily capacity since 2106
+dfclinic_s_day<-group_by(dfclinic_s, dt_referencia)%>% 
+  summarize(free=sum(free), occupied=sum(occupied), occ=occupied/(occupied+free))
+dfclinic_s_day<-subset(dfclinic_s_day,!is.na(dt_referencia))
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_month$free+dfclinic_s_month$occupied, type='l', ylab="Beds", main = "Monthly capacity vs Occupied beds" )
+lines(dfclinic_s_month$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_month$occ, col='red', type='l', ylab="Occ", xlab = "Months", main="Monthly Occ rate")
+#par(old.par)
+```
+
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_week$free+dfclinic_s_week$occupied, type='l', ylab="Beds", main = "Weekly capacity vs Occupied beds")
+lines(dfclinic_s_week$occupied, col='green', type='l')
+legend("bottomright", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_week$occ, col='red', type='l', ylab="Occ", xlab = "Weeks",  main="Weekly Occ rate")
+#par(old.par)
+```
+
+```{r}
+#old.par <- par(mfrow=c(1, 2))
+plot(dfclinic_s_day$free+dfclinic_s_day$occupied, type='l', ylab="Beds", main = "Daily capacity vs Occupied beds")
+lines(dfclinic_s_day$occupied, col='green', type='l')
+legend("topleft", c("Capacity", "Occupied beds"), fill=c("black","green"), horiz=TRUE, cex=.5)
+plot(dfclinic_s_day$occ, col='red', type='l', ylab="Occ", xlab = "Days", main="Daily Occ rate")
+#par(old.par)
+```
+
+
+Preliminar seasonality analysis for Hospital Occupancy rate
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%m"))
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%w"))
+```
+
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%d"))
+```
+```{r}
+boxplot(dfclinic_s_day$occ~format(dfclinic_s_day$dt_referencia,"%Y"))
+```
+
+2107 will be not considered for these analysis
+
+```{r}
+dfclinic_s_day<-subset(dfclinic_s_day, format(dt_referencia,"%Y")>2107)
+dfclinic_s_week<-subset(dfclinic_s_week, format(dt_referencia,"%Y")>2107)
+dfclinic_s_month<-subset(dfclinic_s_month, format(dt_referencia,"%Y")>2107)
+```
+```{r}
+plot(dfclinic_s_day$occ, main="Surgery sectors", type='l')
+trendday<-lm(occ ~ c(1:nrow(dfclinic_s_day)),data=dfclinic_s_day)
+abline(trendday, col="red", lty=2, lwd=3)
+summary(trendday)
+```
+```{r}
+plot(dfclinic_s_week$occ, main="Surgery sectors", type='l')
+trendweek<-lm(occ ~ c(1:nrow(dfclinic_s_week)),data=dfclinic_s_week)
+abline(trendweek, col="red", lty=2, lwd=3)
+summary(trendweek)
+```
+
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_day$occ)
+```
+Testing stationarity for this original dataset
+```{r}
+adf.test(dfclinic_s_week$occ)
+```
+
+Analyzing results of a 1st differentiation
+```{r}
+plot(diff(dfclinic_s_day$occ), main="Surgery sectors", type='l')
+aa<- diff(dfclinic_s_day$occ)
+fittrend<-lm(aa ~ c(1:length(aa)))
+abline(fittrend, col="red", lty=2, lwd=3)
+summary(fittrend)
+```
+
+Testing stationarity for 1st differention
+```{r}
+adf.test(diff(dfclinic_s_day$occ))
+```
+
+ACF for original dataset
+```{r}
+old.par <- par(mfrow=c(1, 2))
+acf(dfclinic_s_day$occ)
+pacf(dfclinic_s_day$occ)
+par(old.par)
+```
+
+ACF for original dataset
+```{r}
+old.par <- par(mfrow=c(1, 2))
+acf(dfclinic_s_week$occ)
+pacf(dfclinic_s_week$occ)
+par(old.par)
+```
+
+Setting train/test datasets
+
+```{r}
+BOT<-1 # Begin of training
+EOT<-as.integer(nrow(dfclinic_s_week)*.85) #end of training
+hpred<-10 # prediction horizon
+
+vdiff<-0
+if (vdiff==0) {
+  train = window(dfclinic_s_week$occ, start=BOT, end=EOT)
+  test = window(dfclinic_s_week$occ, start=EOT+1)
+} else {
+  train = window(diff(dfclinic_s_week$occ),  start=BOT, end=EOT)
+  vseedt<-dfclinic_s_week$occ[1]
+  test = window(diff(dfclinic_s_week$occ), start=EOT+1)
+  vseedt1<-dfclinic_s_week$occ[as.integer(EOT)+1]
+}
+```
+
+### Analyzing ARIMA methods
+
+Considering personas identified during Samaritano interviews, we are assuming a prediction period around 3/8 weeks (short term) and assuming a weekly dataset for this analysis.
+
+Analyzing ACF/PACF for defining p, d, q 
+
+```{r}
+fit1 = arima(train, order=c(0,0,0))
+fcast1<-forecast(fit1, h=hpred)
+coef1 = accuracy(fcast1, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast1$residuals)
+pacf(fcast1$residuals)
+plot(fcast1$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit1)
+```
+
+```{r}
+fit2 = arima(train, order=c(1,0,0))
+fcast2<-forecast(fit2, h=hpred)
+coef2 = accuracy(fcast2, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast2$residuals)
+pacf(fcast2$residuals)
+plot(fcast2$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit2)
+```
+
+
+```{r}
+fit3 = Arima(train, order=c(1,0,0), seasonal=list(order=c(0,0,1), period=52))
+fcast3<-forecast(fit3, h=hpred)
+coef3 = accuracy(fcast3, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast3$residuals)
+pacf(fcast3$residuals)
+plot(fcast3$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit3)
+```
+
+
+```{r}
+fit4 = arima(train, order=c(1,0,1))
+fcast4<-forecast(fit4, h=hpred)
+coef4 = accuracy(fcast4, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast4$residuals)
+pacf(fcast4$residuals)
+plot(fcast4$residuals)
+par(old.par)
+```
+```{r}
+summary(fit4)
+```
+
+Using auto.arima metrics as a reference
+```{r}
+fit5<-auto.arima(train)
+fcast5<-forecast(fit5, h=hpred)
+coef5 = accuracy(fcast5, test[1:hpred])
+old.par <- par(mfrow=c(2, 2))
+acf(fcast5$residuals)
+pacf(fcast5$residuals)
+plot(fcast5$residuals)
+par(old.par)
+```
+
+```{r}
+summary(fit5)
+```
+
+```{r}
+hist(fit2$residuals)
+hist(fit3$residuals)
+hist(fit4$residuals)
+hist(fit5$residuals)
+```
+
+
+Comparing models
+```{r}
+coef2
+coef3
+coef4
+coef5
+```
+```{r}
+AIC(fit2, fit3, fit4, fit5)
+```
+```{r}
+BIC(fit2, fit3, fit4, fit5)
+```
+
+
+```{r}
+dados<-dfclinic_s_week$occ
+
+samplepred<- c(4,8,12,16,20)
+
+samples<-generatesamples(samplepred, dados)
+
+samplesBOT<-samples[,1]
+samplesEOT<-samples[,2]
+
+models<-matrix(rep(0,20),ncol=5, nrow=4)
+models[1,1]<-1
+models[1,2]<-"ARIMA(101)"
+models[1,3]<-"101"
+models[2,1]<-1
+models[2,2]<-"ARIMA(100)(001)52"
+models[2,3]<-"100"
+models[2,4]<-"00152"
+models[3,1]<-1
+models[3,2]<-"AutoARIMA"
+models[3,3]<-"101"
+models[4,1]<-2
+models[4,2]<-"ETS(ANN)"
+models[4,3]<-"ANN"
+
+matrixname<-"Occupancy Rate - Surgery "
+
+#results<-checkperformance(dados, models, samplespred, samplesBOT, samplesEOT, matrixname)
+results<-checkperformanceOccDummy(dados, models, samplespred, samplesBOT, samplesEOT, matrixname, "Surgery")
+```
+
+```{r}
+grid.newpage()
+grid.table(results, cols=c("Method", "Average of RMSE", "% Gain" ))
+```
+
+Predicting new data for Maternity Occupancy rate
+
+```{r}
+vpred<-8
+
+# Removing outliers
+dados<-dfclinic_s_week$occ
+
+samples<-generatesamples(vpred, dados)
+
+plot(dados, main='Comparing Models - Surgery area', type = 'l', ylab="Occ", xlab="Weeks")
+
+for (i in 1:nrow(samples)) {
+  
+  BOT<-samples[i,1] 
+  EOT<-samples[i,2]
+    
+  strain = window(dados, start=BOT, end=EOT)
+  stest = window(dados, start=EOT+1)
+  vpredposition<-(EOT+1)
+
+  # fiiting models
+  fitf1<-Arima(strain, order=c(1,0,1))
+  fcastf1<-forecast(fitf1, h=vpred)
+  
+  fitf2<-Arima(strain, order=c(1,0,0), seasonal=list(order=c(0,0,1), period=52))
+  fcastf2<-forecast(fitf2, h=vpred)
+  
+  aa<-ts(strain, frequency=1)
+  fitf3<-tslm(aa~trend)
+  fcastf3<-forecast(fitf3,h=vpred)
+  
+  fcastf4<-rep(mean(strain),vpred)
+
+  lines(vpredposition:(vpredposition+vpred-1), fcastf1$mean, col='blue')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf2$mean, col='green')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf3$mean, col='red')
+  lines(vpredposition:(vpredposition+vpred-1), fcastf4, col='brown', lty=2)
+  abline(a=0,b=0,v=EOT, col="black", lty=2)
+}
+legend("topleft", c("ARIMA(101)","Arima(100)(001)52","linear model", "Mean"), fill=c("blue","green","red", "brown"), horiz=TRUE, cex=.5)
+```

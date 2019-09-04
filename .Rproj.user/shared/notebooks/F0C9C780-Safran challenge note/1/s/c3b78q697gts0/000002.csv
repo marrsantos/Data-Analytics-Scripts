@@ -1,0 +1,2 @@
+"0","a<-subset(dfflights_final_Smaller1.5_aggr, date>'2015-01-01')"
+"0","hist(a$count, main='Frequency of flights with duration <1.5h (Year: 2015)')"

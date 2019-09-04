@@ -1,0 +1,5 @@
+"0","```r
+# Pacientes que foram atendidos com diferentes idades
+d<-data.frame(group_by(dfproc,cod_paciente,nome_beneficiario,idade)%>%summarize(count=n(),valtot=sum(valor),qtdepag=sum(qtde_pagamento))%>%group_by(cod_paciente,nome_beneficiario)%>%summarize(Qtde_Idade=n(),Qtde_Eventos=sum(count),Qtde_Pagto=sum(qtdepag),Valor_Total=sum(valtot),PM=Valor_Total/Qtde_Idade)%>%group_by(Qtde_Idade)%>%summarize(Qtde_Pacientes=n(),Qtde_Eventos=sum(Qtde_Eventos),Qtde_Pagto=sum(Qtde_Pagto),Valor_Total=sum(Valor_Total),PM=Valor_Total/Qtde_Pagto)%>%arrange(desc(Qtde_Idade)))
+d
+```"

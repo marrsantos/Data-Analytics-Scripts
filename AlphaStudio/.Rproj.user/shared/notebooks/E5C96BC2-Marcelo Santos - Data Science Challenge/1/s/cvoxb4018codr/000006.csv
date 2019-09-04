@@ -1,0 +1,3 @@
+"0","dfretorig <- read.csv(paste(data_folder,""returns_20181228.csv"",sep=''), sep=',')"
+"0","dfretorig$Date<-as.POSIXct(strptime(as.character(dfretorig$Date), ""%Y-%m-%d""))"
+"0","dfret<-dfretorig"

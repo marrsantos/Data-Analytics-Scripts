@@ -1,0 +1,2 @@
+"0","b<-lm(count~.,data=dfflights_final_Larger1.5_aggr)"
+"0","abline(b, col='red')"

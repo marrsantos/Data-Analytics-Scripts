@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1563461882084.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A7445D86",
+    "lastKnownWriteTime" : 1563462075,
+    "last_content_update" : 1563462075547,
+    "path" : "~/Dados Oficiais/R scripts _ templates/Teste de hipóteses/Monte Carlo simulation.Rmd",
+    "project_path" : "Monte Carlo simulation.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "cursorPosition" : "44,3",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

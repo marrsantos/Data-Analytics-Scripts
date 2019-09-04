@@ -1,0 +1,7 @@
+"0","##### checking week days"
+"0","a<-filter(dfret,as.POSIXlt(Date)$wday==0|as.POSIXlt(Date)$wday==6)"
+"0","nrow(dfret)/5 # there is at least one week with less than 5 days registered..."
+"1","[1]"
+"1"," 199.6"
+"1","
+"

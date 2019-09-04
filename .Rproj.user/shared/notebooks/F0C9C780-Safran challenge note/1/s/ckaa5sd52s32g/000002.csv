@@ -1,0 +1,3 @@
+"0","kfoldValSmaller<-suppressWarnings(CVlm(data=trainSmaller1.5, form.lm=number_passengers~duration+temperature, m=10, dots=FALSE, seed=1, legend.pos=""topleft"",  printit=FALSE, main=""10 folds validation - number_passengers (class: duration<1.5h)""))"
+"1","
+"

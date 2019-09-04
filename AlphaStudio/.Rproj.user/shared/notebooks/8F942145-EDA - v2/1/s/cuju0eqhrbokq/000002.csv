@@ -1,0 +1,11 @@
+"0","```r
+summary(dfproc$valor)
+```"
+"1","    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+    0.29    20.58    23.00    78.33    34.10 55000.00 
+"
+"0","```r
+sd(dfproc$valor)
+```"
+"1","[1] 651.0292
+"

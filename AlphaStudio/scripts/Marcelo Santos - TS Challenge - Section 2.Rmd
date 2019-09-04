@@ -1,0 +1,208 @@
+---
+title: "Two Sigma Data Science Challenge - Section 2"
+author: "Marcelo Rodrigues dos Santos"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+---
+
+```{r message=FALSE, warning=FALSE}
+library(dplyr)
+```
+
+```{r}
+data_folder <- paste(getwd(), '/../datasets/', sep='')
+```
+
+## Oklahoma State Spending  
+
+### Preparing data
+
+Opening dataset
+```{r}
+dfpurorig <- read.csv(paste(data_folder,"res_purchase_2014.csv",sep=''), sep=',',dec='.')
+```
+
+```{r}
+dfpurorig$Transaction.Date<-as.POSIXct(strptime(as.character(dfpurorig$Transaction.Date), "%m/%d/%Y"))
+dfpurorig$Posted.Date<-as.POSIXct(strptime(as.character(dfpurorig$Posted.Date), "%m/%d/%Y"))
+dfpurorig$Description<-as.factor(toupper(dfpurorig$Description))
+dfpurorig$Cardholder.Last.Name <-as.factor(toupper(dfpurorig$Cardholder.Last.Name))
+dfpurorig$Agency.Name <-as.factor(toupper(dfpurorig$Agency.Name))
+dfpurorig$Vendor <-as.factor(toupper(dfpurorig$Vendor))
+dfpurorig$Cardholder.First.Initial <- as.factor(toupper(dfpurorig$Cardholder.First.Initial))
+dfpurorig$Merchant.Category.Code..MCC. <- as.factor(toupper(dfpurorig$Merchant.Category.Code..MCC.))
+dfpur<-dfpurorig
+```
+
+Cleaning dataset
+
+```{r warning=FALSE}
+a<-as.data.frame(as.numeric(as.character(dfpur$Amount)))
+names(a)<-'value'
+dfpur[is.na(a$value),'Amount']
+```
+
+The field Amount includes some wrong numeric values... let us correct it.
+```{r warning=FALSE}
+dfpur$Amount<-as.numeric(as.character(dfpur$Amount))
+dfpur[is.na(a$value),'Amount']<-c(29.99,572.27,12.90,452.91)
+```
+
+Verifying all fields.
+```{r}
+summary(dfpur)
+```
+
+Year.month field seems to include wrong "-999" values. 
+
+```{r}
+table(dfpur$Year.Month)
+```
+
+Also "201900" seems a mistake.
+
+Checking if year.months values can be generated through Transaction.date or Posted.Date fields.  
+
+Checking consistence of Posted.Date and Transaction.Date. It means verifying if all Posted.Date is equal or after Transaction.Date...
+
+```{r}
+count(dfpur[dfpur$Posted.Date<dfpur$Transaction.Date,])
+```
+```{r}
+a<-dfpur[dfpur$Year.Month!=format(dfpur$Posted.Date,'%Y%m'),]
+nrow(a)
+```
+```{r}
+a<-dfpur[dfpur$Year.Month!=format(dfpur$Transaction.Date,'%Y%m'),]
+nrow(a)
+```
+
+We can assume that Posted.Date is better than Transaction.Date to regenerate Year.month field. Also, it is possible to say that we have two main wrong values on Year.Month field: "-999" and "201900".
+
+Updating Year.Month based on Posted.Date field.
+```{r}
+dfpur$Year.Month<-as.factor(format(dfpur$Posted.Date,'%Y%m'))
+table(dfpur$Year.Month)
+```
+
+Checking how Amount values are distributed...
+```{r}
+summary(dfpur$Amount)
+```
+
+It seems that there are some outliers after the 75o percentile. Checking top 20 amounts.  
+
+```{r message=FALSE, warning=FALSE}
+(dfpur%>%select(Vendor, Transaction.Date, Amount)%>%filter(Amount>359)%>%top_n(20))%>%arrange(desc(Amount))
+```
+
+There are some suspect values for a vendor named "PAYMENT ADJUSTMENT". Exploring "PAYMENT ADJUSTMENT" vendor registers.
+```{r}
+(a<-dfpur%>%select(Vendor, Transaction.Date, Amount)%>%filter(Vendor=='PAYMENT ADJUSTMENT'))
+```
+
+It is clear that these registers are not real purchases.
+```{r}
+sum(a$Amount)  
+```
+
+As you can see, $4,061,761 are related to this "PAYMENT ADJUSTMENT" vendor. Also, we realized some negative amounts. Checking for negative numbers...
+
+```{r}
+(b<-dfpur%>%select(Vendor, Transaction.Date, Amount)%>%filter(Amount<=0))%>%arrange(Amount)
+```
+
+```{r}
+sum(b$Amount)
+```
+
+The total of Negative numbers is -$3,562,604.
+
+As we do not have any instruction related to "PAYMENT ADJUSTMENTS" and negative amounts, we will not use these amounts for answering questions.
+
+Removing these registers...
+```{r}
+dfpur<-subset(dfpur,Vendor!='PAYMENT ADJUSTMENT')
+dfpur<-subset(dfpur,Amount>0)
+```
+
+Reducing the name of the field "Merchant.Category.Code..MCC." to "Merchant.Category"
+
+```{r}
+names(dfpur)[11]<-'Merchant.Category'
+```
+
+Checking for top 10 descriptions.
+```{r message=FALSE, warning=FALSE}
+group_by(dfpur,Description)%>%summarize(c=n())%>%top_n(10)%>%arrange(desc(c))
+```
+
+Checking for other strange descriptions.
+```{r}
+head(dfpur%>%group_by(Description)%>%summarize(c=n()),20)
+```
+
+There are several registers with strange descriptions (e.g.,"",0,0000000000, etc.). However, the amounts and other data are correct. We will keep these registers.
+
+--------
+--------
+
+### Question #1: 
+
+What is the total amount of spending captured in this dataset? 
+
+```{r}
+sum(dfpur$Amount)
+```
+
+### Question #2: 
+
+How much was spent at WW GRAINGER? 
+
+```{r}
+a<-dfpur%>%select(Vendor,Posted.Date,Description,Amount)%>%filter(Vendor=='WW GRAINGER')%>%arrange(Posted.Date)
+```
+
+```{r}
+sum(a$Amount)
+```
+
+### Question #3: 
+
+How much was spent at WM SUPERCENTER?
+
+```{r}
+a<-dfpur%>%select(Vendor,Posted.Date,Description,Amount)%>%filter(Vendor=='WM SUPERCENTER')%>%arrange(Posted.Date)
+```
+
+```{r}
+sum(a$Amount)
+```
+
+### Question #4: 
+
+What is the standard deviation of the total monthly spending in the dataset? 
+
+```{r}
+(a<-group_by(dfpur,Year.Month)%>%summarize(mean=mean(Amount),sd=sd(Amount),count=n()))
+```
+
+```{r}
+sd(a$mean)
+```
+
+### Question #5: 
+
+Describe the process you would follow to build a model on this dataset to make predictions about the stock market.
+ 
+1) meet with user (Client/Product Owner) to understand business questions and expectations;
+2) understand the business concepts behind this dataset; invest time for cleaning and preparing data; checking for outliers; review progress and clarify points on dataset and business concepts with user; research on analysis perspectives that could potentially be interesting for investidors from the specific stock market;
+3) explore the dataset to capture business behavior and verify possible correlations among variables; maybe apply some clustering methods or decision tree for better understanding relationship among variables and understanding preliminary patterns; review progress and clarify points with user;
+4) define statistics/Machine learning approaches, develop algorithms, apply proper cross-validation methods and metrics for evaluating generated models; if required, repeat activities from previous steps and this step until achieving best results; review progress and clarify points with user;
+5) review final jupiter/R notebook to make sure it includes relevant steps; present final results to user and deliver notebook.
+
+
+### Question #6: 
+What biases might this dataset have if you tried to use it to model equities? 
+
+It is important to consider that this dataset includes information on the purchase/billing perspective. Of course, to be assertive for modeling equities, other perspectives (kind of information) are very important and must be avaiable (e.g., costs, cash flow, balance Sheet, income statement, etc.).

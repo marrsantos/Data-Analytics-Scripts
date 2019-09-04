@@ -1,0 +1,6 @@
+"0","```r
+# Número de eventos e valor por especialidade
+d<-data.frame(group_by(dfproc,Especialidade=substring(nome_especialidade,1,15))%>%summarize(Nro_Eventos=n(),Qtde_Pagto=sum(qtde_pagamento),Valor_Total=sum(valor))%>%arrange(desc(Nro_Eventos)))
+d$PM<-round(d$Valor_Total/d$Qtde_Pagto, digits=2)
+d
+```"

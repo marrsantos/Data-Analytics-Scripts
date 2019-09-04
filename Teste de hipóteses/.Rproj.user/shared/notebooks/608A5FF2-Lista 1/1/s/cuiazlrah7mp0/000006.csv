@@ -1,0 +1,5 @@
+"0","sqrt(sum((amostras-mean(amostras))^2)/length(amostras))"
+"1","[1]"
+"1"," 0.8539126"
+"1","
+"

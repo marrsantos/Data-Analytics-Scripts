@@ -1,0 +1,13 @@
+library(read.dbc)
+library(dplyr)
+dfsia<- read.dbc(file.choose())
+dfsih<- read.dbc(file.choose())
+dfsp <- read.dbc(file.choose())
+dfcmd <- read.dbc(file.choose())
+
+pa<-subset(dfsia, substring(PA_PROC_ID,1,10) == "0202010503")
+rd<-subset(dfsih, substring(PROC_REA,1,10) == "0202010503")
+sp<-subset(dfsp, substring(SP_PROCREA,1,10) == "0202010503")
+cmd<-subset(dfsp, substring(SP_PROCREA,1,10) == "0202010503")
+
+          
